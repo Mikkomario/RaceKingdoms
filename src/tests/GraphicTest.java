@@ -2,8 +2,8 @@ package tests;
 
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
-import listeners.KeyListener;
-import listeners.MouseListener;
+import handlers.KeyListenerHandler;
+import handlers.MouseListenerHandler;
 
 /**
  * Tests the graphical aspects of the program
@@ -18,13 +18,13 @@ public class GraphicTest extends AbstractTest
 	 *
 	 * @param actorhandler
 	 * @param drawer
-	 * @param keylistener
-	 * @param mouselistener
+	 * @param KeyListenerHandler
+	 * @param MouseListenerHandler
 	 */
 	public GraphicTest(ActorHandler actorhandler, DrawableHandler drawer,
-			KeyListener keylistener, MouseListener mouselistener)
+			KeyListenerHandler KeyListenerHandler, MouseListenerHandler MouseListenerHandler)
 	{
-		super(actorhandler, drawer, keylistener, mouselistener);
+		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
 	}
 
 	@Override
