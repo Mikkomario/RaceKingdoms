@@ -42,5 +42,9 @@ public class GraphicTest extends AbstractTest
 	public void test()
 	{
 		getDrawer().addDrawable(this.box);
+		this.box.addAngle(45);
+		this.box.addPosition(300, 50);
+		this.box.scale(2, 3);
+		//this.box.setPosition(0, 0);
 	}
 }

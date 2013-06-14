@@ -8,6 +8,7 @@ import handlers.MainMouseListenerHandler;
 import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
+import tests.GraphicTest;
 import tests.InputTest;
 
 /**
@@ -77,7 +78,6 @@ public class RaceKingdoms extends PApplet
 	@Override
 	public void keyPressed()
 	{
-		System.out.println("Keypressed");
 		this.mainkeyhandler.onKeyPressed(this.key, this.keyCode, this.key == CODED);
 	}
 	
@@ -122,9 +122,9 @@ public class RaceKingdoms extends PApplet
 	
 	private void test()
 	{
-		System.out.println("Testaa");
-		
 		new InputTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+		new GraphicTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}
 }
