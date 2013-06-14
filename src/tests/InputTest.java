@@ -72,7 +72,8 @@ public class InputTest extends AbstractTest implements listeners.KeyListener{
 	
 	@Override
 	public void onKeyDown(int key, int keyCode, boolean coded) {
-		System.out.println("Pidit pohjassa keyta: "+key+"ja keyCodea: "+keyCode+", coded oli '"+coded+"'.");
+		//Worked fine
+		//System.out.println("Pidit pohjassa keyta: "+key+"ja keyCodea: "+keyCode+", coded oli '"+coded+"'.");
 		
 	}
 
