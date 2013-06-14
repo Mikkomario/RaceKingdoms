@@ -2,10 +2,13 @@ package racekingdoms;
 
 
 import handlers.DrawableHandler;
+import handlers.KeyListenerHandler;
 import handlers.MainKeyListenerHandler;
 import handlers.MainMouseListenerHandler;
+import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
+import tests.InputTest;
 
 /**
  * This class starts the program and creates the necessary elements of the game. 
@@ -19,10 +22,14 @@ public class RaceKingdoms extends PApplet
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private static final long serialVersionUID = 1L;
-	private MainKeyListenerHandler keyhandler;
-	private MainMouseListenerHandler mousehandler;
+	
+	private MainKeyListenerHandler mainkeyhandler;
+	private MainMouseListenerHandler mainmousehandler;
 	private StepHandler stephandler;
 	private DrawableHandler drawer;
+	private KeyListenerHandler testkeylistenerhandler;
+	private MouseListenerHandler testmouselistenerhandler;
+	
 	private boolean needsUpdating; 
 	
 	
@@ -36,14 +43,23 @@ public class RaceKingdoms extends PApplet
 		noFill();
 		
 		// Initializes the attributes
-		this.keyhandler = new MainKeyListenerHandler();
-		this.mousehandler = new MainMouseListenerHandler();
+		this.mainkeyhandler = new MainKeyListenerHandler();
+		this.mainmousehandler = new MainMouseListenerHandler();
 		this.stephandler = new StepHandler(16, this);
 		this.drawer = new DrawableHandler(false);
+		this.testkeylistenerhandler = new KeyListenerHandler(false);
+		this.testmouselistenerhandler = new MouseListenerHandler(false);
+		
+		this.mainkeyhandler.addListener(this.testkeylistenerhandler);
+		this.mainmousehandler.addMouseListener(this.testmouselistenerhandler);
+		
 		this.needsUpdating = true;
 		
 		// Starts the game
 		new Thread(this.stephandler).start();
+		
+		// Tests the system
+		test();
 	}
 
 	@Override
@@ -59,26 +75,26 @@ public class RaceKingdoms extends PApplet
 	@Override
 	public void keyPressed()
 	{
-		this.keyhandler.onKeyPressed(this.key, this.keyCode, this.key == CODED);
+		this.mainkeyhandler.onKeyPressed(this.key, this.keyCode, this.key == CODED);
 	}
 	
 	@Override
 	public void keyReleased()
 	{
-		this.keyhandler.onKeyReleased(this.key, this.keyCode, this.key == CODED);
+		this.mainkeyhandler.onKeyReleased(this.key, this.keyCode, this.key == CODED);
 	}
 	
 	@Override
 	public void mousePressed()
 	{
-		this.mousehandler.setMouseStatus(this.mouseX, 
+		this.mainmousehandler.setMouseStatus(this.mouseX, 
 				this.mouseY, true, this.mouseButton);
 	}
 	
 	@Override
 	public void mouseReleased()
 	{
-		this.mousehandler.setMouseStatus(this.mouseX, 
+		this.mainmousehandler.setMouseStatus(this.mouseX, 
 				this.mouseY, false, this.mouseButton);
 	}
 	
@@ -98,6 +114,12 @@ public class RaceKingdoms extends PApplet
 	 */
 	public void callMousePositionUpdate()
 	{
-		this.mousehandler.setMousePosition(this.mouseX, this.mouseY);
+		this.mainmousehandler.setMousePosition(this.mouseX, this.mouseY);
+	}
+	
+	private void test()
+	{
+		new InputTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}
 }
