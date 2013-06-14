@@ -1,6 +1,7 @@
 package drawnobjects;
 
 import graphic.Sprite;
+import graphic.SpriteBank;
 
 import java.awt.Point;
 
@@ -14,7 +15,7 @@ import racekingdoms.HelpMath;
  * @author Gandalf.
  *         Created 26.11.2012.
  */
-public class SpriteObject extends DrawnObject2D
+public class SpriteObject extends PhysicDrawnObject
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
@@ -23,12 +24,11 @@ public class SpriteObject extends DrawnObject2D
 	private double imageSpeed, imageIndex;
 	
 	// TODO: Change animation to the actor thread
-	// TODO: Create a physicobject
+	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
 	
 	/**
-	 * 
 	 * Creates a new spriteobject with the given information. Animation and 
 	 * visibility are set 
 	 * on at default. Scaling and image angle won't be affected.
@@ -48,16 +48,32 @@ public class SpriteObject extends DrawnObject2D
 		this.imageIndex = 0;
 	}
 	
+	/**
+	 * Creates a new spriteobject using the given spritebank and spritename
+	 *
+	 * @param x The ingame x-coordinate of the object's origin (pxl)
+	 * @param y The ingame y-coordinate of the object's origin (pxl)
+	 * @param bank The spritebank that holds the sprite of the object
+	 * @param spritename The name of the object's sprite in the bank
+	 */
+	public SpriteObject(int x, int y, SpriteBank bank, String spritename)
+	{
+		super(x, y);
+		
+		// Initializes the attributes
+		this.sprite = bank.getSprite(spritename);
+		
+		this.imageSpeed = 0.1;
+		this.imageIndex = 0;
+	}
+	
 	
 	// IMPLEMENTED METHODS	-----------------------------------------------
 
 	@Override
 	public void drawSelfBasic(PApplet applet)
 	{
-		// First handles the animation
-		animate();
-		
-		// Then draws the sprite
+		// Draws the sprite
 		applet.image(getSprite().getSubImage(getImageIndex()), 0, 0);
 	}
 	
@@ -71,6 +87,15 @@ public class SpriteObject extends DrawnObject2D
 	public double getOriginY()
 	{
 		return getSprite().getOriginY();
+	}
+	
+	@Override
+	public void act()
+	{
+		super.act();
+		
+		// The spriteaóbject also handles the animation in the act-event
+		animate();
 	}
 	
 	

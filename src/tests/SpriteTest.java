@@ -47,5 +47,11 @@ public class SpriteTest extends AbstractTest
 	public void test()
 	{
 		getDrawer().addDrawable(this.spriteobj);
+		getActorHandler().addActor(this.spriteobj);
+		
+		/*
+		this.spriteobj.setImageIndex(1);
+		this.spriteobj.setImageSpeed(0);
+		*/
 	}
 }
