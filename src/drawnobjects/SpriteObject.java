@@ -22,6 +22,8 @@ public class SpriteObject extends DrawnObject2D
 	
 	private double imageSpeed, imageIndex;
 	
+	// TODO: Change animation to the actor thread
+	// TODO: Create a physicobject
 	
 	// CONSTRUCTOR	-------------------------------------------------------
 	
@@ -132,8 +134,8 @@ public class SpriteObject extends DrawnObject2D
 		this.imageIndex = imageIndex;
 	}
 	
+	
 	// OTHER METHODS	---------------------------------------------------
-
 	
 	/**
 	 * 

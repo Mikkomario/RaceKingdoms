@@ -1,5 +1,6 @@
 package tests;
 
+import processing.core.PApplet;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 
@@ -11,6 +12,12 @@ import handlers.DrawableHandler;
  */
 public class SpriteTest extends AbstractTest
 {
+	// ATTRIBUTES	-----------------------------------------------------
+	
+	private TestSpriteBank bank;
+	private TestSpriteObject spriteobj;
+	
+	
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
@@ -20,14 +27,17 @@ public class SpriteTest extends AbstractTest
 	 * @param drawer The drawer that draws created drawables
 	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
 	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
+	 * @param applet The applet that loads sprites
 	 * 
 	 */
 	public SpriteTest(ActorHandler actorhandler, DrawableHandler drawer,
 			handlers.KeyListenerHandler keylistenerhandler,
-			handlers.MouseListenerHandler mouselistenerhandler)
+			handlers.MouseListenerHandler mouselistenerhandler, PApplet applet)
 	{
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler);
-		// TODO Auto-generated constructor stub.
+		
+		this.bank = new TestSpriteBank(applet);
+		this.spriteobj = new TestSpriteObject(this.bank.getSprite("mushroom"));
 	}
 
 	
@@ -36,7 +46,6 @@ public class SpriteTest extends AbstractTest
 	@Override
 	public void test()
 	{
-		// TODO Auto-generated method stub.
-		
+		getDrawer().addDrawable(this.spriteobj);
 	}
 }
