@@ -1,12 +1,11 @@
 package tests;
 
 
-import listeners.KeyListener;
-import listeners.MouseListener;
+import handlers.KeyListenerHandler;
+import handlers.MouseListenerHandler;
 
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
-import handlers.KeyListenerHandler;
 
 /**
  * This class provides necessary tools for testing aspects of the game
@@ -20,8 +19,8 @@ public abstract class AbstractTest
 	
 	private ActorHandler actorhandler;
 	private DrawableHandler drawer;
-	private KeyListener keyListener;
-	private MouseListener mouselistener;
+	private KeyListenerHandler KeyListenerHandler;
+	private MouseListenerHandler MouseListenerHandler;
 	
 	
 	// CONSTRUCTOR	------------------------------------------------------
@@ -31,17 +30,18 @@ public abstract class AbstractTest
 	 * 
 	 * @param actorhandler The handler that handles created actors
 	 * @param drawer The drawer that draws created drawables
-	 * @param keylistenerhandler The keylistener that informs created listeners
-	 * @param mouselistenerhandler The mouselistener that informs created listeners
+	 * @param KeyListenerHandler The KeyListenerHandler that informs created listeners
+	 * @param MouseListenerHandler The MouseListenerHandler that informs created listeners
+	 * 
 	 */
 	public AbstractTest(ActorHandler actorhandler, DrawableHandler drawer, 
-			KeyListenerHandler keylistenerhandler, MouseListener mouselistenerhandler)
+			KeyListenerHandler KeyListenerHandler, MouseListenerHandler MouseListenerHandler)
 	{
 		// Initializes attributes
 		this.actorhandler = actorhandler;
 		this.drawer = drawer;
-		this.keyListener = keylistenerhandler;
-		this.mouselistener = mouselistenerhandler;
+		this.KeyListenerHandler = KeyListenerHandler;
+		this.MouseListenerHandler = MouseListenerHandler;
 	}
 	
 	
@@ -72,18 +72,18 @@ public abstract class AbstractTest
 	}
 	
 	/**
-	 * @return The keylistener that informs the test's listeners
+	 * @return The KeyListenerHandler that informs the test's listeners
 	 */
-	protected KeyListener getKeyListener()
+	protected KeyListenerHandler getKeyListenerHandler()
 	{
-		return this.keyListener;
+		return this.KeyListenerHandler;
 	}
 	
 	/**
-	 * @return The mouselistener that informs the test's listeners
+	 * @return The MouseListenerHandler that informs the test's listeners
 	 */
-	protected MouseListener getMouseListener()
+	protected MouseListenerHandler getMouseListenerHandler()
 	{
-		return this.mouselistener;
+		return this.MouseListenerHandler;
 	}
 }
