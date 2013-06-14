@@ -40,7 +40,7 @@ public class RaceKingdoms extends PApplet
 		this.mousehandler = new MainMouseListenerHandler();
 		this.stephandler = new StepHandler(16, this);
 		this.drawer = new DrawableHandler(false);
-		this.needsUpdating = false;
+		this.needsUpdating = true;
 		
 		// Starts the game
 		new Thread(this.stephandler).start();
