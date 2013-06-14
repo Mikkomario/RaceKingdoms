@@ -1,8 +1,8 @@
 Race Kingdoms - Suunnitelma
 
 Arkkitehtuurimuutokset						(10)			Gandalf
-	* Toimintojen säikeistäminen
-	* Spritejen käyttö
+	* Toimintojen säikeistäminen							DONE
+	* Spritejen käyttö										EI MUUTOKSIA
 Piirtäminen / graafinen esittäminen			(10)
 	* Almost done?
 	* TESTAA												Gandalf
