@@ -13,6 +13,8 @@ import handlers.MouseListenerHandler;
  */
 public class InputTest extends AbstractTest implements listeners.KeyListener{
 
+	private boolean active;
+	private boolean isDead;
 	/**
 	 * Creates a new test with the required information
 	 * 
@@ -26,7 +28,8 @@ public class InputTest extends AbstractTest implements listeners.KeyListener{
 			KeyListenerHandler KeyListenerHandler, MouseListenerHandler MouseListenerHandler) 
 	{
 		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
-		
+		this.active = true;
+		this.isDead = false;
 	}
 
 	@Override
@@ -35,51 +38,52 @@ public class InputTest extends AbstractTest implements listeners.KeyListener{
 		
 	}
 
+	//---IMPLEMENTED NON-IMPORTANT METHODS--------------
 	@Override
 	public boolean isActive() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.active;
 	}
 
 	@Override
 	public boolean activate() {
-		// TODO Auto-generated method stub
-		return false;
+		this.active = true;
+		return true;
 	}
 
 	@Override
 	public boolean inActivate() {
-		// TODO Auto-generated method stub
-		return false;
+		this.active = false;
+		return true;
 	}
 
 	@Override
 	public boolean isDead() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isDead;
 	}
 
 	@Override
 	public boolean kill() {
-		// TODO Auto-generated method stub
-		return false;
+		this.isDead = true;
+		return true;
 	}
 
+	//--------------------------------------------------------
+	
 	@Override
 	public void onKeyDown(int key, int keyCode, boolean coded) {
-		// TODO Auto-generated method stub
+		System.out.println("Pidit pohjassa keyta: "+key+"ja keyCodea: "+keyCode+", coded oli '"+coded+"'.");
 		
 	}
 
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded) {
-		// TODO Auto-generated method stub
+		System.out.println("Painoit keyta: "+key+"ja keyCodea: "+keyCode+", coded oli '"+coded+"'.");
 		
 	}
 
 	@Override
 	public void onKeyReleased(int key, int keyCode, boolean coded) {
-		// TODO Auto-generated method stub
+		System.out.println("Paastit irti keysta: "+key+"ja keyCodesta: "+keyCode+", coded oli '"+coded+"'.");
 		
 	}
 }
