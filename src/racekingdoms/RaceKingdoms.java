@@ -11,6 +11,7 @@ import processing.core.PApplet;
 import tests.GraphicTest;
 import tests.InputTest;
 import tests.MouseTest;
+import tests.SpriteTest;
 
 /**
  * This class starts the program and creates the necessary elements of the game. 
@@ -128,10 +129,8 @@ public class RaceKingdoms extends PApplet
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 		new GraphicTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
-		/*
 		new SpriteTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, this).test();
-		*/
 		new MouseTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}

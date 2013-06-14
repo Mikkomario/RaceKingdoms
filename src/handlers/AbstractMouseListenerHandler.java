@@ -64,6 +64,7 @@ implements Actor
 	@Override
 	public void act()
 	{
+		//System.out.println(this.entered.size());
 		//System.out.println("Left " + this.ldown + " Right " + this.rdown);
 		
 		// Informs the listeners about the mouse's movements and buttons
@@ -108,8 +109,13 @@ implements Actor
 		}
 		
 		// Refreshes memory
-		this.over.addAll(this.entered);
-		this.entered.clear();
+		if (this.entered.size() > 0)
+		{
+			System.out.println("siirtaa");
+			this.over.addAll(this.entered);
+			this.entered.clear();
+		}
+		
 		this.exited.clear();
 		this.lpressed = false;
 		this.rpressed = false;
@@ -159,9 +165,19 @@ implements Actor
 	 * @param y The mouse's current y-coordinate
 	 */
 	public void setMousePosition(int x, int y)
-	{
+	{		
+		// TODO: MYSTIIKKAA!!!! MITÄ HITTOA???
+		System.out.println(this.entered.size());
+		
 		if (getMouseX() != x || getMouseY() != y)
 		{
+			/*
+			int enterkokoennen = this.entered.size();
+			if (enterkokoennen > 0)
+				System.out.println("Populaa!");
+			*/
+			//System.out.println("Mousemoved!");
+			
 			this.mouseX = x;
 			this.mouseY = y;
 			
@@ -173,19 +189,29 @@ implements Actor
 				if (l.isActive())
 					l.onMouseMove(x, y);
 				
-				// Checks if entered
-				if (l.listensPosition(x, y) && !this.over.contains(l) 
-						&& !this.entered.contains(l))
+				if (l.listensMouseEnterExit())
 				{
-					this.entered.add(l);
-					continue;
-				}
-				// Checks if exited
-				if (!l.listensPosition(x, y) && this.over.contains(l) && 
-						!this.exited.contains(l))
-				{
-					this.over.remove(l);
-					this.exited.add(l);
+					if (this.over.contains(l))
+						System.out.println("over");
+					
+					// Checks if entered
+					if (l.listensPosition(x, y) && !this.over.contains(l) 
+							&& !this.entered.contains(l))
+					{
+						System.out.println("Enter");
+						this.entered.add(l);
+						//System.out.println(this.entered.size());
+						continue;
+					}
+
+					// Checks if exited
+					if (!l.listensPosition(x, y) && this.over.contains(l) && 
+							!this.exited.contains(l))
+					{
+						System.out.println("Exit");
+						this.over.remove(l);
+						this.exited.add(l);
+					}
 				}
 			}
 		}

@@ -22,7 +22,7 @@ public class TestSpriteObject extends SpriteObject
 	{
 		super(200, 200, sprite);
 
-		this.setImageSpeed(0.5);
+		this.setImageSpeed(0.1);
 	}
 
 }
