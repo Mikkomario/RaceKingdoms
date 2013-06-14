@@ -53,5 +53,9 @@ public class SpriteTest extends AbstractTest
 		this.spriteobj.setImageIndex(1);
 		this.spriteobj.setImageSpeed(0);
 		*/
+		this.spriteobj.setMotion(45, 5);
+		this.spriteobj.setFriction(0.1);
+		this.spriteobj.setRotation(20);
+		this.spriteobj.setRotationFriction(0.2);
 	}
 }
