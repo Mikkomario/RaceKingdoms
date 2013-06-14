@@ -6,6 +6,7 @@ import listeners.MouseListener;
 
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
+import handlers.KeyListenerHandler;
 
 /**
  * This class provides necessary tools for testing aspects of the game
@@ -35,7 +36,7 @@ public abstract class AbstractTest
 	 * 
 	 */
 	public AbstractTest(ActorHandler actorhandler, DrawableHandler drawer, 
-			KeyListener keylistener, MouseListener mouselistener)
+			KeyListenerHandler keylistener, MouseListener mouselistener)
 	{
 		// Initializes attributes
 		this.actorhandler = actorhandler;

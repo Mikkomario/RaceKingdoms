@@ -2,8 +2,8 @@ package tests;
 
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
-import listeners.KeyListener;
-import listeners.MouseListener;
+import handlers.KeyListenerHandler;
+import handlers.MouseListenerHandler;
 
 /**
  * Tests the graphical aspects of the program
@@ -21,18 +21,17 @@ public class GraphicTest extends AbstractTest
 	// CONSTRUCTOR	-------------------------------------------------------
 	
 	/**
-	 * Creates a new test with the required information
-	 * 
-	 * @param actorhandler The handler that handles created actors
-	 * @param drawer The drawer that draws created drawables
-	 * @param keylistener The keylistener that informs created listeners
-	 * @param mouselistener The mouselistener that informs created listeners
+	 * Creates the new test
+	 *
+	 * @param actorhandler
+	 * @param drawer
+	 * @param KeyListenerHandler
+	 * @param MouseListenerHandler
 	 */
 	public GraphicTest(ActorHandler actorhandler, DrawableHandler drawer,
-			KeyListener keylistener, MouseListener mouselistener)
+			KeyListenerHandler KeyListenerHandler, MouseListenerHandler MouseListenerHandler)
 	{
-		super(actorhandler, drawer, keylistener, mouselistener);
-		
+		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
 		this.box = new TestBox();
 	}
 	
