@@ -9,7 +9,7 @@ import handlers.MouseListenerHandler;
  * This class is used to test input from the user.
  * 
  * @author Unto
- * 			14.6.2013
+ * 			Created 14.6.2013
  */
 public class InputTest extends AbstractTest implements listeners.KeyListener{
 
