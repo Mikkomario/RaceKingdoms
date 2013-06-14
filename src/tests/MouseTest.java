@@ -107,13 +107,13 @@ public class MouseTest extends AbstractTest implements listeners.MouseListener {
 	@Override
 	public boolean listensPosition(int x, int y) {
 		//Checks if the mouse is on the left side of the screen
-		return true;
+		return x<500;
 	}
 
 	@Override
 	public boolean listensMouseEnterExit() {
-		// Mouse is interested whether it enters or leaves an interesing zone
-		return false;
+		// Mouse is interested whether it enters or leaves an interesting zone
+		return true;
 	}
 
 	@Override
