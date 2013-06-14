@@ -1,5 +1,6 @@
 package racekingdoms;
 
+
 import handlers.DrawableHandler;
 import handlers.MainKeyListenerHandler;
 import handlers.MainMouseListenerHandler;
@@ -17,6 +18,7 @@ public class RaceKingdoms extends PApplet
 {
 	// ATTRIBUTES	-----------------------------------------------------
 	
+	private static final long serialVersionUID = 1L;
 	private MainKeyListenerHandler keyhandler;
 	private MainMouseListenerHandler mousehandler;
 	private StepHandler stephandler;
