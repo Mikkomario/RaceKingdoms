@@ -31,18 +31,17 @@ public abstract class AbstractTest
 	 * 
 	 * @param actorhandler The handler that handles created actors
 	 * @param drawer The drawer that draws created drawables
-	 * @param keylistener The keylistener that informs created listeners
-	 * @param mouselistener The mouselistener that informs created listeners
-	 * 
+	 * @param keylistenerhandler The keylistener that informs created listeners
+	 * @param mouselistenerhandler The mouselistener that informs created listeners
 	 */
 	public AbstractTest(ActorHandler actorhandler, DrawableHandler drawer, 
-			KeyListenerHandler keylistener, MouseListener mouselistener)
+			KeyListenerHandler keylistenerhandler, MouseListener mouselistenerhandler)
 	{
 		// Initializes attributes
 		this.actorhandler = actorhandler;
 		this.drawer = drawer;
-		this.keyListener = keylistener;
-		this.mouselistener = mouselistener;
+		this.keyListener = keylistenerhandler;
+		this.mouselistener = mouselistenerhandler;
 	}
 	
 	

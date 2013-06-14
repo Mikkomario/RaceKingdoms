@@ -21,17 +21,17 @@ public class GraphicTest extends AbstractTest
 	// CONSTRUCTOR	-------------------------------------------------------
 	
 	/**
-	 * Creates the new test
-	 *
-	 * @param actorhandler
-	 * @param drawer
-	 * @param KeyListenerHandler
-	 * @param MouseListenerHandler
+	 * Creates a new test with the required information
+	 * 
+	 * @param actorhandler The handler that handles created actors
+	 * @param drawer The drawer that draws created drawables
+	 * @param keylistenerhandler The keylistener that informs created listeners
+	 * @param mouselistenerhandler The mouselistener that informs created listeners
 	 */
 	public GraphicTest(ActorHandler actorhandler, DrawableHandler drawer,
-			KeyListenerHandler KeyListenerHandler, MouseListenerHandler MouseListenerHandler)
+			KeyListenerHandler keylistenerhandler, MouseListenerHandler mouselistenerhandler)
 	{
-		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
+		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler);
 		this.box = new TestBox();
 	}
 	
@@ -43,5 +43,4 @@ public class GraphicTest extends AbstractTest
 	{
 		getDrawer().addDrawable(this.box);
 	}
-
 }
