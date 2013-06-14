@@ -88,15 +88,15 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 			}
 			
 			// Informs if a key is down
-			for (int key: this.keysDown)
+			for (int ikd = 0; ikd < this.keysDown.size(); ikd++)
 			{
-				listener.onKeyDown(key, 0, false);
+				listener.onKeyDown(this.keysDown.get(ikd), 0, false);
 			}
 			
 			// Informs if a coded key is down
-			for (int code: this.codesDown)
+			for (int icd = 0; icd < this.codesDown.size(); icd++)
 			{
-				listener.onKeyDown(0, code, true);
+				listener.onKeyDown(0, this.codesDown.get(icd), true);
 			}
 		}
 		

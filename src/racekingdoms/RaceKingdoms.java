@@ -27,6 +27,7 @@ public class RaceKingdoms extends PApplet
 	private MainMouseListenerHandler mainmousehandler;
 	private StepHandler stephandler;
 	private DrawableHandler drawer;
+	
 	private KeyListenerHandler testkeylistenerhandler;
 	private MouseListenerHandler testmouselistenerhandler;
 	
@@ -50,6 +51,7 @@ public class RaceKingdoms extends PApplet
 		this.testkeylistenerhandler = new KeyListenerHandler(false);
 		this.testmouselistenerhandler = new MouseListenerHandler(false);
 		
+		this.stephandler.addActor(this.mainkeyhandler);
 		this.mainkeyhandler.addListener(this.testkeylistenerhandler);
 		this.mainmousehandler.addMouseListener(this.testmouselistenerhandler);
 		
@@ -75,6 +77,7 @@ public class RaceKingdoms extends PApplet
 	@Override
 	public void keyPressed()
 	{
+		System.out.println("Keypressed");
 		this.mainkeyhandler.onKeyPressed(this.key, this.keyCode, this.key == CODED);
 	}
 	
@@ -119,6 +122,8 @@ public class RaceKingdoms extends PApplet
 	
 	private void test()
 	{
+		System.out.println("Testaa");
+		
 		new InputTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
 	}
