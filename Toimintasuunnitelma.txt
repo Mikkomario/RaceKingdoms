@@ -1,0 +1,77 @@
+Race Kingdoms - Suunnitelma
+
+Arkkitehtuurimuutokset						(10)			Gandalf
+	* Toimintojen säikeistäminen
+	* Spritejen käyttö
+Piirtäminen / graafinen esittäminen			(10)
+	* Almost done?
+	* TESTAA												Gandalf
+User Input									(10)			Unto testaa
+	* Nuolinäppäimet
+	* Slidenäppäin
+	* Ohjusnäppäin
+	* Nitronäppäin
+Fysiikka (auto)								(10)			Unto testaa
+	* Liikkuminen											Testaa
+	* Voimat ja niiden lisääminen							Testaa
+	* Kitka													Testaa
+	* Kääntyminen / rotaatio								Testaa
+	* Autofysiikat											Gandalf Tekee Alphan
+		- Auton renkaiden kitka
+			* Sivuttaissuuntainen kitka
+		- Nopeusvektorien suunnan määrittäminen
+		- Kääntymisen aiheuttama kitka, tms.
+Kamera										(10)			Gandalf pohja, Unto toteuttaa
+	* Seuraaminen
+		- Fixed vai jotain muuta?
+	* Zoomaus												Gandalfin Overhaul muista
+Kartan luku									(8)
+	* VAATII SUUNNITTELUA
+	* Luetaan väreistä törmäys
+Törmäys										(9)
+Karttageneraattori							(8)
+	* Tilester tyyppinen ohjelma, jolla maalataan tilejä kuvaan ja samalla tehdään tallennuspikselikuvaa
+	* Solukohtaiset värikoodit vai universaalit?
+	* Tilekoko n. 50x (auto n. 100 px)
+
+ALPHA READY
+
+HUD											(7)
+	* Kartta
+	* Aika
+	* Nitro
+	* Kesto?
+Erilaiset Maastot							(7)
+	* Asfaltti
+	* Muta
+	* Lumi
+	* Vesi
+		- Myös virtaava
+	* Jää
+	* Sora / Kivi
+	* Kasvillisuus
+Auton hajoaminen							(6)
+Kisan voittaminen							(6)
+Menut										(5)
+Dialogit									(5)
+Rahan Hankkiminen							(5)
+Aikarajoitus								(4)
+Slide										(4)
+Hazardit									(4)
+
+BETA READY
+
+Checkpointit								(3)
+Itemit										(3)
+Osien vaihtaminen							(3)
+Radan pituuden määrittäminen				(2)
+Kuskien palkkaus							(2)
+Kuskien vaikutus							(2)
+Upgradet									(1)
+Expa										(1)
+Level Up									(1)
+Seinien hajottaminen						(1)
+Cutscenet									(1)
+Slidetysjäljet								(1)
+
+GOLD READY
