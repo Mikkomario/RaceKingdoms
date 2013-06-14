@@ -29,13 +29,23 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	@Override
 	public void onLeftDown(int mouseX, int mouseY)
 	{
-		// Does nothing
+		// Informs all listeners about left mouse
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (this.getListener(i).listensPosition(mouseX, mouseY))
+				this.getListener(i).onLeftDown(mouseX, mouseY);
+		}
 	}
 
 	@Override
 	public void onRightDown(int mouseX, int mouseY)
 	{
-		// Does nothing
+		// Informs all listeners about the right mouse
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (this.getListener(i).listensPosition(mouseX, mouseY))
+				this.getListener(i).onRightDown(mouseX, mouseY);
+		}
 	}
 
 	@Override
@@ -43,6 +53,13 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	{
 		setMousePosition(mouseX, mouseY);
 		setLeftMouseDown(true);
+		
+		// Informs all listeners about the press
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (this.getListener(i).listensPosition(mouseX, mouseY))
+				this.getListener(i).onLeftPressed(mouseX, mouseY);
+		}
 	}
 
 	@Override
@@ -50,6 +67,13 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	{
 		setMousePosition(mouseX, mouseY);
 		setRightMouseDown(true);
+		
+		// Informs all listeners about the press
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (this.getListener(i).listensPosition(mouseX, mouseY))
+				this.getListener(i).onRightPressed(mouseX, mouseY);
+		}
 	}
 
 	@Override
@@ -90,6 +114,13 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	{
 		setMousePosition(mouseX, mouseY);
 		setLeftMouseDown(false);
+		
+		// Informs all listeners about the release
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (this.getListener(i).listensPosition(mouseX, mouseY))
+				this.getListener(i).onLeftReleased(mouseX, mouseY);
+		}
 	}
 
 
@@ -98,6 +129,13 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	{
 		setMousePosition(mouseX, mouseY);
 		setRightMouseDown(false);
+		
+		// Informs all listeners about the release
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (this.getListener(i).listensPosition(mouseX, mouseY))
+				this.getListener(i).onRightReleased(mouseX, mouseY);
+		}
 	}
 
 
