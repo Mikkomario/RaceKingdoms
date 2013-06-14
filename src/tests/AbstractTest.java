@@ -9,7 +9,7 @@ import handlers.DrawableHandler;
 
 /**
  * This class provides necessary tools for testing aspects of the game
- *asdfg
+ *
  * @author Gandalf.
  *         Created 14.6.2013.
  */
