@@ -13,6 +13,13 @@ import handlers.MouseListenerHandler;
  */
 public class GraphicTest extends AbstractTest
 {
+	// ATTRIBUTES	-------------------------------------------------------
+	
+	private TestBox box;
+	
+	
+	// CONSTRUCTOR	-------------------------------------------------------
+	
 	/**
 	 * Creates the new test
 	 *
@@ -25,13 +32,16 @@ public class GraphicTest extends AbstractTest
 			KeyListenerHandler KeyListenerHandler, MouseListenerHandler MouseListenerHandler)
 	{
 		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
+		this.box = new TestBox();
 	}
+	
+	
+	// IMPLEMENTED METHODS	----------------------------------------------
 
 	@Override
 	public void test()
 	{
-		// TODO Auto-generated method stub.
-		
+		getDrawer().addDrawable(this.box);
 	}
 
 }
