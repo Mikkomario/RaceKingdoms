@@ -28,6 +28,7 @@ public class InputTest extends AbstractTest implements listeners.KeyListener{
 			KeyListenerHandler KeyListenerHandler, MouseListenerHandler MouseListenerHandler) 
 	{
 		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
+		KeyListenerHandler.addKeyListener(this);
 		this.active = true;
 		this.isDead = false;
 	}
