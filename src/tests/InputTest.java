@@ -79,13 +79,15 @@ public class InputTest extends AbstractTest implements listeners.KeyListener{
 
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded) {
-		System.out.println("Painoit keyta: "+key+"ja keyCodea: "+keyCode+", coded oli '"+coded+"'.");
+		//Worked fine
+		System.out.println("Painoit keyta: "+key+" ja keyCodea: "+keyCode+", coded oli '"+coded+"'.");
 		
 	}
 
 	@Override
 	public void onKeyReleased(int key, int keyCode, boolean coded) {
-		System.out.println("Paastit irti keysta: "+key+"ja keyCodesta: "+keyCode+", coded oli '"+coded+"'.");
+		//Worked fine
+		System.out.println("Paastit irti keysta: "+key+" ja keyCodesta: "+keyCode+", coded oli '"+coded+"'.");
 		
 	}
 }
