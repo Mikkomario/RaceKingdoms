@@ -244,9 +244,10 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	/**
 	 * @return The direction towards which the object is currently moving
 	 */
-	public int getDirection()
+	public double getDirection()
 	{
-		return (int) -(Math.toDegrees(Math.atan2(getVspeed(), getHspeed())));
+		return HelpMath.checkDirection(-(
+				Math.toDegrees(Math.atan2(getVspeed(), getHspeed()))));
 	}
 	
 	/**
@@ -296,6 +297,32 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	
 	// OTHER METHODS	----------------------------------------------------
 	
+	/**
+	 * Reduces the speed of the object (positive or negative) by the given amount
+	 *
+	 * @param force
+	 */
+	public void diminishSpeed(double force)
+	{
+		// Calculates the old speed
+		double lastSpeed = getSpeed();
+		double newSpeed = lastSpeed;
+		
+		// Calculates the new speed
+		if (lastSpeed <= force)
+		{
+			// Changes the velocity
+			this.hspeed = 0;
+			this.vspeed = 0;
+		}
+		else
+		{
+			newSpeed -= force;
+			// Changes the velocity
+			setSpeed(newSpeed);
+		}
+	}
+	
 	// Moves the object and handles the friction
 	private void move()
 	{
@@ -329,23 +356,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	// Slows the speed the amount of given friction
 	private void implyFriction()
 	{
-		// Calculates the old speed
-		double lastSpeed = getSpeed();
-		double newSpeed = lastSpeed;
-		
-		// Calculates the new speed
-		if (lastSpeed <= getFriction())
-		{
-			// Changes the velocity
-			this.hspeed = 0;
-			this.vspeed = 0;
-		}
-		else
-		{
-			newSpeed -= getFriction();
-			// Changes the velocity
-			setSpeed(newSpeed);
-		}
+		diminishSpeed(getFriction());
 	}
 	
 	// Slows the rotation speed the amoutn of given friction

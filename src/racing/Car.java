@@ -18,6 +18,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private double maxdrivespeed, accelration, turning, maxturning;
+	private double turningfriction;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -45,15 +46,16 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		
 		// Initializes attributes
 		this.maxdrivespeed = 10;
-		this.turning = 1.1;
-		this.accelration = 3;
-		this.maxturning = 5;
+		this.turning = 0.1;
+		this.accelration = 1;
+		this.maxturning = 4;
+		this.turningfriction = 0.01;
 		
 		// Initializes some stats
 		setMaxRotation(20);
 		setMaxSpeed(25);
-		setFriction(0.5);
-		setRotationFriction(1);
+		setFriction(0.1);
+		setRotationFriction(0.7);
 	}
 	
 	
@@ -66,9 +68,9 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		{
 			// Turns with left / right arrowkey
 			if (keyCode == PConstants.LEFT)
-				turn(this.turning);
+				turn(getRotationFriction() + this.turning);
 			else if (keyCode == PConstants.RIGHT)
-				turn(-this.turning);
+				turn(- (getRotationFriction() + this.turning));
 			
 			// Goes forward with up arrowkey
 			else if (keyCode == PConstants.UP)
@@ -81,15 +83,23 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded)
 	{
-		// TODO Auto-generated method stub.
-		
+		// Doesn't do anything (yet)
 	}
 
 	@Override
 	public void onKeyReleased(int key, int keyCode, boolean coded)
 	{
-		// TODO Auto-generated method stub.
+		// Doesn't do anything (yet)
+	}
+	
+	@Override
+	public void act()
+	{
+		super.act();
 		
+		// Also implies the turning friction
+		applyTurningFriction();
+		//System.out.println(getDirection());
 	}
 	
 	
@@ -100,7 +110,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		// Remembers the last speed
 		double lastspeed = getSpeed();
 		// Adds the boost
-		addMotion(getAngle(), this.accelration);
+		addMotion(getAngle(), getFriction() + this.accelration);
 		// Checks if the car is going too fast and does the necessary repairs
 		if (getSpeed() > this.maxdrivespeed)
 		{
@@ -115,6 +125,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	private void turn(double amount)
 	{
+		// TODO: Make turning less effective when the car moves slowly
+		
 		// Remembers the last rotation
 		double lastrotation = getRotation();
 		// Adds the turn
@@ -131,5 +143,22 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			else
 				setRotation(-this.maxturning);
 		}
+	}
+	
+	private void applyTurningFriction()
+	{
+		// Reduces the object's speed depending on how much the object is turning
+		double angledifference = Math.abs(getAngle() - getDirection());
+		
+		// If there's no difference or no speed, doesn't imply friction
+		if (angledifference < 1 || getSpeed() == 0)
+			return;
+		
+		if (angledifference > 180)
+			angledifference = 360 - angledifference;
+		
+		System.out.println(angledifference);
+		
+		diminishSpeed(this.turningfriction * angledifference);
 	}
 }

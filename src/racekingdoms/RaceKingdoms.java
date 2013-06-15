@@ -10,6 +10,7 @@ import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
 import tests.CarTest;
+import tests.FpsApsTest;
 import tests.GraphicTest;
 import tests.InputTest;
 import tests.MouseTest;
@@ -97,6 +98,9 @@ public class RaceKingdoms extends PApplet
 	{
 		if (this.needsUpdating)
 		{
+			// Draws the background
+			background(150);
+			
 			this.drawer.drawSelf(this);
 			this.needsUpdating = false;
 		}
@@ -169,7 +173,12 @@ public class RaceKingdoms extends PApplet
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		*/
+		/*
 		new CarTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
+		*/
+		new FpsApsTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 	}

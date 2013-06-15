@@ -140,7 +140,7 @@ public abstract class DrawnObject2D implements Drawable
 	 */
 	public double getAngle()
 	{
-		return this.angle;
+		return HelpMath.checkDirection(this.angle);
 	}
 	
 	/**
