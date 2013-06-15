@@ -37,7 +37,11 @@ public class SpriteTest extends AbstractTest
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler);
 		
 		this.bank = new TestSpriteBank(applet);
-		this.spriteobj = new TestSpriteObject(this.bank.getSprite("mushroom"));
+		this.spriteobj = new TestSpriteObject(this.bank.getSprite("mushroom"), 
+				drawer, actorhandler);
+		
+		this.spriteobj.inActivate();
+		this.spriteobj.setInvisible();
 	}
 
 	
@@ -46,9 +50,8 @@ public class SpriteTest extends AbstractTest
 	@Override
 	public void test()
 	{
-		getDrawer().addDrawable(this.spriteobj);
-		getActorHandler().addActor(this.spriteobj);
-		
+		this.spriteobj.activate();
+		this.spriteobj.setVisible();
 		/*
 		this.spriteobj.setImageIndex(1);
 		this.spriteobj.setImageSpeed(0);

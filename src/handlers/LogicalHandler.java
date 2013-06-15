@@ -19,10 +19,11 @@ public abstract class LogicalHandler extends Handler implements LogicalHandled
 	 * Creates a new logicalhandler. Handled objects must be added manually later
 	 *
 	 * @param autodeath Will the handler die if it runs out of living handleds
+	 * @param superhandler The handler that will handle this handler (optional)
 	 */
-	public LogicalHandler(boolean autodeath)
+	public LogicalHandler(boolean autodeath, LogicalHandler superhandler)
 	{
-		super(autodeath);
+		super(autodeath, superhandler);
 	}
 	
 	

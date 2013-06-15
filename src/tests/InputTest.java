@@ -29,14 +29,13 @@ public class InputTest extends AbstractTest implements listeners.KeyListener{
 	{
 		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
 		KeyListenerHandler.addKeyListener(this);
-		this.active = true;
+		this.active = false;
 		this.isDead = false;
 	}
 
 	@Override
 	public void test() {
-		// TODO Auto-generated method stub
-		
+		this.activate();
 	}
 
 	//---IMPLEMENTED NON-IMPORTANT METHODS--------------

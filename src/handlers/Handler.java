@@ -28,13 +28,18 @@ public abstract class Handler implements Handled
 	 * soon as it becomes empty
 	 *
 	 * @param autodeath Will the handler die automatically when it becomes empty
+	 * @param superhandler The handler that will handle the object (optional)
 	 */
-	public Handler(boolean autodeath)
+	public Handler(boolean autodeath, Handler superhandler)
 	{
 		// Initializes attributes
 		this.autodeath = autodeath;
 		this.killed = false;
 		this.handleds = new ArrayList<Handled>();
+		
+		// Tries to add itself to the superhandler
+		if (superhandler != null)
+			superhandler.addHandled(this);
 	}
 	
 	

@@ -2,6 +2,8 @@ package drawnobjects;
 
 import racekingdoms.HelpMath;
 import handleds.Actor;
+import handlers.ActorHandler;
+import handlers.DrawableHandler;
 
 /**
  * In addition to spriteobjects drawing capabilities many basic physics can be 
@@ -30,10 +32,12 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	 *
 	 * @param x The ingame x-coordinate of the new object
 	 * @param y The ingame y-coordinate of the new object
+	 * @param drawer The drawablehandler that draws the object (optional)
+	 * @param actorhandler The actorhandler that calls the object's act event (optional)
 	 */
-	public PhysicDrawnObject(int x, int y)
+	public PhysicDrawnObject(int x, int y, DrawableHandler drawer, ActorHandler actorhandler)
 	{
-		super(x, y);
+		super(x, y, drawer);
 		
 		this.hspeed = 0;
 		this.vspeed = 0;
@@ -41,6 +45,10 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		this.friction = 0;
 		this.rotFriction = 0;
 		this.active = true;
+		
+		// Adds the object to the actorhandler if possible
+		if (actorhandler != null)
+			actorhandler.addActor(this);
 	}
 	
 	

@@ -33,10 +33,11 @@ implements Actor
 	 * Creates a new empty mouselistenerhandler
 	 *
 	 * @param autodeath Will the handler die when it runs out of living listeners
+	 * @param actorhandler The ActorHandler that will call the act-event (optional)
 	 */
-	public AbstractMouseListenerHandler(boolean autodeath)
+	public AbstractMouseListenerHandler(boolean autodeath, ActorHandler actorhandler)
 	{
-		super(autodeath);
+		super(autodeath, actorhandler);
 		
 		// Initializes attributes
 		this.mouseX = 0;
@@ -111,7 +112,6 @@ implements Actor
 		// Refreshes memory
 		if (this.entered.size() > 0)
 		{
-			System.out.println("siirtaa");
 			this.over.addAll(this.entered);
 			this.entered.clear();
 		}
@@ -166,9 +166,6 @@ implements Actor
 	 */
 	public void setMousePosition(int x, int y)
 	{		
-		// TODO: MYSTIIKKAA!!!! MITÄ HITTOA???
-		System.out.println(this.entered.size());
-		
 		if (getMouseX() != x || getMouseY() != y)
 		{
 			/*
@@ -190,15 +187,11 @@ implements Actor
 					l.onMouseMove(x, y);
 				
 				if (l.listensMouseEnterExit())
-				{
-					if (this.over.contains(l))
-						System.out.println("over");
-					
+				{		
 					// Checks if entered
 					if (l.listensPosition(x, y) && !this.over.contains(l) 
 							&& !this.entered.contains(l))
 					{
-						System.out.println("Enter");
 						this.entered.add(l);
 						//System.out.println(this.entered.size());
 						continue;
@@ -208,7 +201,6 @@ implements Actor
 					if (!l.listensPosition(x, y) && this.over.contains(l) && 
 							!this.exited.contains(l))
 					{
-						System.out.println("Exit");
 						this.over.remove(l);
 						this.exited.add(l);
 					}

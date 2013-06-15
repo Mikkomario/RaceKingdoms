@@ -2,6 +2,8 @@ package drawnobjects;
 
 import graphic.Sprite;
 import graphic.SpriteBank;
+import handlers.ActorHandler;
+import handlers.DrawableHandler;
 
 import java.awt.Point;
 
@@ -23,8 +25,6 @@ public class SpriteObject extends PhysicDrawnObject
 	
 	private double imageSpeed, imageIndex;
 	
-	// TODO: Change animation to the actor thread
-	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
 	
@@ -36,10 +36,12 @@ public class SpriteObject extends PhysicDrawnObject
 	 * @param x The new x-coordinate of the object (Game world Pxl)
 	 * @param y The new y-coordinate of the object (Game world Pxl)
 	 * @param sprite The Sprite with which the object will be drawn
+	 * @param drawer The drawablehandler that draws the object (optional)
+	 * @param actorhandler The actorhandler that calls the object's act event (optional)
 	 */
-	public SpriteObject(int x, int y, Sprite sprite)
+	public SpriteObject(int x, int y, Sprite sprite, DrawableHandler drawer, ActorHandler actorhandler)
 	{
-		super(x, y);
+		super(x, y, drawer, actorhandler);
 		
 		// Initializes the attributes
 		this.sprite = sprite;
@@ -53,12 +55,15 @@ public class SpriteObject extends PhysicDrawnObject
 	 *
 	 * @param x The ingame x-coordinate of the object's origin (pxl)
 	 * @param y The ingame y-coordinate of the object's origin (pxl)
+	 * @param drawer The drawablehandler that draws the object (optional)
+	 * @param actorhandler The actorhandler that calls the object's act event (optional)
 	 * @param bank The spritebank that holds the sprite of the object
 	 * @param spritename The name of the object's sprite in the bank
 	 */
-	public SpriteObject(int x, int y, SpriteBank bank, String spritename)
+	public SpriteObject(int x, int y, DrawableHandler drawer, 
+			ActorHandler actorhandler, SpriteBank bank, String spritename)
 	{
-		super(x, y);
+		super(x, y, drawer, actorhandler);
 		
 		// Initializes the attributes
 		this.sprite = bank.getSprite(spritename);

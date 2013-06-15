@@ -32,7 +32,8 @@ public class GraphicTest extends AbstractTest
 			KeyListenerHandler keylistenerhandler, MouseListenerHandler mouselistenerhandler)
 	{
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler);
-		this.box = new TestBox();
+		this.box = new TestBox(drawer);
+		this.box.setInvisible();
 	}
 	
 	
@@ -41,7 +42,7 @@ public class GraphicTest extends AbstractTest
 	@Override
 	public void test()
 	{
-		getDrawer().addDrawable(this.box);
+		this.box.setVisible();
 		this.box.addAngle(45);
 		this.box.addPosition(300, 50);
 		this.box.scale(2, 3);

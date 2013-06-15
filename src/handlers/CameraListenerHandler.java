@@ -19,10 +19,11 @@ public class CameraListenerHandler extends LogicalHandler implements CameraListe
 	 * 
 	 * @param autodeath Will the handler stop functioning when it runs out of 
 	 * handled listeners
+	 * @param superhandler The cameralistenerhandler that informs this handler (optional)
 	 */
-	public CameraListenerHandler(boolean autodeath)
+	public CameraListenerHandler(boolean autodeath, CameraListenerHandler superhandler)
 	{
-		super(autodeath);
+		super(autodeath, superhandler);
 	}
 	
 	
