@@ -19,7 +19,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private double hspeed, vspeed, rotation, friction, rotFriction;
+	private double hspeed, vspeed, rotation, friction, rotFriction, maxspeed;
 	private boolean active;
 	
 	
@@ -44,6 +44,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		this.rotation = 0;
 		this.friction = 0;
 		this.rotFriction = 0;
+		this.maxspeed = -1;
 		this.active = true;
 		
 		// Adds the object to the actorhandler if possible
@@ -223,10 +224,39 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	 * @param direction Towards what direction will the object move (degrees)
 	 * @param speed How fast the objec will be moving (pxl / step)
 	 */
-	public void setMotion(int direction, double speed)
+	public void setMotion(double direction, double speed)
 	{
-		double newhspeed = HelpMath.lendirX(speed, direction);
-		double newvspeed = HelpMath.lendirY(speed, direction);
+		double newhspeed = 0;//HelpMath.lendirX(speed, direction);
+		double newvspeed = 0;//HelpMath.lendirY(speed, direction);
+		
+		// TODO: Requires testing
+		
+		double checkdir = HelpMath.checkDirection(direction);
+		double alpha = checkdir % 90;
+		System.out.println(alpha);
+		double firstspeed = alpha / 90 * speed;
+		double secondspeed = speed - firstspeed;
+		
+		if (checkdir >= 270)
+		{
+			newhspeed = firstspeed;
+			newvspeed = secondspeed;
+		}
+		else if (checkdir >= 180)
+		{
+			newvspeed = firstspeed;
+			newhspeed = -secondspeed;
+		}
+		else if (checkdir >= 90)
+		{
+			newhspeed = -firstspeed;
+			newvspeed = -secondspeed;
+		}
+		else
+		{
+			newvspeed = -firstspeed;
+			newhspeed = secondspeed;
+		}
 		
 		setVelocity(newhspeed, newvspeed);
 	}
@@ -247,7 +277,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	 */
 	public int getDirection()
 	{
-		return (int) (Math.toDegrees(Math.atan2(getVspeed(), getHspeed())));
+		return (int) -(Math.toDegrees(Math.atan2(getVspeed(), getHspeed())));
 	}
 	
 	/**
@@ -257,7 +287,23 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	 */
 	public void setSpeed(double speed)
 	{
-		setMotion(getDirection(), speed);
+		//setMotion(getDirection(), speed);
+		double lastSpeed = getSpeed();
+		
+		// Changes the velocity
+		this.hspeed *= speed / lastSpeed;
+		this.vspeed *= speed / lastSpeed;
+	}
+	
+	/**
+	 * Changes the object's maximum speed
+	 *
+	 * @param maxspeed The new maximum speed of the object (negative if you 
+	 * don't want to limit the speed (default))
+	 */
+	public void setMaxSpeed(double maxspeed)
+	{
+		this.maxspeed = maxspeed;
 	}
 	
 	
@@ -275,6 +321,9 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 			return;
 		
 		implyFriction();
+		
+		// Also checks the maximum speed
+		checkMaxSpeed();
 	}
 	
 	// Rotates teh object and handles the rotation friction
@@ -307,8 +356,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		{
 			newSpeed -= getFriction();
 			// Changes the velocity
-			this.hspeed *= newSpeed / lastSpeed;
-			this.vspeed *= newSpeed / lastSpeed;
+			setSpeed(newSpeed);
 		}
 	}
 	
@@ -321,5 +369,14 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 			this.rotation -= getRotationFriction();
 		else
 			this.rotation += getRotationFriction();
+	}
+	
+	private void checkMaxSpeed()
+	{
+		if (this.maxspeed >= 0 && getSpeed() > this.maxspeed)
+		{
+			//System.out.println(getSpeed());
+			setSpeed(this.maxspeed);
+		}
 	}
 }

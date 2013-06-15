@@ -119,7 +119,7 @@ public abstract class DrawnObject2D implements Drawable
 		// Translates the sprite to the object's position
 		applet.translate((float) getX(), (float) getY());
 		// rotates it depending on its angle
-		applet.rotate((float) Math.toRadians((getAngle())));
+		applet.rotate((float) Math.toRadians((360 - getAngle())));
 		// scales it depending on it's xscale and yscale
 		applet.scale((float) getXscale(), (float) getYscale());
 		// and translates the origin to the right position
