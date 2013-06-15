@@ -66,14 +66,14 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		{
 			// Turns with left / right arrowkey
 			if (keyCode == PConstants.LEFT)
-				addRotation(2);
+				addRotation(this.turning);
 			else if (keyCode == PConstants.RIGHT)
-				addRotation(-2);
+				addRotation(-this.turning);
 			
 			// Goes forward with up arrowkey
 			else if (keyCode == PConstants.UP)
 			{
-				// TODO: Add boost
+				addNormalBoost();
 			}
 		}
 	}
@@ -97,9 +97,20 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	private void addNormalBoost()
 	{
+		// Remembers the last speed
 		double lastspeed = getSpeed();
-		
-		//addMotion(getAngle(), this.accelration);
+		// Adds the boost
+		addMotion(getAngle(), this.accelration);
+		// Checks if the car is going too fast and does the necessary repairs
+		if (getSpeed() > this.maxdrivespeed)
+		{
+			// If the car was already going too fast, boost only affects direction
+			if (lastspeed > this.maxdrivespeed)
+				setSpeed(lastspeed);
+			// Otherwise, caps the speed to the max
+			else
+				setSpeed(this.maxdrivespeed);
+		}
 	}
 
 }

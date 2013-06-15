@@ -208,7 +208,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	 * @param direction Direction towards wich the force is applied (degrees)
 	 * @param force The amount of force applied to the object (pxl / step)
 	 */
-	public void addMotion(int direction, double force)
+	public void addMotion(double direction, double force)
 	{
 		//double haccelration = Math.cos(Math.toRadians(direction))*force;
 		//double haccelration = HelpMath.lendirX(force, direction);
