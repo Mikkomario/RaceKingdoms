@@ -49,9 +49,9 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		if (coded)
 		{
 			if (keyCode == PConstants.LEFT)
-				addRotation(-2);
-			else if (keyCode == PConstants.RIGHT)
 				addRotation(2);
+			else if (keyCode == PConstants.RIGHT)
+				addRotation(-2);
 		}
 	}
 

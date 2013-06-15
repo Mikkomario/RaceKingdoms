@@ -19,7 +19,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private double hspeed, vspeed, rotation, friction, rotFriction, maxspeed;
+	private double hspeed, vspeed, rotation, friction, rotFriction, maxspeed, maxrotation;
 	private boolean active;
 	
 	
@@ -45,6 +45,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		this.friction = 0;
 		this.rotFriction = 0;
 		this.maxspeed = -1;
+		this.maxrotation = -1;
 		this.active = true;
 		
 		// Adds the object to the actorhandler if possible
@@ -229,11 +230,9 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		double newhspeed = 0;//HelpMath.lendirX(speed, direction);
 		double newvspeed = 0;//HelpMath.lendirY(speed, direction);
 		
-		// TODO: Requires testing
-		
 		double checkdir = HelpMath.checkDirection(direction);
 		double alpha = checkdir % 90;
-		System.out.println(alpha);
+		//System.out.println(alpha);
 		double firstspeed = alpha / 90 * speed;
 		double secondspeed = speed - firstspeed;
 		
@@ -306,6 +305,24 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		this.maxspeed = maxspeed;
 	}
 	
+	/**
+	 * @return The maximum speed of the object (not used if negative)
+	 */
+	public double getMaxSpeed()
+	{
+		return this.maxspeed;
+	}
+	
+	/**
+	 * Changes how fast the object can rotate
+	 *
+	 * @param maxrotation How fast the object can rotate (negative if no limit)
+	 */
+	public void setMaxRotation(double maxrotation)
+	{
+		this.maxrotation = maxrotation;
+	}
+	
 	
 	// OTHER METHODS	----------------------------------------------------
 	
@@ -322,8 +339,9 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		
 		implyFriction();
 		
-		// Also checks the maximum speed
+		// Also checks the maximum speed and rotation
 		checkMaxSpeed();
+		checkMaxRotation();
 	}
 	
 	// Rotates teh object and handles the rotation friction
@@ -377,6 +395,18 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		{
 			//System.out.println(getSpeed());
 			setSpeed(this.maxspeed);
+		}
+	}
+	
+	private void checkMaxRotation()
+	{
+		// Limits the rotation speed (if needed)
+		if (this.maxrotation >= 0 && Math.abs(getRotation()) > this.maxrotation)
+		{
+			if (getRotation() < 0)
+				setRotation(-this.maxrotation);
+			else
+				setRotation(this.maxrotation);
 		}
 	}
 }

@@ -57,11 +57,12 @@ public class SpriteTest extends AbstractTest
 		this.spriteobj.setImageSpeed(0);
 		*/
 		this.spriteobj.setMaxSpeed(13);
-		this.spriteobj.setMotion(75, 10);
+		this.spriteobj.setMotion(290, 7);
 		//this.spriteobj.addMotion(90, 5);
 		this.spriteobj.setFriction(0.1);
 		this.spriteobj.setRotation(20);
+		//this.spriteobj.setMaxRotation(10);
 		this.spriteobj.setRotationFriction(0.2);
-		System.out.println(this.spriteobj.getSpeed());
+		//System.out.println(this.spriteobj.getSpeed());
 	}
 }
