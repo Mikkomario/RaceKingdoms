@@ -32,7 +32,7 @@ public class CarSpriteBank extends SpriteBank
 	@Override
 	public void createSprites() throws FileNotFoundException
 	{
-		createSprite("dragon_head.png", 1, 91, 52, "test");
+		createSprite("images/dragon_head.png", 1, 91, 52, "test");
 	}
 
 }

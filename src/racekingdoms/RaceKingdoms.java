@@ -9,6 +9,7 @@ import handlers.MainMouseListenerHandler;
 import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
+import tests.CarTest;
 import tests.GraphicTest;
 import tests.InputTest;
 import tests.MouseTest;
@@ -154,6 +155,7 @@ public class RaceKingdoms extends PApplet
 		this.testmouselistenerhandler.activate();
 		
 		// Runs tests
+		/*
 		new InputTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
@@ -164,6 +166,10 @@ public class RaceKingdoms extends PApplet
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		new MouseTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
+		*/
+		new CarTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 	}

@@ -17,9 +17,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 {	
 	// ATTRIBUTES	-----------------------------------------------------
 	
-	private double maxdrivespeed;
-	private double turning;
-	private double accelration;
+	private double maxdrivespeed, accelration, turning, maxturning;
+	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
 	
@@ -46,14 +45,15 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		
 		// Initializes attributes
 		this.maxdrivespeed = 10;
-		this.turning = 2;
+		this.turning = 1.1;
 		this.accelration = 3;
+		this.maxturning = 5;
 		
 		// Initializes some stats
 		setMaxRotation(20);
 		setMaxSpeed(25);
 		setFriction(0.5);
-		setRotationFriction(0.2);
+		setRotationFriction(1);
 	}
 	
 	
@@ -66,9 +66,9 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		{
 			// Turns with left / right arrowkey
 			if (keyCode == PConstants.LEFT)
-				addRotation(this.turning);
+				turn(this.turning);
 			else if (keyCode == PConstants.RIGHT)
-				addRotation(-this.turning);
+				turn(-this.turning);
 			
 			// Goes forward with up arrowkey
 			else if (keyCode == PConstants.UP)
@@ -112,5 +112,24 @@ public class Car extends SpriteObject implements listeners.KeyListener
 				setSpeed(this.maxdrivespeed);
 		}
 	}
-
+	
+	private void turn(double amount)
+	{
+		// Remembers the last rotation
+		double lastrotation = getRotation();
+		// Adds the turn
+		addRotation(amount);
+		// Checks if the car is rotating too fast and does the necessary repairs
+		if (Math.abs(getRotation()) > Math.abs(this.maxturning))
+		{
+			// If the car was already going too fast, doens't increase the turning
+			if (Math.abs(lastrotation) > Math.abs(this.maxturning))
+				setRotation(lastrotation);
+			// Otherwise, caps the speed to the max
+			else if (getRotation() > 0)
+				setRotation(this.maxturning);
+			else
+				setRotation(-this.maxturning);
+		}
+	}
 }
