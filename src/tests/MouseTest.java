@@ -1,7 +1,10 @@
 package tests;
 
+import processing.core.PApplet;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
+import handlers.KeyListenerHandler;
+import handlers.MouseListenerHandler;
 
 /**
  * This class tests whether the mouse is working or not
@@ -18,23 +21,25 @@ public class MouseTest extends AbstractTest implements listeners.MouseListener {
 	 * 
 	 * @param actorhandler The handler that handles created actors
 	 * @param drawer The drawer that draws created drawables
-	 * @param KeyListenerHandler The KeyListenerHandler that informs created listeners
-	 * @param MouseListenerHandler The MouseListenerHandler that informs created listeners
-	 * 
+	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
+	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
+	 * @param applet The main applet
 	 */
-	public MouseTest(ActorHandler actorhandler, DrawableHandler drawer,
-			handlers.KeyListenerHandler KeyListenerHandler,
-			handlers.MouseListenerHandler MouseListenerHandler) {
-		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
-		MouseListenerHandler.addMouseListener(this);
-		this.active = true;
+	public MouseTest(ActorHandler actorhandler, DrawableHandler drawer, 
+			KeyListenerHandler keylistenerhandler, 
+			MouseListenerHandler mouselistenerhandler, 
+			PApplet applet)
+	{
+		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
+		mouselistenerhandler.addMouseListener(this);
+		this.active = false;
 		this.isDead = false;
 	}
 
 	@Override
-	public void test() {
-		// TODO Auto-generated method stub
-
+	public void test()
+	{
+		activate();
 	}
 	
 	// ---IMPLEMENTED NON-IMPORTANT METHODS--------------

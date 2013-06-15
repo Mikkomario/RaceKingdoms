@@ -3,9 +3,11 @@ package tests;
 import processing.core.PApplet;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
+import handlers.KeyListenerHandler;
+import handlers.MouseListenerHandler;
 
 /**
- * TODO Put here a description of what this class does.
+ * Tests the spriteobject and the physicobject
  *
  * @author Gandalf.
  *         Created 14.6.2013.
@@ -27,14 +29,14 @@ public class SpriteTest extends AbstractTest
 	 * @param drawer The drawer that draws created drawables
 	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
 	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
-	 * @param applet The applet that loads sprites
-	 * 
+	 * @param applet The main applet
 	 */
-	public SpriteTest(ActorHandler actorhandler, DrawableHandler drawer,
-			handlers.KeyListenerHandler keylistenerhandler,
-			handlers.MouseListenerHandler mouselistenerhandler, PApplet applet)
+	public SpriteTest(ActorHandler actorhandler, DrawableHandler drawer, 
+			KeyListenerHandler keylistenerhandler, 
+			MouseListenerHandler mouselistenerhandler, 
+			PApplet applet)
 	{
-		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler);
+		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 		
 		this.bank = new TestSpriteBank(applet);
 		this.spriteobj = new TestSpriteObject(this.bank.getSprite("mushroom"), 

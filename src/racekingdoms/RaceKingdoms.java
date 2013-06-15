@@ -155,12 +155,16 @@ public class RaceKingdoms extends PApplet
 		
 		// Runs tests
 		new InputTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
 		new GraphicTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
 		new SpriteTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler, this).test();
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
 		new MouseTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
 	}
 }

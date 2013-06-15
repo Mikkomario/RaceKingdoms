@@ -38,7 +38,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			ActorHandler actorhandler, KeyListenerHandler keyhandler, 
 			SpriteBank carspritebank)
 	{
-		super(x, y, carspritebank.getSprite("testcar"), drawer, actorhandler);
+		super(x, y, carspritebank.getSprite("test"), drawer, actorhandler);
 		
 		// Adds the car to the keyhandler (if possible)
 		if (keyhandler != null)
