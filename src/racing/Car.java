@@ -15,6 +15,12 @@ import drawnobjects.SpriteObject;
  */
 public class Car extends SpriteObject implements listeners.KeyListener
 {	
+	// ATTRIBUTES	-----------------------------------------------------
+	
+	private double maxdrivespeed;
+	private double turning;
+	private double accelration;
+	
 	// CONSTRUCTOR	-----------------------------------------------------
 	
 	/**
@@ -37,6 +43,17 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		// Adds the car to the keyhandler (if possible)
 		if (keyhandler != null)
 			keyhandler.addKeyListener(this);
+		
+		// Initializes attributes
+		this.maxdrivespeed = 10;
+		this.turning = 2;
+		this.accelration = 3;
+		
+		// Initializes some stats
+		setMaxRotation(20);
+		setMaxSpeed(25);
+		setFriction(0.5);
+		setRotationFriction(0.2);
 	}
 	
 	
@@ -45,13 +62,19 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	@Override
 	public void onKeyDown(int key, int keyCode, boolean coded)
 	{
-		// Turns with left / right arrowkey
 		if (coded)
 		{
+			// Turns with left / right arrowkey
 			if (keyCode == PConstants.LEFT)
 				addRotation(2);
 			else if (keyCode == PConstants.RIGHT)
 				addRotation(-2);
+			
+			// Goes forward with up arrowkey
+			else if (keyCode == PConstants.UP)
+			{
+				// TODO: Add boost
+			}
 		}
 	}
 
@@ -67,6 +90,16 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	{
 		// TODO Auto-generated method stub.
 		
+	}
+	
+	
+	// OTHER METHODS	--------------------------------------------------
+	
+	private void addNormalBoost()
+	{
+		double lastspeed = getSpeed();
+		
+		//addMotion(getAngle(), this.accelration);
 	}
 
 }

@@ -211,11 +211,11 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	public void addMotion(int direction, double force)
 	{
 		//double haccelration = Math.cos(Math.toRadians(direction))*force;
-		double haccelration = HelpMath.lendirX(force, direction);
+		//double haccelration = HelpMath.lendirX(force, direction);
 		//double vaccelration = Math.sin(Math.toRadians(direction))*force;
-		double vaccelration = HelpMath.lendirY(force, direction);
+		//double vaccelration = HelpMath.lendirY(force, direction);
 		
-		addVelocity(haccelration, vaccelration);
+		addVelocity(dirHSpeed(direction, force), dirVSpeed(direction, force));
 	}
 	
 	/**
@@ -226,38 +226,8 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	 * @param speed How fast the objec will be moving (pxl / step)
 	 */
 	public void setMotion(double direction, double speed)
-	{
-		double newhspeed = 0;//HelpMath.lendirX(speed, direction);
-		double newvspeed = 0;//HelpMath.lendirY(speed, direction);
-		
-		double checkdir = HelpMath.checkDirection(direction);
-		double alpha = checkdir % 90;
-		//System.out.println(alpha);
-		double firstspeed = alpha / 90 * speed;
-		double secondspeed = speed - firstspeed;
-		
-		if (checkdir >= 270)
-		{
-			newhspeed = firstspeed;
-			newvspeed = secondspeed;
-		}
-		else if (checkdir >= 180)
-		{
-			newvspeed = firstspeed;
-			newhspeed = -secondspeed;
-		}
-		else if (checkdir >= 90)
-		{
-			newhspeed = -firstspeed;
-			newvspeed = -secondspeed;
-		}
-		else
-		{
-			newvspeed = -firstspeed;
-			newhspeed = secondspeed;
-		}
-		
-		setVelocity(newhspeed, newvspeed);
+	{	
+		setVelocity(dirHSpeed(direction, speed), dirVSpeed(direction, speed));
 	}
 	
 	/**
@@ -408,5 +378,41 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 			else
 				setRotation(this.maxrotation);
 		}
+	}
+	
+	private double dirHSpeed(double direction, double speed)
+	{
+		double checkdir = HelpMath.checkDirection(direction);
+		double alpha = checkdir % 90;
+		//System.out.println(alpha);
+		double firstspeed = alpha / 90 * speed;
+		double secondspeed = speed - firstspeed;
+		
+		if (checkdir >= 270)
+			return firstspeed;
+		else if (checkdir >= 180)
+			return -secondspeed;
+		else if (checkdir >= 90)
+			return -firstspeed;
+		else
+			return secondspeed;
+	}
+	
+	private double dirVSpeed(double direction, double speed)
+	{
+		double checkdir = HelpMath.checkDirection(direction);
+		double alpha = checkdir % 90;
+		//System.out.println(alpha);
+		double firstspeed = alpha / 90 * speed;
+		double secondspeed = speed - firstspeed;
+		
+		if (checkdir >= 270)
+			return secondspeed;
+		else if (checkdir >= 180)
+			return firstspeed;
+		else if (checkdir >= 90)
+			return -secondspeed;
+		else
+			return -firstspeed;
 	}
 }
