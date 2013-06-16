@@ -3,9 +3,11 @@ package tests;
 import processing.core.PApplet;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
+import handlers.KeyListenerHandler;
+import handlers.MouseListenerHandler;
 
 /**
- * TODO Put here a description of what this class does.
+ * Tests the spriteobject and the physicobject
  *
  * @author Gandalf.
  *         Created 14.6.2013.
@@ -27,17 +29,21 @@ public class SpriteTest extends AbstractTest
 	 * @param drawer The drawer that draws created drawables
 	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
 	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
-	 * @param applet The applet that loads sprites
-	 * 
+	 * @param applet The main applet
 	 */
-	public SpriteTest(ActorHandler actorhandler, DrawableHandler drawer,
-			handlers.KeyListenerHandler keylistenerhandler,
-			handlers.MouseListenerHandler mouselistenerhandler, PApplet applet)
+	public SpriteTest(ActorHandler actorhandler, DrawableHandler drawer, 
+			KeyListenerHandler keylistenerhandler, 
+			MouseListenerHandler mouselistenerhandler, 
+			PApplet applet)
 	{
-		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler);
+		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 		
 		this.bank = new TestSpriteBank(applet);
-		this.spriteobj = new TestSpriteObject(this.bank.getSprite("mushroom"));
+		this.spriteobj = new TestSpriteObject(this.bank.getSprite("mushroom"), 
+				drawer, actorhandler);
+		
+		this.spriteobj.inActivate();
+		this.spriteobj.setInvisible();
 	}
 
 	
@@ -46,6 +52,19 @@ public class SpriteTest extends AbstractTest
 	@Override
 	public void test()
 	{
-		getDrawer().addDrawable(this.spriteobj);
+		this.spriteobj.activate();
+		this.spriteobj.setVisible();
+		/*
+		this.spriteobj.setImageIndex(1);
+		this.spriteobj.setImageSpeed(0);
+		*/
+		this.spriteobj.setMaxSpeed(13);
+		this.spriteobj.setMotion(290, 7);
+		//this.spriteobj.addMotion(90, 5);
+		this.spriteobj.setFriction(0.1);
+		this.spriteobj.setRotation(20);
+		//this.spriteobj.setMaxRotation(10);
+		this.spriteobj.setRotationFriction(0.2);
+		//System.out.println(this.spriteobj.getSpeed());
 	}
 }

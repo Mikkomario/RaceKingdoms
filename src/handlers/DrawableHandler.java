@@ -20,10 +20,11 @@ public class DrawableHandler extends Handler implements Drawable
 	 * If autodeath is on and no drawables are added, the handler will die.
 	 *
 	 * @param autodeath Will the handler die if it has no living drawables to handle
+	 * @param superhandler The drawablehandler that will draw this handler (optional)
 	 */
-	public DrawableHandler(boolean autodeath)
+	public DrawableHandler(boolean autodeath, DrawableHandler superhandler)
 	{
-		super(autodeath);
+		super(autodeath, superhandler);
 	}
 	
 	

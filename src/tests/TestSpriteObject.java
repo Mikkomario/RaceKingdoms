@@ -1,6 +1,8 @@
 package tests;
 
 import graphic.Sprite;
+import handlers.ActorHandler;
+import handlers.DrawableHandler;
 import drawnobjects.SpriteObject;
 
 /**
@@ -16,13 +18,15 @@ public class TestSpriteObject extends SpriteObject
 	/**
 	 * Creates a new spriteobject with the give sprite
 	 *
-	 * @param sprite
+	 * @param sprite The new sprite of the object
+	 * @param drawer The drawer that will draw the object (optional)
+	 * @param actorhandler The actorhandler that will call the object's act-event (optional)
 	 */
-	public TestSpriteObject(Sprite sprite)
+	public TestSpriteObject(Sprite sprite, DrawableHandler drawer, ActorHandler actorhandler)
 	{
-		super(200, 200, sprite);
+		super(200, 200, sprite, drawer, actorhandler);
 
-		this.setImageSpeed(0.5);
+		this.setImageSpeed(0.1);
 	}
 
 }

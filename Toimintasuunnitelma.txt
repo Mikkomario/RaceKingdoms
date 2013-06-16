@@ -3,27 +3,27 @@ Race Kingdoms - Suunnitelma
 Arkkitehtuurimuutokset						(10)			Gandalf
 	* Toimintojen s‰ikeist‰minen							DONE
 	* Spritejen k‰yttˆ										EI MUUTOKSIA
-Piirt‰minen / graafinen esitt‰minen			(10)
-	* Almost done?
-	* TESTAA												Gandalf
-User Input									(10)			Unto testaa
-	* Nuolin‰pp‰imet
+Piirt‰minen / graafinen esitt‰minen			(10)			DONE
+	* TESTAA												Gandalf, DONE
+User Input									(10)			Unto testaa (DONE)
+	* Nuolin‰pp‰imet										DONE
 	* Sliden‰pp‰in
 	* Ohjusn‰pp‰in
-	* Nitron‰pp‰in
+	* Nitron‰pp‰in											...
 Fysiikka (auto)								(10)			Unto testaa
-	* Liikkuminen											Testaa
-	* Voimat ja niiden lis‰‰minen							Testaa
-	* Kitka													Testaa
-	* K‰‰ntyminen / rotaatio								Testaa
+	* Liikkuminen											Testaa (Alpha)
+	* Voimat ja niiden lis‰‰minen							Testaa (Alpha)
+	* Kitka													Testaa (Alpha)
+	* K‰‰ntyminen / rotaatio								Testaa (Alpha)
 	* Autofysiikat											Gandalf Tekee Alphan
-		- Auton renkaiden kitka
-			* Sivuttaissuuntainen kitka
-		- Nopeusvektorien suunnan m‰‰ritt‰minen
-		- K‰‰ntymisen aiheuttama kitka, tms.
+		- Auton renkaiden kitka								DONE...
+			* Sivuttaissuuntainen kitka						DONE...
+		- Nopeusvektorien suunnan m‰‰ritt‰minen				EI MUUTOKSIA?
+		- K‰‰ntymisen aiheuttama kitka, tms.				DONE...
 Kamera										(10)			Gandalf pohja, Unto toteuttaa
 	* Seuraaminen
 		- Fixed vai jotain muuta?
+		- K‰yt‰ kamerana physicobjectia niin menee hyvin
 	* Zoomaus												Gandalfin Overhaul muista
 Kartan luku									(8)
 	* VAATII SUUNNITTELUA

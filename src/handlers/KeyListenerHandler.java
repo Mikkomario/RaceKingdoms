@@ -16,10 +16,11 @@ public class KeyListenerHandler extends LogicalHandler implements KeyListener
 	 * Creates a new empty keylistenerhandler. Listeners must be added manually
 	 *
 	 * @param autodeath Will the handler die when it runs out of living handleds
+	 * @param superhandler The handler that will handle this handler (optional)
 	 */
-	public KeyListenerHandler(boolean autodeath)
+	public KeyListenerHandler(boolean autodeath, KeyListenerHandler superhandler)
 	{
-		super(autodeath);
+		super(autodeath, superhandler);
 	}
 
 	@Override
@@ -34,7 +35,7 @@ public class KeyListenerHandler extends LogicalHandler implements KeyListener
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded)
 	{
-		System.out.println("Key was pressed!");
+		//System.out.println("Key was pressed!");
 		
 		for (int i = 0; i < getHandledNumber(); i++)
 		{

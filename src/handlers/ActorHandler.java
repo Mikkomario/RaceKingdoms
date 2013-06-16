@@ -20,10 +20,11 @@ public class ActorHandler extends LogicalHandler implements Actor
 	 * as possible if the autodeath is on)
 	 *
 	 * @param autodeath Will the handler die if there are no living actors to be handled
+	 * @param superhandler The handler that will call the act-event of the object (optional)
 	 */
-	public ActorHandler(boolean autodeath)
+	public ActorHandler(boolean autodeath, ActorHandler superhandler)
 	{
-		super(autodeath);
+		super(autodeath, superhandler);
 	}
 	
 	

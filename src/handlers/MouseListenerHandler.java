@@ -17,10 +17,17 @@ public class MouseListenerHandler extends AbstractMouseListenerHandler
 	 * Creates a new empty mouselistenerhandler
 	 *
 	 * @param autodeath Will the handler die when it runs out of living listeners
+	 * @param actorhandler The actorhandler that will handle this handler (optional)
+	 * @param superhandler The mouselistenerhandler that will handle this handler (optional)
 	 */
-	public MouseListenerHandler(boolean autodeath)
+	public MouseListenerHandler(boolean autodeath, 
+			ActorHandler actorhandler, MouseListenerHandler superhandler)
 	{
-		super(autodeath);
+		super(autodeath, actorhandler);
+		
+		// Tries to add the object to the second handler
+		if (superhandler != null)
+			superhandler.addMouseListener(this);
 	}
 	
 	

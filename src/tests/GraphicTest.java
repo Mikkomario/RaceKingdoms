@@ -1,5 +1,6 @@
 package tests;
 
+import processing.core.PApplet;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
@@ -25,14 +26,18 @@ public class GraphicTest extends AbstractTest
 	 * 
 	 * @param actorhandler The handler that handles created actors
 	 * @param drawer The drawer that draws created drawables
-	 * @param keylistenerhandler The keylistener that informs created listeners
-	 * @param mouselistenerhandler The mouselistener that informs created listeners
+	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
+	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
+	 * @param applet The main applet
 	 */
-	public GraphicTest(ActorHandler actorhandler, DrawableHandler drawer,
-			KeyListenerHandler keylistenerhandler, MouseListenerHandler mouselistenerhandler)
+	public GraphicTest(ActorHandler actorhandler, DrawableHandler drawer, 
+			KeyListenerHandler keylistenerhandler, 
+			MouseListenerHandler mouselistenerhandler, 
+			PApplet applet)
 	{
-		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler);
-		this.box = new TestBox();
+		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
+		this.box = new TestBox(drawer);
+		this.box.setInvisible();
 	}
 	
 	
@@ -41,7 +46,7 @@ public class GraphicTest extends AbstractTest
 	@Override
 	public void test()
 	{
-		getDrawer().addDrawable(this.box);
+		this.box.setVisible();
 		this.box.addAngle(45);
 		this.box.addPosition(300, 50);
 		this.box.scale(2, 3);

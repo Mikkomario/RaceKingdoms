@@ -16,10 +16,11 @@ public class MainMouseListenerHandler extends AbstractMouseListenerHandler
 	/**
 	 * Creates a new empty mouselistenerhandler. The handler won't die 
 	 * automatically
+	 * @param actorhandler The handler that will handle this handler (optional)
 	 */
-	public MainMouseListenerHandler()
+	public MainMouseListenerHandler(ActorHandler actorhandler)
 	{
-		super(false);
+		super(false, actorhandler);
 	}
 	
 	

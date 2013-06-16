@@ -1,5 +1,6 @@
 package tests;
 
+import handlers.DrawableHandler;
 import processing.core.PApplet;
 import drawnobjects.DrawnObject2D;
 
@@ -13,10 +14,11 @@ public class TestBox extends DrawnObject2D
 {
 	/**
 	 * Creates a new testbox that does nothing but can be drawn
+	 * @param drawer The handler that will draw the object (optional)
 	 */
-	public TestBox()
+	public TestBox(DrawableHandler drawer)
 	{
-		super(200, 200);
+		super(200, 200, drawer);
 	}
 	
 	

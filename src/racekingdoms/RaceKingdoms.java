@@ -1,6 +1,7 @@
 package racekingdoms;
 
 
+import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
 import handlers.MainKeyListenerHandler;
@@ -8,9 +9,12 @@ import handlers.MainMouseListenerHandler;
 import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
+import tests.CarTest;
+import tests.FpsApsTest;
 import tests.GraphicTest;
 import tests.InputTest;
 import tests.MouseTest;
+import tests.SpriteTest;
 
 /**
  * This class starts the program and creates the necessary elements of the game. 
@@ -29,7 +33,11 @@ public class RaceKingdoms extends PApplet
 	private MainMouseListenerHandler mainmousehandler;
 	private StepHandler stephandler;
 	private DrawableHandler drawer;
+	private KeyListenerHandler keylistenerhandler;
+	private MouseListenerHandler mouselistenerhandler;
+	private ActorHandler listeneractorhandler;
 	
+	private ActorHandler testactorhandler;
 	private KeyListenerHandler testkeylistenerhandler;
 	private MouseListenerHandler testmouselistenerhandler;
 	
@@ -45,20 +53,38 @@ public class RaceKingdoms extends PApplet
 		size(1000, 550);
 		noFill();
 		
-		// Initializes the attributes
-		this.mainkeyhandler = new MainKeyListenerHandler();
-		this.mainmousehandler = new MainMouseListenerHandler();
-		this.stephandler = new StepHandler(16, this);
-		this.drawer = new DrawableHandler(false);
-		this.testkeylistenerhandler = new KeyListenerHandler(false);
-		this.testmouselistenerhandler = new MouseListenerHandler(false);
+		// Initializes the handlers
+		//		(step -> mainmouse &  mainkey -> mouse & key -> testmouse & testkey)
+		this.stephandler = new StepHandler(10, this);
 		
-		this.stephandler.addActor(this.mainkeyhandler);
-		this.stephandler.addActor(this.mainmousehandler);
+		this.listeneractorhandler = new ActorHandler(false, this.stephandler);
+		this.mainkeyhandler = new MainKeyListenerHandler(this.listeneractorhandler);
+		this.mainmousehandler = new MainMouseListenerHandler(this.listeneractorhandler);
+		
+		this.drawer = new DrawableHandler(false, null);
+		this.keylistenerhandler = new KeyListenerHandler(false, null);
+		this.mouselistenerhandler = new MouseListenerHandler(false, 
+				this.listeneractorhandler, null);
+		
+		this.testactorhandler = new ActorHandler(true, this.stephandler);
+		this.testkeylistenerhandler = new KeyListenerHandler(false, this.keylistenerhandler);
+		this.testmouselistenerhandler = new MouseListenerHandler(false, 
+				this.testactorhandler, this.mouselistenerhandler);
+		
 		this.mainkeyhandler.addListener(this.testkeylistenerhandler);
 		this.mainmousehandler.addMouseListener(this.testmouselistenerhandler);
 		
+		// Updates missing handling information
+		this.mainkeyhandler.addListener(this.keylistenerhandler);
+		this.mainmousehandler.addMouseListener(this.mouselistenerhandler);
+		
+		// Initializes other attributes
 		this.needsUpdating = true;
+		
+		// Inactivates the testhandlers
+		this.testactorhandler.inActivate();
+		this.testkeylistenerhandler.inActivate();
+		this.testmouselistenerhandler.inActivate();
 		
 		// Starts the game
 		new Thread(this.stephandler).start();
@@ -72,6 +98,9 @@ public class RaceKingdoms extends PApplet
 	{
 		if (this.needsUpdating)
 		{
+			// Draws the background
+			background(150);
+			
 			this.drawer.drawSelf(this);
 			this.needsUpdating = false;
 		}
@@ -124,15 +153,33 @@ public class RaceKingdoms extends PApplet
 	
 	private void test()
 	{
-		new InputTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
-		new GraphicTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+		// Activates the handlers
+		this.testactorhandler.activate();
+		this.testkeylistenerhandler.activate();
+		this.testmouselistenerhandler.activate();
+		
+		// Runs tests
 		/*
+		new InputTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
+		new GraphicTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
 		new SpriteTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler, this).test();
-		*/
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
 		new MouseTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler).test();
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
+		*/
+		
+		new CarTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
+		
+		new FpsApsTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
 	}
 }

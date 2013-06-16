@@ -33,10 +33,11 @@ implements Actor
 	 * Creates a new empty mouselistenerhandler
 	 *
 	 * @param autodeath Will the handler die when it runs out of living listeners
+	 * @param actorhandler The ActorHandler that will call the act-event (optional)
 	 */
-	public AbstractMouseListenerHandler(boolean autodeath)
+	public AbstractMouseListenerHandler(boolean autodeath, ActorHandler actorhandler)
 	{
-		super(autodeath);
+		super(autodeath, actorhandler);
 		
 		// Initializes attributes
 		this.mouseX = 0;
@@ -64,6 +65,7 @@ implements Actor
 	@Override
 	public void act()
 	{
+		//System.out.println(this.entered.size());
 		//System.out.println("Left " + this.ldown + " Right " + this.rdown);
 		
 		// Informs the listeners about the mouse's movements and buttons
@@ -108,8 +110,12 @@ implements Actor
 		}
 		
 		// Refreshes memory
-		this.over.addAll(this.entered);
-		this.entered.clear();
+		if (this.entered.size() > 0)
+		{
+			this.over.addAll(this.entered);
+			this.entered.clear();
+		}
+		
 		this.exited.clear();
 		this.lpressed = false;
 		this.rpressed = false;
@@ -159,9 +165,16 @@ implements Actor
 	 * @param y The mouse's current y-coordinate
 	 */
 	public void setMousePosition(int x, int y)
-	{
+	{		
 		if (getMouseX() != x || getMouseY() != y)
 		{
+			/*
+			int enterkokoennen = this.entered.size();
+			if (enterkokoennen > 0)
+				System.out.println("Populaa!");
+			*/
+			//System.out.println("Mousemoved!");
+			
 			this.mouseX = x;
 			this.mouseY = y;
 			
@@ -173,19 +186,24 @@ implements Actor
 				if (l.isActive())
 					l.onMouseMove(x, y);
 				
-				// Checks if entered
-				if (l.listensPosition(x, y) && !this.over.contains(l) 
-						&& !this.entered.contains(l))
-				{
-					this.entered.add(l);
-					continue;
-				}
-				// Checks if exited
-				if (!l.listensPosition(x, y) && this.over.contains(l) && 
-						!this.exited.contains(l))
-				{
-					this.over.remove(l);
-					this.exited.add(l);
+				if (l.listensMouseEnterExit())
+				{		
+					// Checks if entered
+					if (l.listensPosition(x, y) && !this.over.contains(l) 
+							&& !this.entered.contains(l))
+					{
+						this.entered.add(l);
+						//System.out.println(this.entered.size());
+						continue;
+					}
+
+					// Checks if exited
+					if (!l.listensPosition(x, y) && this.over.contains(l) && 
+							!this.exited.contains(l))
+					{
+						this.over.remove(l);
+						this.exited.add(l);
+					}
 				}
 			}
 		}

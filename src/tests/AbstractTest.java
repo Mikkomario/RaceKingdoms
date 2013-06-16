@@ -1,6 +1,7 @@
 package tests;
 
 
+import processing.core.PApplet;
 import handlers.KeyListenerHandler;
 import handlers.MouseListenerHandler;
 
@@ -21,6 +22,7 @@ public abstract class AbstractTest
 	private DrawableHandler drawer;
 	private KeyListenerHandler KeyListenerHandler;
 	private MouseListenerHandler MouseListenerHandler;
+	private PApplet applet;
 	
 	
 	// CONSTRUCTOR	------------------------------------------------------
@@ -32,16 +34,19 @@ public abstract class AbstractTest
 	 * @param drawer The drawer that draws created drawables
 	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
 	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
-	 * 
+	 * @param applet The main applet
 	 */
 	public AbstractTest(ActorHandler actorhandler, DrawableHandler drawer, 
-			KeyListenerHandler keylistenerhandler, MouseListenerHandler mouselistenerhandler)
+			KeyListenerHandler keylistenerhandler, 
+			MouseListenerHandler mouselistenerhandler, 
+			PApplet applet)
 	{
 		// Initializes attributes
 		this.actorhandler = actorhandler;
 		this.drawer = drawer;
 		this.KeyListenerHandler = keylistenerhandler;
 		this.MouseListenerHandler = mouselistenerhandler;
+		this.applet = applet;
 	}
 	
 	
@@ -85,5 +90,13 @@ public abstract class AbstractTest
 	protected MouseListenerHandler getMouseListenerHandler()
 	{
 		return this.MouseListenerHandler;
+	}
+	
+	/**
+	 * @return The applet running the tests
+	 */
+	protected PApplet getApplet()
+	{
+		return this.applet;
 	}
 }

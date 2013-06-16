@@ -36,7 +36,7 @@ public class StepHandler extends ActorHandler implements Runnable
 	 */
 	public StepHandler(int stepDuration, RaceKingdoms applet)
 	{
-		super(false);
+		super(false, null); // Stephandler doesn't have a superhandler
 		this.stepduration = stepDuration;
 		this.applet = applet;
 		

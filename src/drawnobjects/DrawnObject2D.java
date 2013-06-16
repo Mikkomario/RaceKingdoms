@@ -1,6 +1,7 @@
 package drawnobjects;
 
 import handleds.Drawable;
+import handlers.DrawableHandler;
 
 import java.awt.Point;
 
@@ -29,8 +30,9 @@ public abstract class DrawnObject2D implements Drawable
 	 *
 	 * @param x The new x-coordinate of the object (Game world Pxl)
 	 * @param y The new y-coordinate of the object (Game world Pxl)
+	 * @param drawer The handler that draws the object (optional)
 	 */
-	public DrawnObject2D(int x, int y)
+	public DrawnObject2D(int x, int y, DrawableHandler drawer)
 	{
 		// Initializes the attributes
 		this.x = x;
@@ -41,6 +43,10 @@ public abstract class DrawnObject2D implements Drawable
 		this.visible = true;
 		this.alive = true;
 		this.angle = 0;
+		
+		// Adds the object to the drawer (if possible)
+		if (drawer != null)
+			drawer.addDrawable(this);
 	}
 	
 	
@@ -113,7 +119,7 @@ public abstract class DrawnObject2D implements Drawable
 		// Translates the sprite to the object's position
 		applet.translate((float) getX(), (float) getY());
 		// rotates it depending on its angle
-		applet.rotate((float) Math.toRadians((getAngle())));
+		applet.rotate((float) Math.toRadians((360 - getAngle())));
 		// scales it depending on it's xscale and yscale
 		applet.scale((float) getXscale(), (float) getYscale());
 		// and translates the origin to the right position
@@ -134,7 +140,7 @@ public abstract class DrawnObject2D implements Drawable
 	 */
 	public double getAngle()
 	{
-		return this.angle;
+		return HelpMath.checkDirection(this.angle);
 	}
 	
 	/**

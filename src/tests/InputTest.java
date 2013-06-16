@@ -1,5 +1,6 @@
 package tests;
 
+import processing.core.PApplet;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
@@ -15,28 +16,31 @@ public class InputTest extends AbstractTest implements listeners.KeyListener{
 
 	private boolean active;
 	private boolean isDead;
+	
+	
 	/**
 	 * Creates a new test with the required information
 	 * 
 	 * @param actorhandler The handler that handles created actors
 	 * @param drawer The drawer that draws created drawables
-	 * @param KeyListenerHandler The KeyListenerHandler that informs created listeners
-	 * @param MouseListenerHandler The MouseListenerHandler that informs created listeners
-	 * 
+	 * @param keylistenerhandler The KeyListenerHandler that informs created listeners
+	 * @param mouselistenerhandler The MouseListenerHandler that informs created listeners
+	 * @param applet The main applet
 	 */
-	public InputTest(ActorHandler actorhandler, DrawableHandler drawer,
-			KeyListenerHandler KeyListenerHandler, MouseListenerHandler MouseListenerHandler) 
+	public InputTest(ActorHandler actorhandler, DrawableHandler drawer, 
+			KeyListenerHandler keylistenerhandler, 
+			MouseListenerHandler mouselistenerhandler, 
+			PApplet applet)
 	{
-		super(actorhandler, drawer, KeyListenerHandler, MouseListenerHandler);
-		KeyListenerHandler.addKeyListener(this);
-		this.active = true;
+		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
+		keylistenerhandler.addKeyListener(this);
+		this.active = false;
 		this.isDead = false;
 	}
 
 	@Override
 	public void test() {
-		// TODO Auto-generated method stub
-		
+		this.activate();
 	}
 
 	//---IMPLEMENTED NON-IMPORTANT METHODS--------------

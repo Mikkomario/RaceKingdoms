@@ -29,15 +29,15 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
-	 * 
 	 * Simply creates a new KeyListenerHandler. Keylistenerhandler does not 
 	 * die automatically so it must be killed with the kill method. Also, 
 	 * listeners must be added manually later.
-	 *
+	 * 
+	 * @param actorhandler The handler that will handle this handler (optional)
 	 */
-	public MainKeyListenerHandler()
+	public MainKeyListenerHandler(ActorHandler actorhandler)
 	{
-		super(false);
+		super(false, actorhandler);
 		
 		// Initializes the attributes
 		this.keysDown = new ArrayList<Integer>();
@@ -96,7 +96,9 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 			// Informs if a coded key is down
 			for (int icd = 0; icd < this.codesDown.size(); icd++)
 			{
-				listener.onKeyDown(0, this.codesDown.get(icd), true);
+				// For some reason, this check is needed...?
+				if (icd < this.codesDown.size())
+					listener.onKeyDown(0, this.codesDown.get(icd), true);
 			}
 		}
 		
