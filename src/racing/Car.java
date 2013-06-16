@@ -49,7 +49,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		this.turning = 0.01;
 		this.accelration = 0.1;
 		this.maxturning = 0.4;
-		this.turningfriction = 0.015;
+		this.turningfriction = 0.05;
 		this.turnrate = 0.9;
 		
 		// Initializes some stats
@@ -118,6 +118,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	private void addNormalBoost()
 	{
+		// TODO: Make boost dependent on the friction?
+		
 		// Remembers the last speed
 		double lastspeed = getSpeed();
 		// Adds the boost
@@ -164,17 +166,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	private void applyTurningFriction()
 	{
-		// TODO: Logaritminen rengaskitka!
-		
-		// Reduces the object's speed depending on how much the object is turning
-		double angledifference = getAngleDifference();
-		// If there's no difference or no speed, doesn't imply friction
-		if (angledifference < 1 || getSpeed() == 0)
-			return;
-		
-		//System.out.println(angledifference);
-		
-		diminishSpeed(this.turningfriction * angledifference);
+		diminishSpeed(getTurningFriction());
 	}
 	
 	private double getAngleDifference()
@@ -191,12 +183,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	private void addTurnBoost()
 	{
 		// Calculates the turnboost (a certain amount out of turningfriction)
-		double turnboost = getAngleDifference();
-		// If there's no turning or no speed, doesn't do a thing
-		if (turnboost < 1 || getSpeed() == 0)
-			return;
-		turnboost *= this.turningfriction;
-		
+		double turnboost = getTurningFriction();
 		turnboost *= this.turnrate;
 		
 		addMotion(getAngle(), turnboost);
@@ -205,5 +192,16 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	private double calculateTurning()
 	{
 		return getRotationFriction() + this.turning * getSpeed();
+	}
+	
+	private double getTurningFriction()
+	{
+		// Reduces the object's speed depending on how much the object is turning
+		double angledifference = getAngleDifference();
+		// If there's no difference or no speed, doesn't imply friction
+		if (angledifference < 1 || getSpeed() == 0)
+			return 0;
+		
+		return this.turningfriction * Math.log(angledifference);
 	}
 }
