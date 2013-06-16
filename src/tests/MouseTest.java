@@ -142,7 +142,7 @@ public class MouseTest extends AbstractTest implements listeners.MouseListener {
 	@Override
 	public void onMouseMove(int mouseX, int mouseY) {
 		// Reacts to mouses movements
-
+		
 	}
 	
 }
