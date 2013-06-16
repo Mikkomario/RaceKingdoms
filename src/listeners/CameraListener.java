@@ -18,6 +18,8 @@ public interface CameraListener extends LogicalHandled
 	 *
 	 * @param posx The camera's current x-coordinate
 	 * @param posy The camera's current y-coordinate
+	 * @param w The width of the camera's area (ingame pxl)
+	 * @param h The height of the camera's area (ingamepxl)
 	 */
-	public void informCameraPosition(int posx, int posy);
+	public void informCameraPosition(int posx, int posy, int w, int h);
 }

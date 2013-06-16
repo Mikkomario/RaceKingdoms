@@ -107,7 +107,13 @@ public class DrawableHandler extends Handler implements Drawable
 		super.addHandled(d);
 	}
 	
-	private Drawable getDrawable(int index)
+	/**
+	 * Gets a handled from the list of handleds casted as a drawable
+	 *
+	 * @param index The index of the drawable
+	 * @return The drawable from the index
+	 */
+	protected Drawable getDrawable(int index)
 	{
 		Handled maybeDrawable = getHandled(index);
 		if (maybeDrawable instanceof Drawable)

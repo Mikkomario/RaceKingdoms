@@ -20,6 +20,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	private double maxdrivespeed, accelration, turning, maxturning;
 	private double turningfriction, turnrate, brakepower, maxreversespeed;
+	private double slidepower;
+	private boolean sliding;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -46,6 +48,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			keyhandler.addKeyListener(this);
 		
 		// Initializes attributes
+		this.sliding = false;
+		
 		this.maxdrivespeed = 10;
 		this.turning = 0.01;
 		this.accelration = 0.05;
@@ -54,6 +58,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		this.turnrate = 0.9;
 		this.brakepower = 0.04;
 		this.maxreversespeed = 4;
+		this.slidepower = 2;
 		
 		// Initializes some stats
 		setMaxRotation(20);
@@ -95,18 +100,29 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded)
 	{
-		// Adds turbo if C was pressed
 		if (!coded)
 		{
+			// Adds turbo if C was pressed
 			if (key == 'c')
 				addTurboBoost(10);
+			// Slides around if V was pressed
+			else if (key == 'x')
+			{
+				//System.out.println("Sliding!");
+				this.sliding = true;
+			}
 		}
 	}
 
 	@Override
 	public void onKeyReleased(int key, int keyCode, boolean coded)
 	{
-		// Doesn't do anything (yet)
+		if (!coded)
+		{
+			// If V was released, sstops sliding
+			if (key == 'x')
+				this.sliding = false;
+		}
 	}
 	
 	@Override
@@ -207,6 +223,10 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		// If the car is driving backwards, the boost is reversed
 		if (getAngleDifference180() > 90)
 			turnboost *= -1;
+		
+		// If the car is sliding, the turnboost is much larger
+		if (this.sliding)
+			turnboost *= this.slidepower;
 		
 		addMotion(getAngle(), turnboost);
 	}

@@ -52,6 +52,8 @@ public abstract class DrawnObject2D implements Drawable
 	
 	// ABSTRACT METHODS	---------------------------------------------------
 	
+	// TODO: Add a required method that tells the size(s) of the object
+	
 	/**
 	 * @return The Object's origin's x-translation from the left
 	 */
