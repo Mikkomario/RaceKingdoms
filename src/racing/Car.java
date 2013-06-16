@@ -151,9 +151,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	}
 	
 	private void turn(double amount)
-	{
-		// TODO: Make turning less effective when the car moves slowly
-		
+	{	
 		// Remembers the last rotation
 		double lastrotation = getRotation();
 		// Adds the turn
