@@ -1,6 +1,7 @@
 package racing;
 
 import processing.core.PConstants;
+import racekingdoms.HelpMath;
 import graphic.SpriteBank;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
@@ -18,7 +19,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private double maxdrivespeed, accelration, turning, maxturning;
-	private double turningfriction, turnrate;
+	private double turningfriction, turnrate, brakepower, maxreversespeed;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -47,10 +48,12 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		// Initializes attributes
 		this.maxdrivespeed = 10;
 		this.turning = 0.01;
-		this.accelration = 0.1;
+		this.accelration = 0.05;
 		this.maxturning = 0.4;
 		this.turningfriction = 0.05;
 		this.turnrate = 0.9;
+		this.brakepower = 0.04;
+		this.maxreversespeed = 4;
 		
 		// Initializes some stats
 		setMaxRotation(20);
@@ -79,8 +82,13 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			// Goes forward with up arrowkey
 			else if (keyCode == PConstants.UP)
 			{
-				addNormalBoost();
+				addCheckedBoost(getAngle(), getFriction() + this.accelration, 
+						this.maxdrivespeed);
 			}
+			// Goes backwards with bottomkey
+			else if (keyCode == PConstants.DOWN)
+				addCheckedBoost(HelpMath.checkDirection(getAngle() + 180), 
+						getFriction() + this.brakepower, this.maxreversespeed);
 		}
 	}
 
@@ -116,23 +124,23 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	// OTHER METHODS	--------------------------------------------------
 	
-	private void addNormalBoost()
+	private void addCheckedBoost(double direction, double force, double maxspeed)
 	{
 		// TODO: Make boost dependent on the friction?
 		
 		// Remembers the last speed
 		double lastspeed = getSpeed();
 		// Adds the boost
-		addMotion(getAngle(), getFriction() + this.accelration);
+		addMotion(direction, force);
 		// Checks if the car is going too fast and does the necessary repairs
-		if (getSpeed() > this.maxdrivespeed)
+		if (getSpeed() > maxspeed)
 		{
 			// If the car was already going too fast, boost only affects direction
-			if (lastspeed > this.maxdrivespeed)
+			if (lastspeed > maxspeed)
 				setSpeed(lastspeed);
 			// Otherwise, caps the speed to the max
 			else
-				setSpeed(this.maxdrivespeed);
+				setSpeed(maxspeed);
 		}
 	}
 	
@@ -169,12 +177,24 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		diminishSpeed(getTurningFriction());
 	}
 	
-	private double getAngleDifference()
+	private double getAngleDifference180()
 	{
 		double angledifference = Math.abs(getAngle() - getDirection());
 		
+		// > 180 = < 180
 		if (angledifference > 180)
 			angledifference = 360 - angledifference;
+		
+		return angledifference;
+	}
+	
+	private double getAngleDifference90()
+	{
+		double angledifference = getAngleDifference180();
+		
+		// > 90 < 90
+		if (angledifference > 90)
+			angledifference = 180 - angledifference;
 		
 		return angledifference;
 	}
@@ -185,6 +205,10 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		// Calculates the turnboost (a certain amount out of turningfriction)
 		double turnboost = getTurningFriction();
 		turnboost *= this.turnrate;
+		
+		// If the car is driving backwards, the boost is reversed
+		if (getAngleDifference180() > 90)
+			turnboost *= -1;
 		
 		addMotion(getAngle(), turnboost);
 	}
@@ -197,7 +221,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	private double getTurningFriction()
 	{
 		// Reduces the object's speed depending on how much the object is turning
-		double angledifference = getAngleDifference();
+		double angledifference = getAngleDifference90();
 		// If there's no difference or no speed, doesn't imply friction
 		if (angledifference < 1 || getSpeed() == 0)
 			return 0;
