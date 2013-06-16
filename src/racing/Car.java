@@ -18,7 +18,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private double maxdrivespeed, accelration, turning, maxturning;
-	private double turningfriction;
+	private double turningfriction, turnrate;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -49,7 +49,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		this.turning = 0.1;
 		this.accelration = 1;
 		this.maxturning = 4;
-		this.turningfriction = 0.01;
+		this.turningfriction = 0.015;
+		this.turnrate = 0.9;
 		
 		// Initializes some stats
 		setMaxRotation(20);
@@ -99,6 +100,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		
 		// Also implies the turning friction
 		applyTurningFriction();
+		// And the turnboost too
+		addTurnBoost();
 		//System.out.println(getDirection());
 	}
 	
@@ -148,17 +151,38 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	private void applyTurningFriction()
 	{
 		// Reduces the object's speed depending on how much the object is turning
-		double angledifference = Math.abs(getAngle() - getDirection());
-		
+		double angledifference = getAngleDifference();
 		// If there's no difference or no speed, doesn't imply friction
 		if (angledifference < 1 || getSpeed() == 0)
 			return;
 		
+		//System.out.println(angledifference);
+		
+		diminishSpeed(this.turningfriction * angledifference);
+	}
+	
+	private double getAngleDifference()
+	{
+		double angledifference = Math.abs(getAngle() - getDirection());
+		
 		if (angledifference > 180)
 			angledifference = 360 - angledifference;
 		
-		System.out.println(angledifference);
+		return angledifference;
+	}
+	
+	// Makes the car's direction change when the car is turned
+	private void addTurnBoost()
+	{
+		// Calculates the turnboost (a certain amount out of turningfriction)
+		double turnboost = getAngleDifference();
+		// If there's no turning or no speed, doesn't do a thing
+		if (turnboost < 1 || getSpeed() == 0)
+			return;
+		turnboost *= this.turningfriction;
 		
-		diminishSpeed(this.turningfriction * angledifference);
+		turnboost *= this.turnrate;
+		
+		addMotion(getAngle(), turnboost);
 	}
 }

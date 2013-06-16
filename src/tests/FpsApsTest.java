@@ -20,7 +20,7 @@ public class FpsApsTest extends AbstractTest implements Actor, Drawable
 	private boolean visible;
 	private boolean alive;
 	private long lastmillis;
-	private int fps;
+	private int fps, fpsalt;
 	private int aps;
 	private int frames;
 	private int actions;
@@ -52,6 +52,7 @@ public class FpsApsTest extends AbstractTest implements Actor, Drawable
 		this.aps = 0;
 		this.frames = 0;
 		this.actions = 0;
+		this.fpsalt = 0;
 		
 		// Adds the object to the handlers
 		actorhandler.addActor(this);
@@ -111,7 +112,7 @@ public class FpsApsTest extends AbstractTest implements Actor, Drawable
 		
 		// Draws the current fps and aps
 		applet.fill(0);
-		applet.text("FPS: " + this.fps, 100, 100);
+		applet.text("FPS: " + this.fps + " (" + this.fpsalt + ")", 100, 100);
 		applet.text("APS: " + this.aps, 100, 130);
 	}
 
@@ -145,6 +146,7 @@ public class FpsApsTest extends AbstractTest implements Actor, Drawable
 		{
 			this.aps = this.actions;
 			this.fps = this.frames;
+			this.fpsalt = (int) getApplet().frameRate;
 			this.actions = 0;
 			this.frames = 0;
 			this.lastmillis = System.currentTimeMillis();

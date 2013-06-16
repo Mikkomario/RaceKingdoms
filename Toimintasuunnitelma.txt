@@ -6,7 +6,7 @@ Arkkitehtuurimuutokset						(10)			Gandalf
 Piirtäminen / graafinen esittäminen			(10)			DONE
 	* TESTAA												Gandalf, DONE
 User Input									(10)			Unto testaa (DONE)
-	* Nuolinäppäimet
+	* Nuolinäppäimet										...
 	* Slidenäppäin
 	* Ohjusnäppäin
 	* Nitronäppäin

@@ -55,7 +55,7 @@ public class RaceKingdoms extends PApplet
 		
 		// Initializes the handlers
 		//		(step -> mainmouse &  mainkey -> mouse & key -> testmouse & testkey)
-		this.stephandler = new StepHandler(16, this);
+		this.stephandler = new StepHandler(10, this);
 		
 		this.listeneractorhandler = new ActorHandler(false, this.stephandler);
 		this.mainkeyhandler = new MainKeyListenerHandler(this.listeneractorhandler);
@@ -173,11 +173,11 @@ public class RaceKingdoms extends PApplet
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		*/
-		/*
+		
 		new CarTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
-		*/
+		
 		new FpsApsTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
