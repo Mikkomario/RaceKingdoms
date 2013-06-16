@@ -46,9 +46,9 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		
 		// Initializes attributes
 		this.maxdrivespeed = 10;
-		this.turning = 0.1;
-		this.accelration = 1;
-		this.maxturning = 4;
+		this.turning = 0.01;
+		this.accelration = 0.1;
+		this.maxturning = 0.4;
 		this.turningfriction = 0.015;
 		this.turnrate = 0.9;
 		
@@ -69,9 +69,12 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		{
 			// Turns with left / right arrowkey
 			if (keyCode == PConstants.LEFT)
-				turn(getRotationFriction() + this.turning);
+			{
+				System.out.println(calculateTurning());
+				turn(calculateTurning());
+			}
 			else if (keyCode == PConstants.RIGHT)
-				turn(- (getRotationFriction() + this.turning));
+				turn(-calculateTurning());
 			
 			// Goes forward with up arrowkey
 			else if (keyCode == PConstants.UP)
@@ -135,16 +138,16 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		// Adds the turn
 		addRotation(amount);
 		// Checks if the car is rotating too fast and does the necessary repairs
-		if (Math.abs(getRotation()) > Math.abs(this.maxturning))
+		if (Math.abs(getRotation()) > Math.abs(this.maxturning * getSpeed()))
 		{
 			// If the car was already going too fast, doens't increase the turning
-			if (Math.abs(lastrotation) > Math.abs(this.maxturning))
+			if (Math.abs(lastrotation) > Math.abs(this.maxturning * getSpeed()))
 				setRotation(lastrotation);
 			// Otherwise, caps the speed to the max
 			else if (getRotation() > 0)
-				setRotation(this.maxturning);
+				setRotation(this.maxturning * getSpeed());
 			else
-				setRotation(-this.maxturning);
+				setRotation(-this.maxturning * getSpeed());
 		}
 	}
 	
@@ -184,5 +187,10 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		turnboost *= this.turnrate;
 		
 		addMotion(getAngle(), turnboost);
+	}
+	
+	private double calculateTurning()
+	{
+		return getRotationFriction() + this.turning * getSpeed();
 	}
 }
