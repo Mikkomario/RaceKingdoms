@@ -70,7 +70,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			// Turns with left / right arrowkey
 			if (keyCode == PConstants.LEFT)
 			{
-				System.out.println(calculateTurning());
+				//System.out.println(calculateTurning());
 				turn(calculateTurning());
 			}
 			else if (keyCode == PConstants.RIGHT)
@@ -87,7 +87,12 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded)
 	{
-		// Doesn't do anything (yet)
+		// Adds turbo if C was pressed
+		if (!coded)
+		{
+			if (key == 'c')
+				addTurboBoost(10);
+		}
 	}
 
 	@Override
@@ -129,6 +134,12 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		}
 	}
 	
+	private void addTurboBoost(double amount)
+	{
+		// Adds the boost
+		addMotion(getAngle(), amount);
+	}
+	
 	private void turn(double amount)
 	{
 		// TODO: Make turning less effective when the car moves slowly
@@ -153,6 +164,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	private void applyTurningFriction()
 	{
+		// TODO: Logaritminen rengaskitka!
+		
 		// Reduces the object's speed depending on how much the object is turning
 		double angledifference = getAngleDifference();
 		// If there's no difference or no speed, doesn't imply friction
