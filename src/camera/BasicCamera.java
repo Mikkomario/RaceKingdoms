@@ -1,9 +1,12 @@
 package camera;
 
+import listeners.CameraListener;
 import handleds.Drawable;
 import handlers.ActorHandler;
+import handlers.CameraListenerHandler;
 import handlers.DrawableHandler;
 import processing.core.PApplet;
+import racekingdoms.HelpMath;
 import drawnobjects.PhysicDrawnObject;
 
 /**
@@ -17,8 +20,9 @@ public class BasicCamera extends PhysicDrawnObject
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private DrawableHandler followerhandler;
-	// TODO: Create a new class for the followerhandler
+	private CameraDrawer followerhandler;
+	private CameraListenerHandler listenerhandler;
+	private int screenWidth, screenHeight;
 	
 	
 	// CONSTRUCTOR	------------------------------------------------------
@@ -33,14 +37,22 @@ public class BasicCamera extends PhysicDrawnObject
 	 * it shows
 	 * @param actorhandler The actorhandler that informs the camera about 
 	 * the act-event
+	 * @param screenWidth The width of the screen
+	 * @param screenHeight The height of the screen
 	 */
 	public BasicCamera(int x, int y, DrawableHandler drawer,
-			ActorHandler actorhandler)
+			ActorHandler actorhandler, int screenWidth, int screenHeight)
 	{
 		super(x, y, drawer, actorhandler);
 		
 		// Initializes attributes
-		this.followerhandler =  new DrawableHandler(false, null);
+		this.listenerhandler = new CameraListenerHandler(true, null);
+		this.followerhandler =  new CameraDrawer(false, this.listenerhandler);
+		this.screenHeight = screenHeight;
+		this.screenWidth = screenWidth;
+		
+		// Informs the listeners about the camera's position
+		informStatus();
 	}
 	
 	
@@ -61,7 +73,6 @@ public class BasicCamera extends PhysicDrawnObject
 	@Override
 	public void drawSelfBasic(PApplet applet)
 	{
-		// TODO Draw all the objects that the camera should show
 		this.followerhandler.drawSelf(applet);
 	}
 	
@@ -87,6 +98,39 @@ public class BasicCamera extends PhysicDrawnObject
 	}
 	
 	
+	@Override
+	public void setPosition(double x, double y)
+	{
+		// Actually sets the position to the very opposite
+		// (X increases -> X of each of the drawn objects decreases!)
+		super.setPosition(-x, -y);
+		
+		// Also informs the listeners about the change
+		informStatus();
+	}
+	
+	@Override
+	public void setAngle(double angle)
+	{
+		// The objects are, once again, rotated into opposite direction as 
+		// the camera
+		super.setAngle(-angle);
+		
+		informStatus();
+	}
+	
+	@Override
+	public void setScale(double xscale, double yscale)
+	{
+		// Scaling is done in reverse as well (when camera becomes smaller, 
+		// objects become larger)
+		super.setScale(1 / xscale, 1 / yscale);
+		
+		// And informs the listeners
+		informStatus();
+	}
+	
+	
 	// OTHER METHODS	--------------------------------------------------
 	
 	/**
@@ -97,5 +141,26 @@ public class BasicCamera extends PhysicDrawnObject
 	public void addDrawable(Drawable drawable)
 	{
 		this.followerhandler.addDrawable(drawable);
+	}
+	
+	/**
+	 * Adds a new cameralistener to the camera
+	 *
+	 * @param listener The new cameralistener
+	 */
+	public void addCameraListener(CameraListener listener)
+	{
+		this.listenerhandler.addListener(listener);
+	}
+	
+	private void informStatus()
+	{
+		// Doesn't inform the "real" values but the more easily understandable 
+		// ones
+		this.listenerhandler.informCameraPosition(
+				(int) -getX(), (int) -getY(), 
+				(int) Math.abs(this.screenWidth * getXscale()), 
+				(int) Math.abs(this.screenHeight * getYscale()), 
+				(int) HelpMath.checkDirection(-getAngle()));
 	}
 }

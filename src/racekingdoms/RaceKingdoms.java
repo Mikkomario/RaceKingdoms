@@ -11,10 +11,6 @@ import handlers.StepHandler;
 import processing.core.PApplet;
 import tests.CarTest;
 import tests.FpsApsTest;
-import tests.GraphicTest;
-import tests.InputTest;
-import tests.MouseTest;
-import tests.SpriteTest;
 
 /**
  * This class starts the program and creates the necessary elements of the game. 

@@ -37,7 +37,6 @@ public abstract class DrawnObject2D implements Drawable
 		// Initializes the attributes
 		this.x = x;
 		this.y = y;
-		
 		this.xscale = 1;
 		this.yscale = 1;
 		this.visible = true;
@@ -165,8 +164,7 @@ public abstract class DrawnObject2D implements Drawable
 	 */
 	public void addAngle(double rotation)
 	{
-		this.angle += rotation;
-		checkAngle();
+		setAngle(getAngle() + rotation);
 	}
 	
 	/**
@@ -217,6 +215,14 @@ public abstract class DrawnObject2D implements Drawable
 	}
 	
 	/**
+	 * @return The position of the object in a point format
+	 */
+	public Point getPosition()
+	{
+		return new Point((int) this.x, (int) this.y);
+	}
+	
+	/**
 	 * 
 	 * Changes the object's position in the game world
 	 *
@@ -237,8 +243,7 @@ public abstract class DrawnObject2D implements Drawable
 	 */
 	public void addPosition(double hspeed, double vspeed)
 	{
-		this.x += hspeed;
-		this.y += vspeed;
+		setPosition(getX() + hspeed, getY() + vspeed);
 	}
 	
 	
@@ -259,8 +264,7 @@ public abstract class DrawnObject2D implements Drawable
 	 */
 	public void scale(double xscale, double yscale)
 	{
-		this.xscale *= xscale;
-		this.yscale *= yscale;
+		setScale(getXscale() * xscale, getYscale() * yscale);
 	}
 	
 	//public abstract boolean pointCollides(int x, int y, int z);

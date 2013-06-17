@@ -113,7 +113,7 @@ public class DrawableHandler extends Handler implements Drawable
 	 * @param index The index of the drawable
 	 * @return The drawable from the index
 	 */
-	protected Drawable getDrawable(int index)
+	private Drawable getDrawable(int index)
 	{
 		Handled maybeDrawable = getHandled(index);
 		if (maybeDrawable instanceof Drawable)
