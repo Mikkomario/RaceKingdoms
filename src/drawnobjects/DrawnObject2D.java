@@ -365,7 +365,7 @@ public abstract class DrawnObject2D implements Drawable
 	 * @param originy The y-coordinate of the transformatio's origin
 	 * @return The point where all of the object's transformations are negated
 	 */
-	protected Point negateTransformations2D(int px, int py, int x, int y, 
+	protected static Point negateTransformations2D(int px, int py, int x, int y, 
 			double xscale, double yscale, int angle, int originx, int originy)
 	{
 		double tempx = px;
@@ -400,6 +400,7 @@ public abstract class DrawnObject2D implements Drawable
 	 */
 	protected Point transform2D(int x, int y)
 	{	
+		/*
 		double tempx = x;
 		double tempy = y;
 		
@@ -421,6 +422,52 @@ public abstract class DrawnObject2D implements Drawable
 		// Origin translate
 		tempx -= getOriginX();
 		tempy -= getOriginY();
+		
+		return new Point((int) tempx, (int) tempy);
+		*/
+		return transform2D(x, y, (int) getX(), (int) getY(), getXscale(), 
+				getYscale(), (int) getAngle(), (int) getOriginX(), 
+				(int) getOriginY());
+	}
+	
+	/**
+	 * Transforms the position depending on the object's current transformation
+	 *
+	 * @param px Position's x-coordinate relative to the object's origin
+	 * @param py Position's y-coordinate relative to the object's origin
+	 * @param x The x-coordinate of the position transformation
+	 * @param y The y-coordinate of the position transformation
+	 * @param xscale The xscale transformation
+	 * @param yscale The yscale transformation
+	 * @param angle The angle transformation
+	 * @param originx The x-coordinate of the origin transformation
+	 * @param originy The y-coordinate of the origin transformation
+	 * @return Absolute position with transformations added
+	 */
+	protected static Point transform2D(int px, int py, int x, int y, double xscale, 
+			double yscale, int angle, int originx, int originy)
+	{	
+		double tempx = px;
+		double tempy = py;
+		
+		// Rotates and translates position
+		int prevDir = HelpMath.pointDirection(0, 0, px, py);
+		int newDir = prevDir + angle;
+		int dist = px + py;
+		tempx = x + HelpMath.lendirX(dist, newDir);
+		tempy = y + HelpMath.lendirY(dist, newDir);
+		
+		// Scales
+		double xdist = tempx - x;
+		double ydist = tempy - y;
+		double newxdist = xdist*xscale;
+		double newydist = ydist*yscale;
+		tempx -= xdist - newxdist;
+		tempy -= ydist - newydist;
+		
+		// Origin translate
+		tempx -= originx;
+		tempy -= originy;
 		
 		return new Point((int) tempx, (int) tempy);
 	}
