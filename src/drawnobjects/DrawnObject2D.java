@@ -313,8 +313,6 @@ public abstract class DrawnObject2D implements Drawable
 	}
 	*/
 	
-	// Transforms the point so that the collision can be checked without
-	// transformations
 	/**
 	 * Transforms the point so that the collision can be checked without
 	// transformations.
@@ -325,6 +323,7 @@ public abstract class DrawnObject2D implements Drawable
 	 */
 	protected Point negateTransformations2D(int x, int y)
 	{
+		/*
 		double tempx = x;
 		double tempy = y;
 		
@@ -344,6 +343,50 @@ public abstract class DrawnObject2D implements Drawable
 		// Origin translate
 		tempx += getOriginX();
 		tempy += getOriginY();
+		
+		return new Point((int) tempx, (int) tempy);
+		*/
+		return negateTransformations2D(x, y, (int) getX(), (int) getY(), 
+				getXscale(), getYscale(), (int) getAngle(), (int) getOriginX(), 
+				(int) getOriginY());
+	}
+	
+	/**
+	 * Transforms the point so that the collision can be checked without
+	// transformations. Uses specific transformations.
+	 * @param x The x-coordinate in the transformed position
+	 * @param y The y-coordinate in the transformed position
+	 * @param px The x-coordinate of the point to be negated
+	 * @param py The y-coordinate of the point to be negated
+	 * @param xscale The x-scale in the transformation
+	 * @param yscale The y-scale in the transformation
+	 * @param angle The angle in the transformation (0-359)
+	 * @param originx The x-coordinate of the transformatio's origin
+	 * @param originy The y-coordinate of the transformatio's origin
+	 * @return The point where all of the object's transformations are negated
+	 */
+	protected Point negateTransformations2D(int px, int py, int x, int y, 
+			double xscale, double yscale, int angle, int originx, int originy)
+	{
+		double tempx = px;
+		double tempy = py;
+		
+		// Rotation
+		int prevDir = HelpMath.pointDirection(x, y, px, py);
+		int newDir = prevDir - angle;
+		int dist = HelpMath.pointDistance(x, y, px, py);
+		tempx = x + HelpMath.lendirX(dist, newDir);
+		tempy = y + HelpMath.lendirY(dist, newDir);
+		// Scaling
+		double xdist = tempx - x;
+		double ydist = tempy - y;
+		double newxdist = xdist*(1/xscale);
+		double newydist = ydist*(1/yscale);
+		tempx -= xdist - newxdist;
+		tempy -= ydist - newydist;
+		// Origin translate
+		tempx += originx;
+		tempy += originy;
 		
 		return new Point((int) tempx, (int) tempy);
 	}
