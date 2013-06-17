@@ -89,6 +89,7 @@ public class CameraDrawer extends DrawnObjectHandler implements CameraListener
 		// Only draws objects that are within the camera's range
 		// TODO: Add more precise checking and test if this is even needed
 		// TODO: Doesn't understand rotation
+		// TODO: Probably should be done with objectCollides -method (which is heavy...)
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
 			DrawnObject2D d = getDrawnObject(i);

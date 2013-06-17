@@ -20,7 +20,7 @@ public class BasicCamera extends PhysicDrawnObject
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private CameraDrawer followerhandler;
+	private DrawableHandler followerhandler;
 	private CameraListenerHandler listenerhandler;
 	private int screenWidth, screenHeight;
 	
@@ -47,7 +47,7 @@ public class BasicCamera extends PhysicDrawnObject
 		
 		// Initializes attributes
 		this.listenerhandler = new CameraListenerHandler(true, null);
-		this.followerhandler =  new CameraDrawer(false, this.listenerhandler);
+		this.followerhandler =  new DrawableHandler(false, null);
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		
