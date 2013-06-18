@@ -39,7 +39,7 @@ public class CameraCarTest extends AbstractTest
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 		
 		// Initializes attributes
-		this.testcamera = new BasicCamera(500, 225, drawer, actorhandler, 1000, 550);
+		this.testcamera = new BasicCamera(-500, -225, drawer, actorhandler, 1000, 550);
 		this.testcar = new Car(500, 225, null, actorhandler, 
 				keylistenerhandler, new CarSpriteBank(applet));
 		
@@ -56,5 +56,6 @@ public class CameraCarTest extends AbstractTest
 		this.testcamera.activate();
 		this.testcamera.setVisible();
 		this.testcamera.addDrawable(this.testcar);
+		this.testcamera.scale(0.5, 0.5);
 	}
 }

@@ -9,6 +9,7 @@ import handlers.MainMouseListenerHandler;
 import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
+import tests.CameraCarTest;
 import tests.CarTest;
 import tests.FpsApsTest;
 
@@ -170,7 +171,7 @@ public class RaceKingdoms extends PApplet
 				this).test();
 		*/
 		
-		new CarTest(this.stephandler, this.drawer, 
+		new CameraCarTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		

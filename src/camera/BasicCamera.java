@@ -97,7 +97,7 @@ public class BasicCamera extends PhysicDrawnObject
 		return (this.followerhandler.setInvisible() && super.setInvisible());
 	}
 	
-	
+	/*
 	@Override
 	public void setPosition(double x, double y)
 	{
@@ -144,7 +144,7 @@ public class BasicCamera extends PhysicDrawnObject
 		super.addAngle(-rotation);
 	}
 	
-	
+	*/
 	// OTHER METHODS	--------------------------------------------------
 	
 	/**

@@ -172,7 +172,8 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 				this.codesReleased.add(code);
 			
 			// Sets the key up (= not down)
-			this.codesDown.remove(this.codesDown.indexOf(code));
+			if(this.codesDown.contains(code))
+				this.codesDown.remove(this.codesDown.indexOf(code));
 		}
 		else
 		{
