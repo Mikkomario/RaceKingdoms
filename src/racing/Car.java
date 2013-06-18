@@ -58,7 +58,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		this.turnrate = 0.9;
 		this.brakepower = 0.04;
 		this.maxreversespeed = 4;
-		this.slidepower = 2;
+		this.slidepower = 0.8;
 		
 		// Initializes some stats
 		setMaxRotation(20);
@@ -188,7 +188,13 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	private void applyTurningFriction()
 	{
-		diminishSpeed(getTurningFriction());
+		// Sliding affects turningfriction
+		double modifier = 1;
+		
+		if (this.sliding)
+			modifier = 1 - this.slidepower;
+		
+		diminishSpeed(modifier * getTurningFriction());
 	}
 	
 	private double getAngleDifference180()
@@ -225,8 +231,10 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			turnboost *= -1;
 		
 		// If the car is sliding, the turnboost is much larger
+		/*
 		if (this.sliding)
 			turnboost *= this.slidepower;
+		*/
 		
 		addMotion(getAngle(), turnboost);
 	}
