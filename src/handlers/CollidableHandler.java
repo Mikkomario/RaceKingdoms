@@ -92,7 +92,13 @@ public class CollidableHandler extends Handler implements Collidable
 	
 	// OTHER METHOD	-----------------------------------------------------
 	
-	private Collidable getCollidable(int index)
+	/**
+	 * Returns a collidable from the list of collidables
+	 *
+	 * @param index The index of the collidable
+	 * @return The collidable from the list (or null)
+	 */
+	protected Collidable getCollidable(int index)
 	{
 		Handled maybecollidable = getHandled(index);
 		// Casts the handled to collidable
