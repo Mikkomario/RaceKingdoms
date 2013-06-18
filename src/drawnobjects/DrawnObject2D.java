@@ -51,8 +51,6 @@ public abstract class DrawnObject2D implements Drawable
 	
 	// ABSTRACT METHODS	---------------------------------------------------
 	
-	// TODO: Add a required method that tells the size(s) of the object
-	
 	/**
 	 * @return The Object's origin's x-translation from the left
 	 */
@@ -70,6 +68,16 @@ public abstract class DrawnObject2D implements Drawable
 	 * @param applet the applet with which the object is drawn
 	 */
 	public abstract void drawSelfBasic(PApplet applet);
+	
+	/**
+	 * @return The width of the object
+	 */
+	public abstract int getWidth();
+	
+	/**
+	 * @return The height of the object
+	 */
+	public abstract int getHeight();
 	
 	
 	// IMPLEMENTED METHODS	-----------------------------------------------
@@ -246,16 +254,6 @@ public abstract class DrawnObject2D implements Drawable
 		setPosition(getX() + hspeed, getY() + vspeed);
 	}
 	
-	/**
-	 * @return The width of the object
-	 */
-	public abstract int getWidth();
-	
-	/**
-	 * @return The height of the object
-	 */
-	public abstract int getHeight();
-	
 	
 	// OTHER METHODS	---------------------------------------------------
 	
@@ -332,7 +330,7 @@ public abstract class DrawnObject2D implements Drawable
 	 * @param y The y-coordinate of the point to be negated
 	 * @return The point where all of the object's transformations are negated
 	 */
-	protected Point negateTransformations(int x, int y)
+	public Point negateTransformations(int x, int y)
 	{
 		/*
 		double tempx = x;

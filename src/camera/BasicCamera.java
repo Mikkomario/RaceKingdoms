@@ -1,5 +1,7 @@
 package camera;
 
+import java.awt.Point;
+
 import listeners.CameraListener;
 import handleds.Drawable;
 import handlers.ActorHandler;
@@ -7,6 +9,7 @@ import handlers.CameraListenerHandler;
 import handlers.DrawableHandler;
 import processing.core.PApplet;
 import racekingdoms.HelpMath;
+import drawnobjects.DrawnObject2D;
 import drawnobjects.PhysicDrawnObject;
 
 /**
@@ -20,7 +23,7 @@ public class BasicCamera extends PhysicDrawnObject
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private DrawableHandler followerhandler;
+	private CameraDrawer followerhandler;
 	private CameraListenerHandler listenerhandler;
 	private int screenWidth, screenHeight;
 	
@@ -47,7 +50,7 @@ public class BasicCamera extends PhysicDrawnObject
 		
 		// Initializes attributes
 		this.listenerhandler = new CameraListenerHandler(true, null);
-		this.followerhandler =  new DrawableHandler(false, null);
+		this.followerhandler =  new CameraDrawer(false, this);
 		this.screenHeight = screenHeight;
 		this.screenWidth = screenWidth;
 		
@@ -74,27 +77,6 @@ public class BasicCamera extends PhysicDrawnObject
 	public void drawSelfBasic(PApplet applet)
 	{
 		this.followerhandler.drawSelf(applet);
-	}
-	
-	@Override
-	public boolean kill()
-	{
-		// Kills the handler as well
-		return (this.followerhandler.kill() && super.kill());
-	}
-	
-	@Override
-	public boolean setVisible()
-	{
-		// Visibility also affects the handler
-		return (this.followerhandler.setVisible() && super.setVisible());
-	}
-
-	@Override
-	public boolean setInvisible()
-	{
-		// Visibility also affects the handler
-		return (this.followerhandler.setInvisible() && super.setInvisible());
 	}
 	
 	@Override
@@ -128,6 +110,34 @@ public class BasicCamera extends PhysicDrawnObject
 	public int getHeight()
 	{
 		return this.screenHeight;
+	}
+	
+	@Override
+	public boolean objectCollides(DrawnObject2D d)
+	{
+		// Negates the transformations for both objects
+		Point negatedPosOther =
+				negateTransformations((int) d.getX(), (int) d.getY(), (int) -getX(), 
+						(int) -getY(), 1 / getXscale(), 1 / getYscale(), (int) -getAngle(), 
+						(int) -getOriginX(), (int) -getOriginY());
+		Point negatedPosThis =
+				d.negateTransformations((int) -getX(), (int) -getY());
+		
+		int widthThis = getWidth();
+		int widthOther = d.getWidth();
+		int heightThis = getHeight();
+		int heightOther = d.getHeight();
+		
+		if (negatedPosOther.x + widthOther < negatedPosThis.x)
+			return false;
+		else if (negatedPosOther.x > negatedPosThis.x + widthThis)
+			return false;
+		else if (negatedPosOther.y + heightOther < negatedPosThis.y)
+			return false;
+		else if (negatedPosOther.y > negatedPosThis.y + heightThis)
+			return false;
+		else
+			return true;
 	}
 	
 	
