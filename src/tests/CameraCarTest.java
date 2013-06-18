@@ -1,6 +1,5 @@
 package tests;
 
-
 import camera.FollowerCamera;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
