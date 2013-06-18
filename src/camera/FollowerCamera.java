@@ -22,8 +22,9 @@ public class FollowerCamera extends BasicCamera{
 	
 	/**
 	 * 
-	 * @param drawerdrawer The drawablehandler that will draw the camera and objects 
-	 * it shows actorhandler The actorhandler that informs the camera about 
+	 * @param drawer The drawablehandler that will draw the camera and objects 
+	 * it shows
+	 * @param actorhandler The actorhandler that informs the camera about 
 	 * the act-event
 	 * @param screenWidth The width of the screen
 	 * @param screenHeight The height of the screen

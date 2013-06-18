@@ -41,4 +41,18 @@ public class TestBox extends DrawnObject2D
 	{
 		applet.rect(0, 0, 100, 100);
 	}
+
+
+	@Override
+	public int getWidth()
+	{
+		return 200;
+	}
+
+
+	@Override
+	public int getHeight()
+	{
+		return 200;
+	}
 }

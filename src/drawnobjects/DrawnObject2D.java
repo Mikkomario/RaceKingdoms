@@ -246,6 +246,16 @@ public abstract class DrawnObject2D implements Drawable
 		setPosition(getX() + hspeed, getY() + vspeed);
 	}
 	
+	/**
+	 * @return The width of the object
+	 */
+	public abstract int getWidth();
+	
+	/**
+	 * @return The height of the object
+	 */
+	public abstract int getHeight();
+	
 	
 	// OTHER METHODS	---------------------------------------------------
 	
@@ -267,38 +277,40 @@ public abstract class DrawnObject2D implements Drawable
 		setScale(getXscale() * xscale, getYscale() * yscale);
 	}
 	
-	//public abstract boolean pointCollides(int x, int y, int z);
-	/*
+	/**
+	 * Checks whether the object collides with the given point
+	 *
+	 * @param x The x-coordinate of the point (absolute)
+	 * @param y The y-coordinate of the point (absolute)
+	 * @return Does the point collide with the object
+	 */
+	public boolean pointCollides(int x, int y)
 	{
 		// Negates the transformation
 		Point negatedPoint = negateTransformations(x, y);
 		
-		if (negatedPoint.x < getX())
-			return false;
-		else if (negatedPoint.x > getX() + getSprite().getWidth())
-			return false;
-		else if (negatedPoint.y < getY())
-			return false;
-		else if (negatedPoint.y > getY() + getSprite().getHeight())
-			return false;
-		else
-			return true;
+		return HelpMath.pointIsInRange(negatedPoint, 0, 
+				getWidth(), 0, getHeight());
 	}
-	*/
 	
-	//public abstract boolean objectCollides(DrawnObject3D d);
-	/*
+	/**
+	 * Checks whether two objects collide
+	 *
+	 * @param d The object to be collided with
+	 * @return Do the objects collide
+	 */
+	public boolean objectCollides(DrawnObject2D d)
 	{
 		// Negates the transformations for both objects
 		Point negatedPosOther =
-				negateTransformations((int) s.getX(), (int) s.getY());
+				negateTransformations((int) d.getX(), (int) d.getY());
 		Point negatedPosThis =
-				s.negateTransformations((int) getX(), (int) getY());
+				d.negateTransformations((int) getX(), (int) getY());
 		
-		int widthThis = getSprite().getWidth();
-		int widthOther = s.getSprite().getWidth();
-		int heightThis = getSprite().getHeight();
-		int heightOther = s.getSprite().getHeight();
+		int widthThis = getWidth();
+		int widthOther = d.getWidth();
+		int heightThis = getHeight();
+		int heightOther = d.getHeight();
 		
 		if (negatedPosOther.x + widthOther < negatedPosThis.x)
 			return false;
@@ -311,7 +323,6 @@ public abstract class DrawnObject2D implements Drawable
 		else
 			return true;
 	}
-	*/
 	
 	/**
 	 * Transforms the point so that the collision can be checked without
@@ -321,7 +332,7 @@ public abstract class DrawnObject2D implements Drawable
 	 * @param y The y-coordinate of the point to be negated
 	 * @return The point where all of the object's transformations are negated
 	 */
-	protected Point negateTransformations2D(int x, int y)
+	protected Point negateTransformations(int x, int y)
 	{
 		/*
 		double tempx = x;
@@ -346,7 +357,7 @@ public abstract class DrawnObject2D implements Drawable
 		
 		return new Point((int) tempx, (int) tempy);
 		*/
-		return negateTransformations2D(x, y, (int) getX(), (int) getY(), 
+		return negateTransformations(x, y, (int) getX(), (int) getY(), 
 				getXscale(), getYscale(), (int) getAngle(), (int) getOriginX(), 
 				(int) getOriginY());
 	}
@@ -365,7 +376,7 @@ public abstract class DrawnObject2D implements Drawable
 	 * @param originy The y-coordinate of the transformatio's origin
 	 * @return The point where all of the object's transformations are negated
 	 */
-	protected static Point negateTransformations2D(int px, int py, int x, int y, 
+	protected static Point negateTransformations(int px, int py, int x, int y, 
 			double xscale, double yscale, int angle, int originx, int originy)
 	{
 		double tempx = px;
@@ -398,7 +409,7 @@ public abstract class DrawnObject2D implements Drawable
 	 * @param y Position's y-coordinate relative to the object's origin
 	 * @return Absolute position with transformations added
 	 */
-	protected Point transform2D(int x, int y)
+	protected Point transform(int x, int y)
 	{	
 		/*
 		double tempx = x;
@@ -425,7 +436,7 @@ public abstract class DrawnObject2D implements Drawable
 		
 		return new Point((int) tempx, (int) tempy);
 		*/
-		return transform2D(x, y, (int) getX(), (int) getY(), getXscale(), 
+		return transform(x, y, (int) getX(), (int) getY(), getXscale(), 
 				getYscale(), (int) getAngle(), (int) getOriginX(), 
 				(int) getOriginY());
 	}
@@ -444,7 +455,7 @@ public abstract class DrawnObject2D implements Drawable
 	 * @param originy The y-coordinate of the origin transformation
 	 * @return Absolute position with transformations added
 	 */
-	protected static Point transform2D(int px, int py, int x, int y, double xscale, 
+	protected static Point transform(int px, int py, int x, int y, double xscale, 
 			double yscale, int angle, int originx, int originy)
 	{	
 		double tempx = px;
