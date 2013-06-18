@@ -14,6 +14,8 @@ public class FollowerCamera extends BasicCamera{
 	//ATTRIBUTES	----------------------------------------------------
 	
 	private PhysicDrawnObject followed;
+	private int minimumspeed;
+	private double zoommodifier;
 
 	
 	//CONSTRUCTOR	---------------------------------------------------
@@ -35,6 +37,8 @@ public class FollowerCamera extends BasicCamera{
 				actorhandler, screenWidth, screenHeight);
 
 		this.followed = followed;
+		this.minimumspeed = 2;
+		this.zoommodifier = 1;
 	}
 	
 	//IMPLEMENTED METHODS	--------------------------------------------
@@ -42,7 +46,20 @@ public class FollowerCamera extends BasicCamera{
 	@Override
 	public void act(){
 		super.act();
-		setPosition(-followed.getX(), -followed.getY());
+		
+		if (this.followed == null)
+			return;
+		
+		// Follows the object
+		setPosition(-this.followed.getX(), -this.followed.getY());
+		
+		// Zooms out
+		double scale = 1;
+		
+		if (this.followed.getSpeed() > this.minimumspeed + 1)
+			scale = 1 / ((1 + Math.log(this.followed.getSpeed() - 
+					this.minimumspeed))* this.zoommodifier);
+		setScale(scale, scale);
 	}
 
 }
