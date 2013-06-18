@@ -1,5 +1,6 @@
 package drawnobjects;
 
+import handleds.Collidable;
 import handleds.Drawable;
 import handlers.DrawableHandler;
 
@@ -14,12 +15,12 @@ import racekingdoms.HelpMath;
  * @author Gandalf.
  *         Created 26.11.2012.
  */
-public abstract class DrawnObject2D implements Drawable
+public abstract class DrawnObject2D implements Drawable, Collidable
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
 	private double xscale, yscale, x, y, angle;
-	private boolean visible, alive;
+	private boolean visible, alive, solid;
 	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
@@ -42,6 +43,7 @@ public abstract class DrawnObject2D implements Drawable
 		this.visible = true;
 		this.alive = true;
 		this.angle = 0;
+		this.solid = true;
 		
 		// Adds the object to the drawer (if possible)
 		if (drawer != null)
@@ -139,6 +141,26 @@ public abstract class DrawnObject2D implements Drawable
 		
 		// Loads the previous transformation
 		applet.popMatrix();
+	}
+	
+	@Override
+	public boolean isSolid()
+	{
+		return this.solid;
+	}
+	
+	@Override
+	public boolean makeSolid()
+	{
+		this.solid = true;
+		return true;
+	}
+		
+	@Override
+	public boolean makeUnsolid()
+	{
+		this.solid = false;
+		return true;
 	}
 	
 	
@@ -297,6 +319,7 @@ public abstract class DrawnObject2D implements Drawable
 	 * @param d The object to be collided with
 	 * @return Do the objects collide
 	 */
+	@Override
 	public boolean objectCollides(DrawnObject2D d)
 	{
 		// Negates the transformations for both objects
