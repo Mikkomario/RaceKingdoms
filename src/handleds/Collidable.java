@@ -16,7 +16,7 @@ public interface Collidable extends Handled
 	 * @param object The object that might collide with the listener
 	 * @return Do the two objects collide
 	 */
-	public boolean objectCollides(DrawnObject2D object);
+	public boolean objectCollides(Collidable object);
 	
 	/**
 	 * @return Can the object be collided with at this time

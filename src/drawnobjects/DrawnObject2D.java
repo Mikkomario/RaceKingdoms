@@ -321,8 +321,16 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 	 * @return Do the objects collide
 	 */
 	@Override
-	public boolean objectCollides(DrawnObject2D d)
+	public boolean objectCollides(Collidable c)
 	{
+		DrawnObject2D d = null;
+		
+		// Only works with drawnobjects currently
+		if (c instanceof DrawnObject2D)
+			d = (DrawnObject2D) c;
+		else
+			return false;
+		
 		// Negates the transformations for both objects
 		Point negatedPosOther =
 				negateTransformations((int) d.getX(), (int) d.getY());
