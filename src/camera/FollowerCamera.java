@@ -28,12 +28,10 @@ public class FollowerCamera extends BasicCamera {
 	 *            The drawablehandler that will draw the camera and objects it
 	 *            shows actorhandler The actorhandler that informs the camera
 	 *            about the act-event
-	 * @param screen
-	 *            Width The width of the screen
-	 * @param screen
-	 *            Height The height of the screen
-	 * @param followed
-	 *            The followed PhysicDrawnObject e.g. the Car
+	 * @param actorhandler The actorhandler that will inform the camera of the act-event
+	 * @param screenWidth The width of the screen
+	 * @param screenHeight The height of the screen
+	 * @param followed The followed PhysicDrawnObject e.g. the Car
 	 */
 	public FollowerCamera(DrawableHandler drawer, ActorHandler actorhandler,
 			int screenWidth, int screenHeight, PhysicDrawnObject followed) {
