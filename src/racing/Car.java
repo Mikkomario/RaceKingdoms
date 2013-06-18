@@ -20,7 +20,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 	
 	private double maxdrivespeed, acceleration, turning, maxturning;
 	private double turningfriction, turnrate, brakepower, maxreversespeed;
-	private double slidepower, rotfriction, slideturnmodifier;
+	private double slidepower, rotfriction, slideturnmodifier, turbopower; 
+	private double turbospeed;
 	private boolean sliding;
 	
 	
@@ -61,6 +62,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		this.slidepower = 0.7;			// How effective the slide is (0 - 1)
 		this.rotfriction = 0.7;			// How fast the rotation diminishes (>= 0)
 		this.slideturnmodifier = 1;		// How much the slide affects the turning (0 - 1)
+		this.turbopower = 1;			// What is the accelration of the turbos
+		this.turbospeed = 15;			// What is the maximum speed with the turbo
 		
 		// Initializes some stats
 		setMaxRotation(20);				// How much the car can possibly spin (> maxturning)
@@ -97,6 +100,14 @@ public class Car extends SpriteObject implements listeners.KeyListener
 				addCheckedBoost(HelpMath.checkDirection(getAngle() + 180), 
 						getFriction() + this.brakepower, this.maxreversespeed);
 		}
+		else
+		{
+			// If C was pressed, turbos
+			if (key == 'c')
+			{
+				addCheckedBoost(getAngle(), this.turbopower, this.turbospeed);
+			}
+		}
 	}
 
 	@Override
@@ -105,10 +116,12 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		if (!coded)
 		{
 			// Adds turbo if C was pressed
+			/*
 			if (key == 'c')
 				addTurboBoost(10);
-			// Slides around if V was pressed
-			else if (key == 'x')
+			// Slides around if X was pressed
+			else */
+			if (key == 'x')
 			{
 				//System.out.println("Sliding!");
 				this.sliding = true;
@@ -167,11 +180,13 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		}
 	}
 	
+	/*
 	private void addTurboBoost(double amount)
 	{
 		// Adds the boost
 		addMotion(getAngle(), amount);
 	}
+	*/
 	
 	private void turn(double amount)
 	{	
