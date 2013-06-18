@@ -21,6 +21,8 @@ public class FollowerCamera extends BasicCamera {
 	// CONSTRUCTOR ---------------------------------------------------
 
 	/**
+	 * Creates a new follower camera added to the given handlers and starting 
+	 * from the 'followed' object's coordinates
 	 * 
 	 * @param drawer
 	 *            The drawablehandler that will draw the camera and objects it
