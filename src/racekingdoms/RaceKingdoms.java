@@ -10,7 +10,9 @@ import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
 import tests.CameraCarTest;
+import tests.CollisionTest;
 import tests.FpsApsTest;
+import tests.MouseCollisionTest;
 
 /**
  * This class starts the program and creates the necessary elements of the game. 
@@ -168,9 +170,12 @@ public class RaceKingdoms extends PApplet
 		new MouseTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
-		*/
 		
 		new CameraCarTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
+		*/
+		new MouseCollisionTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		
