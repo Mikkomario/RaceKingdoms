@@ -10,7 +10,7 @@ import handleds.LogicalHandled;
  * @author Gandalf.
  *         Created 18.6.2013.
  */
-public interface CollisionListener extends LogicalHandled
+public interface CollisionListener extends LogicalHandled, Collidable
 {
 	/**
 	 * This method is called each time the listening object collides with 

@@ -1,7 +1,5 @@
 package handleds;
 
-import drawnobjects.DrawnObject2D;
-
 /**
  * Collidable objects can collide with each other
  *

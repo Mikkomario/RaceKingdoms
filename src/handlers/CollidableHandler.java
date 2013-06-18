@@ -1,6 +1,5 @@
 package handlers;
 
-import drawnobjects.DrawnObject2D;
 import handleds.Collidable;
 import handleds.Handled;
 
@@ -31,29 +30,55 @@ public class CollidableHandler extends Handler implements Collidable
 	@Override
 	public boolean objectCollides(Collidable object)
 	{
-		// Returns true if the 
+		// Returns true if any of the collidables collides with the object
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (getCollidable(i).objectCollides(object))
+				return true;
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean isSolid()
 	{
-		// TODO Auto-generated method stub.
+		// Handler is solid if any of the objects are solid
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (getCollidable(i).isSolid())
+				return true;
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean makeSolid()
 	{
-		// TODO Auto-generated method stub.
-		return false;
+		boolean returnvalue = true;
+		// Tries to make all of the collidables solid
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (!getCollidable(i).makeSolid())
+				returnvalue = false;
+		}
+		// Returns whether all of the objects were made solid
+		return returnvalue;
 	}
 
 	@Override
 	public boolean makeUnsolid()
 	{
-		// TODO Auto-generated method stub.
-		return false;
+		boolean returnvalue = true;
+		// Tries to make all of the collidables solid
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			if (!getCollidable(i).makeUnsolid())
+				returnvalue = false;
+		}
+		// Returns whether all of the objects were made solid
+		return returnvalue;
 	}
 	
 	@Override
