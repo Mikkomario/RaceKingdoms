@@ -58,7 +58,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		this.turnrate = 0.95;			// How much speed is kept while turning (0 - 1)
 		this.brakepower = 0.04;			// How effectively the car brakes (>= 0)
 		this.maxreversespeed = 4;		// How fast the car can move backwards (> 0)
-		this.slidepower = 0.8;			// How effective the slide is (0 - 1)
+		this.slidepower = 0.7;			// How effective the slide is (0 - 1)
 		this.rotfriction = 0.7;			// How fast the rotation diminishes (>= 0)
 		this.slideturnmodifier = 1;		// How much the slide affects the turning (0 - 1)
 		
@@ -250,11 +250,17 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			turnboost *= this.slidepower;
 		*/
 		
+		// High slidingpower diminishes turnboost
+		if (this.sliding)
+			turnboost *= 1 - this.slidepower;
+		
 		// If the car is sliding, the speed can't become larger than what it was
+		/*
 		if (this.sliding)
 			addCheckedBoost(getAngle(), turnboost, getSpeed());
 		else
-			addMotion(getAngle(), turnboost);
+		*/
+		addMotion(getAngle(), turnboost);
 	}
 	
 	private double calculateTurning()
