@@ -18,9 +18,9 @@ public class Car extends SpriteObject implements listeners.KeyListener
 {	
 	// ATTRIBUTES	-----------------------------------------------------
 	
-	private double maxdrivespeed, accelration, turning, maxturning;
+	private double maxdrivespeed, acceleration, turning, maxturning;
 	private double turningfriction, turnrate, brakepower, maxreversespeed;
-	private double slidepower;
+	private double slidepower, rotfriction, slideturnmodifier;
 	private boolean sliding;
 	
 	
@@ -50,21 +50,23 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		// Initializes attributes
 		this.sliding = false;
 		
-		this.maxdrivespeed = 10;
-		this.turning = 0.01;
-		this.accelration = 0.05;
-		this.maxturning = 0.4;
-		this.turningfriction = 0.03;
-		this.turnrate = 0.95;
-		this.brakepower = 0.04;
-		this.maxreversespeed = 4;
-		this.slidepower = 0.8;
+		this.maxdrivespeed = 10;		// How fast the car can drive (> 0)
+		this.turning = 0.01;			// How fast the car changes its direction (> 0)
+		this.acceleration = 0.05;		// How fast the car starts moving (> 0)
+		this.maxturning = 0.4;			// How much the car can turn (> 0)
+		this.turningfriction = 0.03;	// How much turning affects the car's movement (>= 0)
+		this.turnrate = 0.95;			// How much speed is kept while turning (0 - 1)
+		this.brakepower = 0.04;			// How effectively the car brakes (>= 0)
+		this.maxreversespeed = 4;		// How fast the car can move backwards (> 0)
+		this.slidepower = 0.8;			// How effective the slide is (0 - 1)
+		this.rotfriction = 0.7;			// How fast the rotation diminishes (>= 0)
+		this.slideturnmodifier = 1;		// How much the slide affects the turning (0 - 1)
 		
 		// Initializes some stats
-		setMaxRotation(20);
-		setMaxSpeed(25);
-		setFriction(0.05);
-		setRotationFriction(0.7);
+		setMaxRotation(20);				// How much the car can possibly spin (> maxturning)
+		setMaxSpeed(25);				// How fast the car can possibly go (> maxdrivespeed)
+		setFriction(0.05);				// How much speed diminishes over time
+		setRotationFriction(this.rotfriction);
 	}
 	
 	
@@ -87,7 +89,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			// Goes forward with up arrowkey
 			else if (keyCode == PConstants.UP)
 			{
-				addCheckedBoost(getAngle(), getFriction() + this.accelration, 
+				addCheckedBoost(getAngle(), getFriction() + this.acceleration, 
 						this.maxdrivespeed);
 			}
 			// Goes backwards with bottomkey
@@ -110,6 +112,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			{
 				//System.out.println("Sliding!");
 				this.sliding = true;
+				// Also negates some of the rotationfriction
+				setRotationFriction(this.rotfriction * (1 - this.slidepower));
 			}
 		}
 	}
@@ -121,7 +125,10 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		{
 			// If V was released, sstops sliding
 			if (key == 'x')
+			{
 				this.sliding = false;
+				setRotationFriction(this.rotfriction);
+			}
 		}
 	}
 	
@@ -172,11 +179,18 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		double lastrotation = getRotation();
 		// Adds the turn
 		addRotation(amount);
+		
+		double maxturn = Math.abs(this.maxturning * getSpeed());
+		
+		// Sliding affects the maxrotation (makes turning easier)
+		if (this.sliding)
+			maxturn *= 1  + this.slidepower * this.slideturnmodifier;
+		
 		// Checks if the car is rotating too fast and does the necessary repairs
-		if (Math.abs(getRotation()) > Math.abs(this.maxturning * getSpeed()))
+		if (Math.abs(getRotation()) > maxturn)
 		{
 			// If the car was already going too fast, doens't increase the turning
-			if (Math.abs(lastrotation) > Math.abs(this.maxturning * getSpeed()))
+			if (Math.abs(lastrotation) > maxturn)
 				setRotation(lastrotation);
 			// Otherwise, caps the speed to the max
 			else if (getRotation() > 0)

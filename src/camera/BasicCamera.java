@@ -130,6 +130,8 @@ public class BasicCamera extends PhysicDrawnObject
 		informStatus();
 	}
 	
+	//public void addPosition(double hspeed, double vspeed)
+	
 	
 	// OTHER METHODS	--------------------------------------------------
 	
