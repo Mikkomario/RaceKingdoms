@@ -5,10 +5,7 @@ import graphic.SpriteBank;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 
-import java.awt.Point;
-
 import processing.core.PApplet;
-import racekingdoms.HelpMath;
 
 /**
  * This class represents a creature or object in the game world that is drawn
@@ -167,57 +164,6 @@ public class SpriteObject extends PhysicDrawnObject
 	
 	// OTHER METHODS	---------------------------------------------------
 	
-	/**
-	 * 
-	 * This method checks whether a certain point would collide with the 
-	 * object
-	 *
-	 * @param x The ingame x-coordinate of the point
-	 * @param y The ingame y-coordinate of the point
-	 * @return Is the point above the object's sprite
-	 */
-	public boolean pointCollides(int x, int y)
-	{
-		// Negates the transformation
-		Point negatedPoint = negateTransformations2D(x, y);
-		return HelpMath.pointIsInRange(negatedPoint, (int) getX(), 
-				(int) getX() + getSprite().getWidth(), (int) getY(), 
-				(int) getY() + getSprite().getHeight());
-	}
-	
-	/**
-	 * 
-	 * Checks wheter this spriteobject collides with another spriteobject. 
-	 * This method is quite heavy so it's not adviced to be used too often.
-	 *
-	 * @param s The spriteobject that might be colliding with this object
-	 * @return Are the objects overlapping each other
-	 */
-	public boolean objectCollides(SpriteObject s)
-	{
-		// Negates the transformations for both objects
-		Point negatedPosOther =
-				negateTransformations2D((int) s.getX(), (int) s.getY());
-		Point negatedPosThis =
-				s.negateTransformations2D((int) getX(), (int) getY());
-		
-		int widthThis = getSprite().getWidth();
-		int widthOther = s.getSprite().getWidth();
-		int heightThis = getSprite().getHeight();
-		int heightOther = s.getSprite().getHeight();
-		
-		if (negatedPosOther.x + widthOther < negatedPosThis.x)
-			return false;
-		else if (negatedPosOther.x > negatedPosThis.x + widthThis)
-			return false;
-		else if (negatedPosOther.y + heightOther < negatedPosThis.y)
-			return false;
-		else if (negatedPosOther.y > negatedPosThis.y + heightThis)
-			return false;
-		else
-			return true;
-	}
-	
 	// Handles the change of the image index
 	private void animate()
 	{
@@ -226,5 +172,17 @@ public class SpriteObject extends PhysicDrawnObject
 		
 		if (this.imageIndex < 0)
 			this.imageIndex += getSprite().getImageNumber();
+	}
+
+	@Override
+	public int getWidth()
+	{
+		return getSprite().getWidth();
+	}
+
+	@Override
+	public int getHeight()
+	{
+		return getSprite().getWidth();
 	}
 }

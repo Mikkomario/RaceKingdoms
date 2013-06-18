@@ -118,6 +118,18 @@ public class BasicCamera extends PhysicDrawnObject
 		applet.popMatrix();
 	}
 	
+	@Override
+	public int getWidth()
+	{
+		return this.screenWidth;
+	}
+
+	@Override
+	public int getHeight()
+	{
+		return this.screenHeight;
+	}
+	
 	
 	// OTHER METHODS	--------------------------------------------------
 	
@@ -146,9 +158,9 @@ public class BasicCamera extends PhysicDrawnObject
 		// Doesn't inform the "real" values but the more easily understandable 
 		// ones
 		this.listenerhandler.informCameraPosition(
-				(int) -getX(), (int) -getY(), 
+				(int) getX(), (int) getY(), 
 				(int) Math.abs(this.screenWidth * getXscale()), 
 				(int) Math.abs(this.screenHeight * getYscale()), 
-				(int) HelpMath.checkDirection(-getAngle()));
+				(int) HelpMath.checkDirection(getAngle()));
 	}
 }
