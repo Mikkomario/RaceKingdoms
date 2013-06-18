@@ -54,8 +54,8 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		this.turning = 0.01;
 		this.accelration = 0.05;
 		this.maxturning = 0.4;
-		this.turningfriction = 0.05;
-		this.turnrate = 0.9;
+		this.turningfriction = 0.03;
+		this.turnrate = 0.95;
 		this.brakepower = 0.04;
 		this.maxreversespeed = 4;
 		this.slidepower = 0.8;
@@ -63,7 +63,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 		// Initializes some stats
 		setMaxRotation(20);
 		setMaxSpeed(25);
-		setFriction(0.1);
+		setFriction(0.05);
 		setRotationFriction(0.7);
 	}
 	
