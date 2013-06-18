@@ -18,7 +18,7 @@ public class TestBox extends DrawnObject2D
 	 */
 	public TestBox(DrawableHandler drawer)
 	{
-		super(200, 200, drawer);
+		super(300, 300, drawer);
 	}
 	
 	

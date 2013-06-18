@@ -307,6 +307,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 	public boolean pointCollides(int x, int y)
 	{
 		// Negates the transformation
+		//TODO: negateTransformations doesn't work! Fic it
 		Point negatedPoint = negateTransformations(x, y);
 		
 		return HelpMath.pointIsInRange(negatedPoint, 0, 
