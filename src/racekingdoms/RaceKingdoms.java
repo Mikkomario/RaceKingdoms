@@ -10,7 +10,6 @@ import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
 import tests.CameraCarTest;
-import tests.CarTest;
 import tests.FpsApsTest;
 
 /**

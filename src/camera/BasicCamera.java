@@ -61,13 +61,13 @@ public class BasicCamera extends PhysicDrawnObject
 	@Override
 	public double getOriginX()
 	{
-		return 0;
+		return -this.screenWidth / 2;
 	}
 
 	@Override
 	public double getOriginY()
 	{
-		return 0;
+		return -this.screenHeight / 2;
 	}
 
 	@Override
@@ -97,54 +97,28 @@ public class BasicCamera extends PhysicDrawnObject
 		return (this.followerhandler.setInvisible() && super.setInvisible());
 	}
 	
-	/*
 	@Override
-	public void setPosition(double x, double y)
+	public void drawSelf(PApplet applet)
 	{
-		// Actually sets the position to the very opposite
-		// (X increases -> X of each of the drawn objects decreases!)
-		super.setPosition(-x, -y);
+		applet.pushMatrix();
 		
-		// Also informs the listeners about the change
-		informStatus();
-	}
-	
-	@Override
-	public void setAngle(double angle)
-	{
-		// The objects are, once again, rotated into opposite direction as 
-		// the camera
-		super.setAngle(-angle);
+		// and translates the origin to the right position
+		applet.translate((float) -getOriginX(), (float) -getOriginY());
+		// scales it depending on it's xscale and yscale
+		applet.scale((float) (getXscale()), (float) (getYscale()));
+		// rotates it depending on its angle
+		applet.rotate((float) Math.toRadians((360 - getAngle())));
+		// Translates the sprite to the object's position
+		applet.translate((float) getX(), (float) getY());
 		
-		informStatus();
-	}
-	
-	@Override
-	public void setScale(double xscale, double yscale)
-	{
-		// Scaling is done in reverse as well (when camera becomes smaller, 
-		// objects become larger)
-		super.setScale(1 / xscale, 1 / yscale);
+		// Finally draws the object
+		drawSelfBasic(applet);
 		
-		// And informs the listeners
-		informStatus();
+		// Loads the previous transformation
+		applet.popMatrix();
 	}
 	
-	@Override
-	public void addPosition(double hspeed, double vspeed)
-	{
-		// Speed is considered the opposite
-		super.addPosition(-hspeed, -vspeed);
-	}
 	
-	@Override
-	public void addAngle(double rotation)
-	{
-		// Rotation is added as negated
-		super.addAngle(-rotation);
-	}
-	
-	*/
 	// OTHER METHODS	--------------------------------------------------
 	
 	/**

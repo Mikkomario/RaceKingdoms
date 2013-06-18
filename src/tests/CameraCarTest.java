@@ -56,6 +56,7 @@ public class CameraCarTest extends AbstractTest
 		this.testcamera.activate();
 		this.testcamera.setVisible();
 		this.testcamera.addDrawable(this.testcar);
-		this.testcamera.scale(0.5, 0.5);
+		this.testcamera.scale(2, 2);
+		this.testcamera.setAngle(45);
 	}
 }
