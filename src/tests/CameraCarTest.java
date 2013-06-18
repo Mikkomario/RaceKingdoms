@@ -1,6 +1,7 @@
 package tests;
 
 import camera.BasicCamera;
+import camera.FollowerCamera;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import processing.core.PApplet;
@@ -18,7 +19,7 @@ public class CameraCarTest extends AbstractTest
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private Car testcar;
-	private BasicCamera testcamera;
+	private FollowerCamera testcamera;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -39,9 +40,9 @@ public class CameraCarTest extends AbstractTest
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 		
 		// Initializes attributes
-		this.testcamera = new BasicCamera(-500, -225, drawer, actorhandler, 1000, 550);
 		this.testcar = new Car(500, 225, null, actorhandler, 
 				keylistenerhandler, new CarSpriteBank(applet));
+		this.testcamera = new FollowerCamera(drawer, actorhandler, 1000, 550, this.testcar);
 		
 		this.testcamera.inActivate();
 		this.testcamera.setInvisible();
@@ -56,7 +57,7 @@ public class CameraCarTest extends AbstractTest
 		this.testcamera.activate();
 		this.testcamera.setVisible();
 		this.testcamera.addDrawable(this.testcar);
-		this.testcamera.scale(2, 2);
-		this.testcamera.setAngle(45);
+		this.testcamera.scale(1, 1);
+		this.testcamera.setAngle(0);
 	}
 }
