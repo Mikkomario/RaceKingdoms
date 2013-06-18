@@ -130,7 +130,19 @@ public class BasicCamera extends PhysicDrawnObject
 		informStatus();
 	}
 	
-	//public void addPosition(double hspeed, double vspeed)
+	@Override
+	public void addPosition(double hspeed, double vspeed)
+	{
+		// Speed is considered the opposite
+		super.addPosition(-hspeed, -vspeed);
+	}
+	
+	@Override
+	public void addAngle(double rotation)
+	{
+		// Rotation is added as negated
+		super.addAngle(-rotation);
+	}
 	
 	
 	// OTHER METHODS	--------------------------------------------------
