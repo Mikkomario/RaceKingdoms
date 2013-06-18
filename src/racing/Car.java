@@ -236,7 +236,11 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			turnboost *= this.slidepower;
 		*/
 		
-		addMotion(getAngle(), turnboost);
+		// If the car is sliding, the speed can't become larger than what it was
+		if (this.sliding)
+			addCheckedBoost(getAngle(), turnboost, getSpeed());
+		else
+			addMotion(getAngle(), turnboost);
 	}
 	
 	private double calculateTurning()
