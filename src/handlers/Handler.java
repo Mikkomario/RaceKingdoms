@@ -123,5 +123,4 @@ public abstract class Handler implements Handled
 		else
 			return null;
 	}
-
 }

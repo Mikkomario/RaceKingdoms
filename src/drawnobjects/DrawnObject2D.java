@@ -412,15 +412,18 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		double tempx = px;
 		double tempy = py;
 		
+		// Position Translate (test this)
+		tempx -= x;
+		tempy -= y;
 		// Rotation
-		int prevDir = HelpMath.pointDirection(x, y, px, py);
-		int newDir = prevDir - angle;
-		int dist = HelpMath.pointDistance(x, y, px, py);
-		tempx = x + HelpMath.lendirX(dist, newDir);
-		tempy = y + HelpMath.lendirY(dist, newDir);
+		double prevDir = HelpMath.pointDirection(0, 0, (int) tempx, (int) tempy);
+		int newDir = (int) HelpMath.checkDirection(prevDir - angle);
+		int dist = HelpMath.pointDistance(0, 0, (int) tempx, (int) tempy);
+		tempx = HelpMath.lendirX(dist, newDir);
+		tempy = HelpMath.lendirY(dist, newDir);
 		// Scaling
-		double xdist = tempx - x;
-		double ydist = tempy - y;
+		double xdist = tempx;
+		double ydist = tempy;
 		double newxdist = xdist*(1/xscale);
 		double newydist = ydist*(1/yscale);
 		tempx -= xdist - newxdist;
@@ -492,8 +495,8 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		double tempy = py;
 		
 		// Rotates and translates position
-		int prevDir = HelpMath.pointDirection(0, 0, px, py);
-		int newDir = prevDir + angle;
+		double prevDir = HelpMath.pointDirection(0, 0, px, py);
+		int newDir = (int) HelpMath.checkDirection(prevDir + angle);
 		int dist = px + py;
 		tempx = x + HelpMath.lendirX(dist, newDir);
 		tempy = y + HelpMath.lendirY(dist, newDir);

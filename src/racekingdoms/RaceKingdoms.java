@@ -9,8 +9,6 @@ import handlers.MainMouseListenerHandler;
 import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import processing.core.PApplet;
-import tests.CameraCarTest;
-import tests.CollisionTest;
 import tests.FpsApsTest;
 import tests.MouseCollisionTest;
 

@@ -1,5 +1,7 @@
 package tests;
 
+import java.awt.Point;
+
 import handlers.DrawableHandler;
 import processing.core.PApplet;
 import drawnobjects.DrawnObject2D;
@@ -46,13 +48,32 @@ public class TestBox extends DrawnObject2D
 	@Override
 	public int getWidth()
 	{
-		return 200;
+		return 100;
 	}
 
 
 	@Override
 	public int getHeight()
 	{
-		return 200;
+		return 100;
+	}
+	
+	
+	// OTHER METHODS	-------------------------------------------------
+	
+	/**
+	 * Prints both the given and transformed arguments
+	 *
+	 * @param x The x to be transformed
+	 * @param y The y to be transformed
+	 */
+	protected void testTransformation(int x, int y)
+	{
+		Point testpoint = negateTransformations(x, y);
+		
+		//System.out.println("X: " + x + ", Y: " + y + ", X2: " + testpoint.x 
+		//		+ ", Y2: " + testpoint.y);
+		
+		System.out.println("DX: " + (x - testpoint.x) + ", DY: " + (y - testpoint.y));
 	}
 }

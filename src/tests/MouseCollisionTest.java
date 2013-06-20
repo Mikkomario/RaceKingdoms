@@ -50,6 +50,9 @@ public class MouseCollisionTest extends AbstractTest implements MouseListener{
 	public void test() {
 		this.activate();
 		this.testbox.setVisible();
+		this.testbox.setPosition(400, 200);
+		this.testbox.setAngle(45);
+		this.testbox.setScale(2, 1);
 	}
 
 
@@ -145,7 +148,7 @@ public class MouseCollisionTest extends AbstractTest implements MouseListener{
 	@Override
 	public void onMouseEnter(int mouseX, int mouseY) {
 		// Does nothing
-		
+		System.out.println("Enter");
 	}
 
 
@@ -159,14 +162,15 @@ public class MouseCollisionTest extends AbstractTest implements MouseListener{
 	@Override
 	public void onMouseExit(int mouseX, int mouseY) {
 		// Does nothing
-		
+		System.out.println("Exit");
 	}
 
 
 	@Override
 	public void onMouseMove(int mouseX, int mouseY) {
-		// Does nothing
-		
+		// Prints the coordinate data
+		//this.testbox.testTransformation(mouseX, mouseY);
+		//System.out.println(HelpMath.pointDirection((int) this.testbox.getX(), (int) this.testbox.getY(), mouseX, mouseY));
 	}
 
 }

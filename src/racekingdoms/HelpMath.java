@@ -20,11 +20,11 @@ public class HelpMath
 	 * @param y2 the second point's y coordinate
 	 * @return the direction from point 1 to point 2 in degrees
 	 */
-	public static int pointDirection(int x1, int y1, int x2, int y2)
+	public static double pointDirection(int x1, int y1, int x2, int y2)
 	{
 		double xdist = x2 - x1;
 		double ydist = y2 - y1;
-		return (int) (Math.toDegrees(Math.atan2(ydist, xdist)));
+		return checkDirection(-Math.toDegrees(Math.atan2(ydist, xdist)));
 	}
 	
 	/**
@@ -37,7 +37,7 @@ public class HelpMath
 	 * @param y2 the second point's y coordinate
 	 * @return the direction from point 1 to point 2 in degrees around the x-axis
 	 * **/
-	public static int pointXDirection(int z1, int y1, int z2, int y2)
+	public static double pointXDirection(int z1, int y1, int z2, int y2)
 	{
 		return HelpMath.pointDirection(z1, y1, z2, y2);
 	}
@@ -52,7 +52,7 @@ public class HelpMath
 	 * @param z2 the second point's x coordinate
 	 * @return the direction from point 1 to point 2 in degrees around the y-axis
 	**/
-	public static int PointYDirection(int x1, int z1, int x2, int z2)
+	public static double PointYDirection(int x1, int z1, int x2, int z2)
 	{
 		return HelpMath.pointDirection(x1, z1, x2, z2);
 	}
@@ -67,7 +67,7 @@ public class HelpMath
 	 * @param y2 the second point's y coordinate
 	 * @return the direction from point 1 to point 2 in degrees around z-axis
 	**/
-	public static int PointZDirection(int x1, int y1, int x2, int y2)
+	public static double PointZDirection(int x1, int y1, int x2, int y2)
 	{
 		return HelpMath.pointDirection(x1, y1, x2, y2);
 	}
