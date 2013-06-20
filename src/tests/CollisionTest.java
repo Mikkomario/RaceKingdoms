@@ -42,7 +42,7 @@ public class CollisionTest extends AbstractTest implements Actor{
 		this.active = false;
 		this.alive = true;
 		
-		this.testcar = new Car(500, 225, drawer, actorhandler, 
+		this.testcar = new Car(700, 500, drawer, actorhandler, 
 				keylistenerhandler, new CarSpriteBank(applet));
 		this.testbox = new TestBox(drawer);
 		
@@ -68,6 +68,11 @@ public class CollisionTest extends AbstractTest implements Actor{
 	
 	@Override
 	public void act(){
+		/*
+		if (this.testbox.pointCollides((int) this.testcar.getX(), (int) this.testcar.getY()))
+			System.out.println("boxOrigin collides");
+		*/
+
 		if(this.testcar.objectCollides(this.testbox))
 			System.out.println("Collision detected!");
 	}

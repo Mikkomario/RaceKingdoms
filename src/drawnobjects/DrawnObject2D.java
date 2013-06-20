@@ -342,16 +342,18 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		int heightThis = getHeight();
 		int heightOther = d.getHeight();
 		
+		//System.out.println(negatedPosThis + "; " + negatedPosOther);
+		
 		if (negatedPosOther.x + widthOther < negatedPosThis.x)
 			return false;
-		else if (negatedPosOther.x > negatedPosThis.x + widthThis)
+		if (negatedPosOther.x > negatedPosThis.x + widthThis)
 			return false;
-		else if (negatedPosOther.y + heightOther < negatedPosThis.y)
+		if (negatedPosOther.y + heightOther < negatedPosThis.y)
 			return false;
-		else if (negatedPosOther.y > negatedPosThis.y + heightThis)
+		if (negatedPosOther.y > negatedPosThis.y + heightThis)
 			return false;
-		else
-			return true;
+		
+		return true;
 	}
 	
 	/**
@@ -412,15 +414,21 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		double tempx = px;
 		double tempy = py;
 		
+		//System.out.println(tempy);
+		
 		// Position Translate (test this)
 		tempx -= x;
 		tempy -= y;
+		
 		// Rotation
 		double prevDir = HelpMath.pointDirection(0, 0, (int) tempx, (int) tempy);
 		int newDir = (int) HelpMath.checkDirection(prevDir - angle);
 		int dist = HelpMath.pointDistance(0, 0, (int) tempx, (int) tempy);
 		tempx = HelpMath.lendirX(dist, newDir);
 		tempy = HelpMath.lendirY(dist, newDir);
+		
+		// TODO: Angle messes up the signs
+		
 		// Scaling
 		double xdist = tempx;
 		double ydist = tempy;
@@ -428,6 +436,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		double newydist = ydist*(1/yscale);
 		tempx -= xdist - newxdist;
 		tempy -= ydist - newydist;
+		
 		// Origin translate
 		tempx += originx;
 		tempy += originy;
