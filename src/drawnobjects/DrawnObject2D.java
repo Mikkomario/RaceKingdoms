@@ -6,6 +6,8 @@ import handlers.DrawableHandler;
 
 import java.awt.Point;
 
+import listeners.CollisionListener;
+
 import processing.core.PApplet;
 import racekingdoms.HelpMath;
 
@@ -15,19 +17,21 @@ import racekingdoms.HelpMath;
  * @author Gandalf.
  *         Created 26.11.2012.
  */
-public abstract class DrawnObject2D implements Drawable, Collidable
+public abstract class DrawnObject2D implements Drawable, Collidable, CollisionListener
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
 	private double xscale, yscale, x, y, angle;
 	private boolean visible, alive, solid;
+	private Point[] relativecollisionpoints;
+	private boolean active;
 	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
 	
 	/**
-	 * 
-	 * Creates a new drawnobject with the given position
+	 * Creates a new drawnobject with the given position. The object is 
+	 * solid and active upon creation
 	 *
 	 * @param x The new x-coordinate of the object (Game world Pxl)
 	 * @param y The new y-coordinate of the object (Game world Pxl)
@@ -44,6 +48,8 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		this.alive = true;
 		this.angle = 0;
 		this.solid = true;
+		this.active = true;
+		initializeCollisionPoints(1, 1);
 		
 		// Adds the object to the drawer (if possible)
 		if (drawer != null)
@@ -90,13 +96,31 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		return this.visible;
 	}
 
+	@Override
+	public boolean isActive()
+	{
+		return this.active;
+	}
+	
+	@Override
+	public boolean inActivate()
+	{
+		this.active = false;
+		return true;
+	}
+	
+	@Override
+	public boolean activate()
+	{
+		this.active = true;
+		return true;
+	}
 
 	@Override
 	public boolean isDead()
 	{
 		return !this.alive;
 	}
-
 
 	@Override
 	public boolean kill()
@@ -106,14 +130,12 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		return true;
 	}
 
-
 	@Override
 	public boolean setVisible()
 	{
 		this.visible = true;
 		return true;
 	}
-
 
 	@Override
 	public boolean setInvisible()
@@ -161,6 +183,41 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 	{
 		this.solid = false;
 		return true;
+	}
+	
+	@Override
+	public Collidable pointCollides(int x, int y)
+	{
+		// Negates the transformation
+		Point negatedPoint = negateTransformations(x, y);
+		
+		// Returns the object if it collides with the point
+		if (HelpMath.pointIsInRange(negatedPoint, 0, 
+				getWidth(), 0, getHeight()))
+			return this;
+		else
+			return null;
+	}
+	
+	@Override
+	public Point[] getCollisionPoints()
+	{
+		Point[] relativepoints = getRelativeCollisionPoints();
+		
+		// if relativepoints don't exist, returns an empty table
+		if (relativepoints == null)
+			return new Point[0];
+		
+		Point[] newpoints = new Point[relativepoints.length];
+		
+		// Transforms each of the points and adds them to the new table
+		for (int i = 0; i < relativepoints.length; i++)
+		{
+			newpoints[i] = transform(relativepoints[i].x, 
+					relativepoints[i].x);
+		}
+		
+		return newpoints;
 	}
 	
 	
@@ -276,6 +333,50 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		setPosition(getX() + hspeed, getY() + vspeed);
 	}
 	
+	/**
+	 * @return The relative collision coordinates from which the collisions 
+	 * are checked
+	 */
+	protected Point[] getRelativeCollisionPoints()
+	{
+		return this.relativecollisionpoints;
+	}
+	
+	/**
+	 * Changes the object's list of collisionpoints
+	 *
+	 * @param collisionpoints The new set of relative collisionpoints. Use 
+	 * null if you wan't no collision points.
+	 */
+	protected void setRelativeCollisionPoints(Point[] collisionpoints)
+	{
+		if (collisionpoints != null)
+			this.relativecollisionpoints = collisionpoints;
+		else
+			this.relativecollisionpoints = new Point[0];
+	}
+	
+	/**
+	 * Changes how precisely the object checks collisions. More precision means 
+	 * slower checking and more precise results. Large and scaled objects should 
+	 * have higher precisions than small objects.
+	 *
+	 * @param edgeprecision How precise is the collision checking on the edges 
+	 * of the object? 0 means no collision checking on edges, 1 means only corners 
+	 * and 2+ adds more (4*edgeprecision) collisionpoints to the edges.
+	 * @param insideprecision How precise is the collision checking inside the 
+	 * object? 0 means no collision checking inside the object, 1 means only 
+	 * the center of the object is checked and 2+ means alot more 
+	 * (insideprecision^2) collisionpoints inside the object.
+	 */
+	protected void setCollisionPrecision(int edgeprecision, int insideprecision)
+	{
+		// Doesn't work with negative values
+		if (edgeprecision < 0 || insideprecision < 0)
+			return;
+		
+		initializeCollisionPoints(edgeprecision, insideprecision);
+	}
 	
 	// OTHER METHODS	---------------------------------------------------
 	
@@ -297,30 +398,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		setScale(getXscale() * xscale, getYscale() * yscale);
 	}
 	
-	/**
-	 * Checks whether the object collides with the given point
-	 *
-	 * @param x The x-coordinate of the point (absolute)
-	 * @param y The y-coordinate of the point (absolute)
-	 * @return Does the point collide with the object
-	 */
-	public boolean pointCollides(int x, int y)
-	{
-		// Negates the transformation
-		//TODO: negateTransformations doesn't work! Fic it
-		Point negatedPoint = negateTransformations(x, y);
-		
-		return HelpMath.pointIsInRange(negatedPoint, 0, 
-				getWidth(), 0, getHeight());
-	}
-	
-	/**
-	 * Checks whether two objects collide
-	 *
-	 * @param d The object to be collided with
-	 * @return Do the objects collide
-	 */
-	@Override
+	/*
 	public boolean objectCollides(Collidable c)
 	{
 		DrawnObject2D d = null;
@@ -355,6 +433,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		
 		return true;
 	}
+	*/
 	
 	/**
 	 * Transforms the point so that the collision can be checked without
@@ -426,8 +505,6 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		int dist = HelpMath.pointDistance(0, 0, (int) tempx, (int) tempy);
 		tempx = HelpMath.lendirX(dist, newDir);
 		tempy = HelpMath.lendirY(dist, newDir);
-		
-		// TODO: Angle messes up the signs
 		
 		// Scaling
 		double xdist = tempx;
@@ -523,5 +600,54 @@ public abstract class DrawnObject2D implements Drawable, Collidable
 		tempy -= originy;
 		
 		return new Point((int) tempx, (int) tempy);
+	}
+	
+	private void initializeCollisionPoints(int edgeprecision, int insideprecision)
+	{
+		// edgeprecision 0 -> no sides or corners
+		// insideprecision 0 -> no inside points
+		
+		// Calculates the number of collisionpoints
+		int size = edgeprecision*4 + (int) Math.pow(insideprecision, 2);
+		this.relativecollisionpoints = new Point[size];
+		
+		int index = 0;
+		
+		if (edgeprecision > 0)
+		{
+			// Goes through the edgepoints and adds them to the table
+			for (int ex = 0; ex < edgeprecision + 1; ex++)
+			{
+				for (int ey = 0; ey < edgeprecision + 1; ey++)
+				{
+					// Only adds edges
+					if (ex != 0 && ex != edgeprecision && ey != 0 && ey != edgeprecision)
+						continue;
+					
+					// Adds a point to the table
+					this.relativecollisionpoints[index] = new Point(
+							(int) (ex / (double) edgeprecision)*getWidth(), 
+							(int) (ey / (double) edgeprecision)*getHeight());
+					
+					index++;
+				}
+			}
+		}
+		if (insideprecision > 0)
+		{
+			// Goes through the insidepoints and adds them to the table
+			for (int ix = 1; ix < insideprecision + 1; ix++)
+			{
+				for (int iy = 1; iy < insideprecision + 1; iy++)
+				{	
+					// Adds a point to the table
+					this.relativecollisionpoints[index] = new Point(
+							(int) (ix / (double) (insideprecision + 1))*getWidth(), 
+							(int) (iy / (double) (insideprecision + 1))*getHeight());
+					
+					index++;
+				}
+			}
+		}
 	}
 }

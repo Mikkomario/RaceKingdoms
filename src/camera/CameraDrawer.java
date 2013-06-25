@@ -22,7 +22,7 @@ public class CameraDrawer extends DrawnObjectHandler
 	
 	/**
 	 * Creates a new cameradrawer. The drawer is not added to any handler 
-	 * and must be drawn manually with the drawSelf() -method
+	 * and must be drawn manually with the drawSelf() -method. By default, 
 	 *
 	 * @param autodeath Will the drawer die when it doesn't have anything to 
 	 * draw anymore
@@ -46,13 +46,8 @@ public class CameraDrawer extends DrawnObjectHandler
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
 			DrawnObject2D d = getDrawnObject(i);
-			
-			// Doesn't draw invisible objects
-			if (!d.isVisible())
-				continue;
-			
 			// Only draws object inside the camera's vision
-			if (this.camera.objectCollides(d))
+			if (this.camera.objectShouldBeDrawn(d))
 				d.drawSelf(applet);
 		}
 	}

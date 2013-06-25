@@ -113,7 +113,7 @@ public class BasicCamera extends PhysicDrawnObject
 		return this.screenHeight;
 	}
 	
-	@Override
+	/*
 	public boolean objectCollides(Collidable c)
 	{
 		DrawnObject2D d = null;
@@ -148,6 +148,32 @@ public class BasicCamera extends PhysicDrawnObject
 		else
 			return true;
 	}
+	*/
+	
+	@Override
+	public Collidable pointCollides(int x, int y)
+	{
+		// In cameras, transformations are reversed so they need to be used 
+		// in a different manner (PS: I know it's not DRY)
+		
+		// Negates the transformation
+		Point negatedPoint = negateTransformations(x, y, (int) -getX(), 
+				(int) -getY(), 1 / getXscale(), 1 / getYscale(), 
+				(int) -getAngle(), (int) -getOriginX(), (int) -getOriginY());
+		
+		// Returns the object if it collides with the point
+		if (HelpMath.pointIsInRange(negatedPoint, 0, 
+				getWidth(), 0, getHeight()))
+			return this;
+		else
+			return null;
+	}
+	
+	@Override
+	public void onCollision(Collidable collided)
+	{
+		// Doesn't do anything upon collision
+	}
 	
 	
 	// OTHER METHODS	--------------------------------------------------
@@ -181,5 +207,31 @@ public class BasicCamera extends PhysicDrawnObject
 				(int) Math.abs(this.screenWidth * getXscale()), 
 				(int) Math.abs(this.screenHeight * getYscale()), 
 				(int) HelpMath.checkDirection(getAngle()));
+	}
+	
+	/**
+	 * Tells whether an object should be drawn on the camera or not
+	 *
+	 * @param d The object that may be drawn
+	 * @return Should the object be drawn
+	 */
+	protected boolean objectShouldBeDrawn(DrawnObject2D d)
+	{
+		Point[] collisionpoints = d.getCollisionPoints();
+		
+		// Does NOT check if the object is solid or not! (used for drawing 
+		// so the visible-status is used instead)
+		// Invisible objects are never drawn
+		if (!d.isVisible())
+			return false;
+					
+		// Returns true if any of the collisionpoints collides
+		for (int i = 0; i < collisionpoints.length; i++)
+		{
+			if (pointCollides(collisionpoints[i].x, collisionpoints[i].y) != null)
+				return true;
+		}
+		
+		return false;
 	}
 }

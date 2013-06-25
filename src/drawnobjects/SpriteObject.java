@@ -2,6 +2,7 @@ package drawnobjects;
 
 import graphic.Sprite;
 import graphic.SpriteBank;
+import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 
@@ -14,12 +15,11 @@ import processing.core.PApplet;
  * @author Gandalf.
  *         Created 26.11.2012.
  */
-public class SpriteObject extends PhysicDrawnObject
+public abstract class SpriteObject extends PhysicDrawnObject
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
 	private Sprite sprite;
-	
 	private double imageSpeed, imageIndex;
 	
 	
@@ -98,6 +98,12 @@ public class SpriteObject extends PhysicDrawnObject
 		
 		// The spriteaóbject also handles the animation in the act-event
 		animate();
+	}
+	
+	@Override
+	public void onCollision(Collidable collided)
+	{
+		// Spriteobject's don't react to collisions
 	}
 	
 	

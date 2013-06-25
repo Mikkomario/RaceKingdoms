@@ -9,12 +9,12 @@ package handleds;
 public interface Collidable extends Handled
 {
 	/**
-	 * Checks whether an object is colliding with the listener
-	 *
-	 * @param object The object that might collide with the listener
-	 * @return Do the two objects collide
+	 * Checks whether a point collides with the object
+	 * @param x The x-coordinate of the point
+	 * @param y The y-coordinate of the point
+	 * @return The collidable that collides with the object (null if no object collides)
 	 */
-	public boolean objectCollides(Collidable object);
+	public Collidable pointCollides(int x, int y);
 	
 	/**
 	 * @return Can the object be collided with at this time

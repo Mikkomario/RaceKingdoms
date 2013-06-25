@@ -138,7 +138,7 @@ public class MouseCollisionTest extends AbstractTest implements MouseListener, K
 	@Override
 	public boolean listensPosition(int x, int y) {
 		//Let's see if our given point collides with the testbox
-		return this.testbox.pointCollides(x, y);
+		return (this.testbox.pointCollides(x, y) != null);
 	}
 
 

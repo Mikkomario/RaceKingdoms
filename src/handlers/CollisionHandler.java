@@ -1,5 +1,7 @@
 package handlers;
 
+import java.awt.Point;
+
 import listeners.CollisionListener;
 import handleds.Actor;
 import handleds.Collidable;
@@ -45,19 +47,33 @@ public class CollisionHandler extends LogicalHandler implements Actor
 		// Checks collisions between all the listeners and collidables
 		for (int listenerind = 0; listenerind < getHandledNumber(); listenerind++)
 		{
+			// Remembers the important data about the listener
 			CollisionListener listener = getCollisionListener(listenerind);
+			
+			// Inactive listeners are not counted
+			if (!listener.isActive())
+				continue;
+			
+			Point[] colpoints = listener.getCollisionPoints();
 			
 			for (int colind = 0; colind < this.collidablehandler.getHandledNumber(); colind++)
 			{
+				// Remembers the collidable
 				Collidable c = this.collidablehandler.getCollidable(colind);
 				
 				// Listener cannot collide with itself
 				if (listener.equals(c))
 					continue;
 				
-				// If listener collides with an collidable, informs the listener
-				if (listener.objectCollides(c))
-					listener.onCollision(c);
+				// Checks all points if they would collide
+				for (int pointi = 0; pointi < colpoints.length; pointi++)
+				{
+					Collidable collider = c.pointCollides(colpoints[pointi].x, 
+							colpoints[pointi].y);
+					
+					if (collider != null)
+						listener.onCollision(collider);
+				}
 			}
 		}
 	}
@@ -79,14 +95,10 @@ public class CollisionHandler extends LogicalHandler implements Actor
 	 * Adds a new collisionlistener to the checked listeners
 	 *
 	 * @param c The new collisionlistener
-	 * @param willBeAddedToCollidablesToo Is the listener also added to the checked objects
 	 */
-	public void addCollisionListener(CollisionListener c, boolean willBeAddedToCollidablesToo)
+	public void addCollisionListener(CollisionListener c)
 	{
 		super.addHandled(c);
-		
-		if (willBeAddedToCollidablesToo)
-			this.collidablehandler.addCollidable(c);
 	}
 	
 	/**

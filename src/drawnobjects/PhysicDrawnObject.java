@@ -13,14 +13,10 @@ import handlers.DrawableHandler;
  *         Created 28.11.2012.
  */
 public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
-{
-	
-	// TODO: Test this class
-	
+{	
 	// ATTRIBUTES	------------------------------------------------------
 	
 	private double hspeed, vspeed, rotation, friction, rotFriction, maxspeed, maxrotation;
-	private boolean active;
 	
 	
 	// CONSTRUCTOR	------------------------------------------------------
@@ -46,7 +42,6 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		this.rotFriction = 0;
 		this.maxspeed = -1;
 		this.maxrotation = -1;
-		this.active = true;
 		
 		// Adds the object to the actorhandler if possible
 		if (actorhandler != null)
@@ -57,31 +52,11 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	// IMPLEMENTED METHODS	-----------------------------------------------
 	
 	@Override
-	public boolean isActive()
-	{
-		return this.active;
-	}
-	
-	@Override
 	public void act()
 	{
 		// Handles the movement of the object
 		move();
 		rotate();
-	}
-	
-	@Override
-	public boolean inActivate()
-	{
-		this.active = false;
-		return true;
-	}
-	
-	@Override
-	public boolean activate()
-	{
-		this.active = true;
-		return true;
 	}
 	
 	

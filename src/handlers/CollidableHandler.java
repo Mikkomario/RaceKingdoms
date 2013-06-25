@@ -28,19 +28,6 @@ public class CollidableHandler extends Handler implements Collidable
 	// IMPLEMENTED METHODS	----------------------------------------------
 
 	@Override
-	public boolean objectCollides(Collidable object)
-	{
-		// Returns true if any of the collidables collides with the object
-		for (int i = 0; i < getHandledNumber(); i++)
-		{
-			if (getCollidable(i).objectCollides(object))
-				return true;
-		}
-		
-		return false;
-	}
-
-	@Override
 	public boolean isSolid()
 	{
 		// Handler is solid if any of the objects are solid
@@ -116,5 +103,26 @@ public class CollidableHandler extends Handler implements Collidable
 	public void addCollidable(Collidable c)
 	{
 		addHandled(c);
+	}
+
+	@Override
+	public Collidable pointCollides(int x, int y)
+	{
+		// Returns true if any object collides with the point
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			Collidable c = getCollidable(i);
+			
+			// Non-solid objects can't collide
+			if (!c.isSolid())
+				continue;
+			
+			// Checks the collision
+			Collidable c2 = c.pointCollides(x, y);
+			if (c2 != null)
+				return c2;
+		}
+		
+		return null;
 	}
 }

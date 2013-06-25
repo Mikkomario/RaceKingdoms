@@ -2,6 +2,7 @@ package tests;
 
 import java.awt.Point;
 
+import handleds.Collidable;
 import handlers.DrawableHandler;
 import processing.core.PApplet;
 import drawnobjects.DrawnObject2D;
@@ -75,5 +76,11 @@ public class TestBox extends DrawnObject2D
 		//		+ ", Y2: " + testpoint.y);
 		
 		System.out.println("DX: " + (x - testpoint.x) + ", DY: " + (y - testpoint.y));
+	}
+
+	@Override
+	public void onCollision(Collidable collided)
+	{
+		System.out.println(collided);
 	}
 }

@@ -12,7 +12,8 @@ import racing.CarSpriteBank;
  * @author Unto	18.6.2013
  *
  */
-public class CollisionTest extends AbstractTest implements Actor{
+public class CollisionTest extends AbstractTest implements Actor
+{
 	
 	//ATTRIBUTES	------------------------------------------------------
 	
@@ -67,14 +68,13 @@ public class CollisionTest extends AbstractTest implements Actor{
 	}
 	
 	@Override
-	public void act(){
+	public void act()
+	{
+		// TODO: Overhaul this test to use the new collisionpoint system
 		/*
-		if (this.testbox.pointCollides((int) this.testcar.getX(), (int) this.testcar.getY()))
-			System.out.println("boxOrigin collides");
-		*/
-
 		if(this.testcar.objectCollides(this.testbox))
 			System.out.println("Collision detected!");
+		*/
 	}
 
 
