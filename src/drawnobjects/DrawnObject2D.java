@@ -579,9 +579,10 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 * @param originy The y-coordinate of the origin transformation
 	 * @return Absolute position with transformations added
 	 */
-	protected static Point transform(int px, int py, int x, int y, double xscale, 
+	protected Point transform(int px, int py, int x, int y, double xscale, 
 			double yscale, int angle, int originx, int originy)
 	{	
+		/*
 		double tempx = px;
 		double tempy = py;
 		
@@ -603,6 +604,40 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		// Origin translate
 		tempx -= originx;
 		tempy -= originy;
+		
+		return new Point((int) tempx, (int) tempy);
+		*/
+		
+		double tempx = px;
+		// There's a weird problem with the y-coordinate as it seems to be(come) 
+		// reversed
+		// TODO: Try to repair this in a more elegant manner
+		double tempy = getHeight() - py;
+		
+		// Origin translate
+		tempx -= originx;
+		tempy -= originy;
+		
+		// TODO: Change order so that it makes sense
+		
+		// Scaling
+		double xdist = tempx;
+		double ydist = tempy;
+		double newxdist = xdist*xscale;
+		double newydist = ydist*yscale;
+		tempx -= xdist - newxdist;
+		tempy -= ydist - newydist;
+		
+		// Rotation
+		double prevDir = HelpMath.pointDirection(0, 0, (int) tempx, (int) tempy);
+		int newDir = (int) HelpMath.checkDirection(prevDir - angle);
+		int dist = HelpMath.pointDistance(0, 0, (int) tempx, (int) tempy);
+		tempx = HelpMath.lendirX(dist, newDir);
+		tempy = HelpMath.lendirY(dist, newDir);
+		
+		// Position Translate
+		tempx += x;
+		tempy += y;
 		
 		return new Point((int) tempx, (int) tempy);
 	}
@@ -631,8 +666,8 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 					
 					// Adds a point to the table
 					this.relativecollisionpoints[index] = new Point(
-							(int) (ex / (double) edgeprecision)*getWidth(), 
-							(int) (ey / (double) edgeprecision)*getHeight());
+							(int) (ex / (double) edgeprecision *getWidth()), 
+							(int) (ey / (double) edgeprecision *getHeight()));
 					
 					index++;
 				}
@@ -647,8 +682,8 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 				{	
 					// Adds a point to the table
 					this.relativecollisionpoints[index] = new Point(
-							(int) (ix / (double) (insideprecision + 1))*getWidth(), 
-							(int) (iy / (double) (insideprecision + 1))*getHeight());
+							(int) (ix / (double) (insideprecision + 1) *getWidth()), 
+							(int) (iy / (double) (insideprecision + 1) *getHeight()));
 					
 					index++;
 				}

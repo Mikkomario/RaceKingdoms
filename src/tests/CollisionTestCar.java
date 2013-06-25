@@ -1,5 +1,8 @@
 package tests;
 
+import java.awt.Point;
+
+import processing.core.PApplet;
 import graphic.SpriteBank;
 import handleds.Collidable;
 import handlers.ActorHandler;
@@ -37,6 +40,11 @@ public class CollisionTestCar extends Car
 		
 		// Adds the car to the handler
 		collisionhandler.addCollisionListener(this);
+		
+		for (int i = 0; i < getRelativeCollisionPoints().length; i++)
+		{
+			System.out.println(getRelativeCollisionPoints()[i]);
+		}
 	}
 	
 	
@@ -46,5 +54,46 @@ public class CollisionTestCar extends Car
 	public void onCollision(Collidable collided)
 	{
 		System.out.println("Collides!");
+	}
+	
+	@Override
+	public void drawSelf(PApplet applet)
+	{
+		// Also draws the collisionpoints
+		super.drawSelf(applet);
+		
+		//applet.pushMatrix();
+		applet.fill(255, 0, 0);
+		//applet.scale(3);
+		
+		//Point tran = transform(0, 0);
+		//applet.rect(tran.x, tran.y, 3, 3);
+		//System.out.println(tran);
+		
+		//System.out.println("*******");
+		for (Point p: getCollisionPoints())
+		{
+			applet.rect(p.x, p.y, 5, 5);
+			//System.out.println(p);
+		}
+		
+		
+		//applet.popMatrix();
+		applet.fill(0);
+	}
+	
+	@Override
+	public void onKeyDown(int key, int keyCode, boolean coded)
+	{
+		// Scales the object with W and S
+		super.onKeyDown(key, keyCode, coded);
+		
+		if (!coded)
+		{
+			if (key == 'w')
+				scale(1.1, 1.1);
+			else if (key == 's')
+				scale(0.9, 0.9);
+		}
 	}
 }

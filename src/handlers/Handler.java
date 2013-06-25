@@ -18,6 +18,7 @@ public abstract class Handler implements Handled
 	private ArrayList<Handled> handleds;
 	private boolean autodeath;
 	private boolean killed;
+	private int deathchecks; // How many times death needs to be checkked?
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -36,6 +37,7 @@ public abstract class Handler implements Handled
 		this.autodeath = autodeath;
 		this.killed = false;
 		this.handleds = new ArrayList<Handled>();
+		this.deathchecks = 5;
 		
 		// Tries to add itself to the superhandler
 		if (superhandler != null)
@@ -52,7 +54,18 @@ public abstract class Handler implements Handled
 		removeDeadHandleds();
 		
 		// The handler is dead if it was killed or if autodeath is on and it's empty
-		return (this.killed || (this.autodeath && this.handleds.isEmpty()));
+		if (this.killed)
+			return true;
+		
+		if (this.autodeath && this.handleds.isEmpty())
+		{
+			this.deathchecks--;
+			
+			if (this.deathchecks <= 0)
+				return true;
+		}
+		
+		return false;
 	}
 
 	@Override
