@@ -1,16 +1,18 @@
 package tests;
 
+import listeners.KeyListener;
 import listeners.MouseListener;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 /**Test to see if a mouse can collide with a box.
  * 
  * @author Unto	18.6.2013
  *
  */
-public class MouseCollisionTest extends AbstractTest implements MouseListener{
+public class MouseCollisionTest extends AbstractTest implements MouseListener, KeyListener{
 	
 	//ATTRIBUTES	------------------------------------------------------
 	
@@ -35,6 +37,8 @@ public class MouseCollisionTest extends AbstractTest implements MouseListener{
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 		
 		mouselistenerhandler.addMouseListener(this);
+		keylistenerhandler.addKeyListener(this);
+		
 		this.active = false;
 		this.alive = true;
 		
@@ -171,6 +175,39 @@ public class MouseCollisionTest extends AbstractTest implements MouseListener{
 		// Prints the coordinate data
 		//this.testbox.testTransformation(mouseX, mouseY);
 		//System.out.println(HelpMath.pointDirection((int) this.testbox.getX(), (int) this.testbox.getY(), mouseX, mouseY));
+	}
+
+
+	@Override
+	public void onKeyDown(int key, int keyCode, boolean coded)
+	{
+		if (coded)
+		{
+			// Rotates with left & right
+			if (keyCode == PConstants.LEFT)
+				this.testbox.addAngle(1);
+			else if (keyCode == PConstants.RIGHT)
+				this.testbox.addAngle(-1);
+			// Scales with up & down
+			else if (keyCode == PConstants.UP)
+				this.testbox.scale(1.05, 1.05);
+			else if (keyCode == PConstants.DOWN)
+				this.testbox.scale(0.95, 0.95);
+		}
+	}
+
+
+	@Override
+	public void onKeyPressed(int key, int keyCode, boolean coded)
+	{
+		// Does nothing
+	}
+
+
+	@Override
+	public void onKeyReleased(int key, int keyCode, boolean coded)
+	{
+		// Does nothing
 	}
 
 }
