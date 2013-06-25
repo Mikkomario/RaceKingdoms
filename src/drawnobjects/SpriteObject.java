@@ -22,6 +22,7 @@ public abstract class SpriteObject extends PhysicDrawnObject
 	private Sprite sprite;
 	private double imageSpeed, imageIndex;
 	
+	// TODO: Add a subclass that uses masks for collision detection
 	
 	// CONSTRUCTOR	-------------------------------------------------------
 	

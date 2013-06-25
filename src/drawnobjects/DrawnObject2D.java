@@ -49,7 +49,8 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		this.angle = 0;
 		this.solid = true;
 		this.active = true;
-		initializeCollisionPoints(1, 1);
+		this.relativecollisionpoints = null;
+		//initializeCollisionPoints(1, 1);
 		
 		// Adds the object to the drawer (if possible)
 		if (drawer != null)
@@ -339,6 +340,10 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 */
 	protected Point[] getRelativeCollisionPoints()
 	{
+		// If the collisionpoints have not yet been initialized, initializes them
+		if (this.relativecollisionpoints == null)
+			initializeCollisionPoints(1, 1);
+		
 		return this.relativecollisionpoints;
 	}
 	

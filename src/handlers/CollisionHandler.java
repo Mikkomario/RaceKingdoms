@@ -36,6 +36,8 @@ public class CollisionHandler extends LogicalHandler implements Actor
 		
 		// Initializes attributes
 		this.collidablehandler = new CollidableHandler(false, null);
+		
+		//System.out.println("Created handler");
 	}
 	
 	
@@ -44,6 +46,8 @@ public class CollisionHandler extends LogicalHandler implements Actor
 	@Override
 	public void act()
 	{
+		System.out.println(getHandledNumber() + " / " + this.collidablehandler.getHandledNumber());
+		
 		// Checks collisions between all the listeners and collidables
 		for (int listenerind = 0; listenerind < getHandledNumber(); listenerind++)
 		{

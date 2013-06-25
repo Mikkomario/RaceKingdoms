@@ -1,7 +1,7 @@
 package tests;
 
-import handleds.Actor;
 import handlers.ActorHandler;
+import handlers.CollisionHandler;
 import handlers.DrawableHandler;
 import processing.core.PApplet;
 import racing.Car;
@@ -12,15 +12,14 @@ import racing.CarSpriteBank;
  * @author Unto	18.6.2013
  *
  */
-public class CollisionTest extends AbstractTest implements Actor
+public class CollisionTest extends AbstractTest
 {
 	
 	//ATTRIBUTES	------------------------------------------------------
 	
 	private Car testcar;
 	private TestBox testbox;
-	private boolean active;
-	private boolean alive;
+	private CollisionHandler colhandler;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -39,17 +38,16 @@ public class CollisionTest extends AbstractTest implements Actor
 			handlers.MouseListenerHandler mouselistenerhandler, PApplet applet) {
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 		
-		actorhandler.addActor(this);
-		this.active = false;
-		this.alive = true;
+		this.colhandler = new CollisionHandler(true, actorhandler);
 		
-		this.testcar = new Car(700, 500, drawer, actorhandler, 
-				keylistenerhandler, new CarSpriteBank(applet));
+		this.testcar = new CollisionTestCar(drawer, actorhandler, 
+				keylistenerhandler, new CarSpriteBank(applet), this.colhandler);
 		this.testbox = new TestBox(drawer);
+		this.colhandler.addCollidable(this.testbox);
 		
 		this.testcar.inActivate();
 		this.testcar.setInvisible();
-		
+		this.colhandler.inActivate();
 		this.testbox.setInvisible();
 	}
 	
@@ -59,55 +57,9 @@ public class CollisionTest extends AbstractTest implements Actor
 	@Override
 	public void test() {
 		//Let's activate our participants and make them visible
-		this.activate();
 		this.testcar.activate();
 		this.testcar.setVisible();
 		this.testbox.setVisible();
-		
-		
+		this.colhandler.activate();
 	}
-	
-	@Override
-	public void act()
-	{
-		// TODO: Overhaul this test to use the new collisionpoint system
-		/*
-		if(this.testcar.objectCollides(this.testbox))
-			System.out.println("Collision detected!");
-		*/
-	}
-
-
-	@Override
-	public boolean isActive() {
-		return this.active;
-	}
-
-
-	@Override
-	public boolean activate() {
-		this.active = true;
-		return true;
-	}
-
-
-	@Override
-	public boolean inActivate() {
-		this.active = false;
-		return true;
-	}
-
-
-	@Override
-	public boolean isDead() {
-		return !this.alive;
-	}
-
-
-	@Override
-	public boolean kill() {
-		this.alive = false;
-		return true;
-	}
-
 }
