@@ -1,6 +1,9 @@
 package tests;
 
+import java.awt.Point;
+
 import graphic.Sprite;
+import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import drawnobjects.SpriteObject;
@@ -27,6 +30,12 @@ public class TestSpriteObject extends SpriteObject
 		super(200, 200, sprite, drawer, actorhandler);
 
 		this.setImageSpeed(0.1);
+	}
+
+	@Override
+	public void onCollision(Collidable collided, Point collisionpoint)
+	{
+		// Does nothing
 	}
 
 }

@@ -170,7 +170,7 @@ public class BasicCamera extends PhysicDrawnObject
 	}
 	
 	@Override
-	public void onCollision(Collidable collided)
+	public void onCollision(Collidable collided, Point collisionPoint)
 	{
 		// Doesn't do anything upon collision
 	}

@@ -79,8 +79,8 @@ public class TestBox extends DrawnObject2D
 	}
 
 	@Override
-	public void onCollision(Collidable collided)
+	public void onCollision(Collidable collided, Point collisionpoint)
 	{
-		System.out.println(collided);
+		// Does nothing
 	}
 }

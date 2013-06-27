@@ -25,7 +25,8 @@ public interface CollisionListener extends LogicalHandled
 	 * This method is called each time the listening object collides with 
 	 * an object
 	 *
-	 * @param collided
+	 * @param collided The object the listener collided with
+	 * @param collisionpoint The point in which the collision was recognised
 	 */
-	public void onCollision(Collidable collided);
+	public void onCollision(Collidable collided, Point collisionpoint);
 }

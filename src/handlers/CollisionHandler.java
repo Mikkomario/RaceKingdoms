@@ -72,7 +72,7 @@ public class CollisionHandler extends LogicalHandler implements Actor
 							colpoints[pointi].y);
 					
 					if (collider != null)
-						listener.onCollision(collider);
+						listener.onCollision(collider, colpoints[pointi]);
 				}
 			}
 		}

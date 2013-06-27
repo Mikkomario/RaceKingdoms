@@ -47,7 +47,7 @@ public class CollisionTestCar extends Car
 	// IMPLEMENTED METHODS
 	
 	@Override
-	public void onCollision(Collidable collided)
+	public void onCollision(Collidable collided, Point collisionpoint)
 	{
 		System.out.println("Collides!");
 	}

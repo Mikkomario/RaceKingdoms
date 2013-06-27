@@ -1,8 +1,11 @@
 package racing;
 
+import java.awt.Point;
+
 import processing.core.PConstants;
 import racekingdoms.HelpMath;
 import graphic.SpriteBank;
+import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
@@ -155,6 +158,12 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 		// And the turnboost too
 		addTurnBoost();
 		//System.out.println(getDirection());
+	}
+	
+	@Override
+	public void onCollision(Collidable collided, Point collisionpoint)
+	{
+		// Does nothing
 	}
 	
 	

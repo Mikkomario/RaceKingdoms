@@ -2,7 +2,6 @@ package drawnobjects;
 
 import graphic.Sprite;
 import graphic.SpriteBank;
-import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 
@@ -22,7 +21,6 @@ public abstract class SpriteObject extends PhysicDrawnObject
 	private Sprite sprite;
 	private double imageSpeed, imageIndex;
 	
-	// TODO: Add a subclass that uses masks for collision detection
 	
 	// CONSTRUCTOR	-------------------------------------------------------
 	
@@ -99,12 +97,6 @@ public abstract class SpriteObject extends PhysicDrawnObject
 		
 		// The spriteaóbject also handles the animation in the act-event
 		animate();
-	}
-	
-	@Override
-	public void onCollision(Collidable collided)
-	{
-		// Spriteobject's don't react to collisions
 	}
 	
 	
