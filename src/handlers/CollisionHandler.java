@@ -1,6 +1,7 @@
 package handlers;
 
 import java.awt.Point;
+import java.util.HashMap;
 
 import listeners.CollisionListener;
 import handleds.Actor;
@@ -65,15 +66,23 @@ public class CollisionHandler extends LogicalHandler implements Actor
 				if (listener.equals(c))
 					continue;
 				
+				HashMap<Point, Collidable> collidedpoints = new HashMap<Point, 
+						Collidable>();
+				
 				// Checks all points if they would collide
 				for (int pointi = 0; pointi < colpoints.length; pointi++)
 				{
 					Collidable collider = c.pointCollides(colpoints[pointi].x, 
 							colpoints[pointi].y);
 					
-					if (collider != null)
-						listener.onCollision(collider, colpoints[pointi]);
+					if (collider == null)
+						continue;
+						//System.out.println("Foundcollision");
+					collidedpoints.put(colpoints[pointi], collider);
 				}
+				
+				if (!collidedpoints.isEmpty())
+					listener.onCollision(collidedpoints);
 			}
 		}
 	}

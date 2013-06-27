@@ -1,6 +1,7 @@
 package racing;
 
 import java.awt.Point;
+import java.util.HashMap;
 
 import processing.core.PConstants;
 import racekingdoms.HelpMath;
@@ -161,7 +162,7 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 	}
 	
 	@Override
-	public void onCollision(Collidable collided, Point collisionpoint)
+	public void onCollision(HashMap<Point, Collidable> collisionmap)
 	{
 		// Does nothing
 	}

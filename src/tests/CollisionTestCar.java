@@ -1,6 +1,7 @@
 package tests;
 
 import java.awt.Point;
+import java.util.HashMap;
 
 import processing.core.PApplet;
 import graphic.SpriteBank;
@@ -47,7 +48,7 @@ public class CollisionTestCar extends Car
 	// IMPLEMENTED METHODS
 	
 	@Override
-	public void onCollision(Collidable collided, Point collisionpoint)
+	public void onCollision(HashMap<Point, Collidable> collisionmap)
 	{
 		System.out.println("Collides!");
 	}

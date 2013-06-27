@@ -1,6 +1,7 @@
 package camera;
 
 import java.awt.Point;
+import java.util.HashMap;
 
 import listeners.CameraListener;
 import handleds.Collidable;
@@ -170,7 +171,7 @@ public class BasicCamera extends PhysicDrawnObject
 	}
 	
 	@Override
-	public void onCollision(Collidable collided, Point collisionPoint)
+	public void onCollision(HashMap<Point, Collidable> collisionmap)
 	{
 		// Doesn't do anything upon collision
 	}
