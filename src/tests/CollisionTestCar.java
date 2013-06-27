@@ -40,6 +40,7 @@ public class CollisionTestCar extends Car
 		
 		// Adds the car to the handler
 		collisionhandler.addCollisionListener(this);
+		setSprite(getMask());
 	}
 	
 	

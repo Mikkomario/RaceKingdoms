@@ -46,6 +46,8 @@ public abstract class MaskedSpriteObject extends SpriteObject
 
 		// Initializes attributes
 		this.mask = bank.getSprite(maskname);
+		
+		setCollisionPrecision(1, 2);
 	}
 
 	
@@ -54,8 +56,6 @@ public abstract class MaskedSpriteObject extends SpriteObject
 	@Override
 	protected void setRelativeCollisionPoints(Point[] collisionpoints)
 	{
-		super.setRelativeCollisionPoints(collisionpoints);
-		
 		if (collisionpoints == null)
 			super.setRelativeCollisionPoints(collisionpoints);
 		else
@@ -130,6 +130,7 @@ public abstract class MaskedSpriteObject extends SpriteObject
 	private boolean maskContainsPoint(Point p)
 	{	
 		int c = this.mask.getSubImage(getImageIndex()).get(p.x, p.y);
+		//System.out.println(c == maskcolor);
 		return c == maskcolor;
 	}
 }
