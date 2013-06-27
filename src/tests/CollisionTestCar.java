@@ -40,25 +40,6 @@ public class CollisionTestCar extends Car
 		
 		// Adds the car to the handler
 		collisionhandler.addCollisionListener(this);
-		
-		/*
-		Point[] temp = new Point[1];
-		temp[0] = new Point(0, 0);
-		*/
-		
-		for (int i = 0; i < getRelativeCollisionPoints().length; i++)
-		{
-			System.out.println(getRelativeCollisionPoints()[i]);
-		}
-		
-		
-		/*
-		System.out.println(getWidth());
-		System.out.println(getHeight());
-		*/
-		//setRelativeCollisionPoints(temp);
-		
-		setCollisionPrecision(1, 0);
 	}
 	
 	

@@ -33,6 +33,7 @@ public class CarSpriteBank extends SpriteBank
 	public void createSprites() throws FileNotFoundException
 	{
 		createSprite("images/dragon_head.png", 1, 91, 52, "test");
+		createSprite("images/dragon_head_mask.png", 1, 91, 52, "testcarmask");
 	}
 
 }
