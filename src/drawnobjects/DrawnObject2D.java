@@ -214,8 +214,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		// Transforms each of the points and adds them to the new table
 		for (int i = 0; i < relativepoints.length; i++)
 		{
-			newpoints[i] = transform(relativepoints[i].x, 
-					relativepoints[i].x);
+			newpoints[i] = transform(relativepoints[i].x, relativepoints[i].y);
 		}
 		
 		return newpoints;
@@ -612,7 +611,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		// There's a weird problem with the y-coordinate as it seems to be(come) 
 		// reversed
 		// TODO: Try to repair this in a more elegant manner
-		double tempy = getHeight() - py;
+		double tempy = py;//getHeight() - py;
 		
 		// Origin translate
 		tempx -= originx;
@@ -630,7 +629,9 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		
 		// Rotation
 		double prevDir = HelpMath.pointDirection(0, 0, (int) tempx, (int) tempy);
-		int newDir = (int) HelpMath.checkDirection(prevDir - angle);
+		//System.out.println(prevDir);
+		int newDir = (int) (360 - HelpMath.checkDirection(prevDir + angle));
+		//System.out.println(newDir);
 		int dist = HelpMath.pointDistance(0, 0, (int) tempx, (int) tempy);
 		tempx = HelpMath.lendirX(dist, newDir);
 		tempy = HelpMath.lendirY(dist, newDir);

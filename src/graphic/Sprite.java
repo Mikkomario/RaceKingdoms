@@ -117,6 +117,7 @@ public class Sprite
 	 */
 	public int getHeight()
 	{
+		//System.out.println(this.strip.height);
 		return this.strip.height;
 	}
 	

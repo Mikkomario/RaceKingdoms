@@ -190,6 +190,6 @@ public abstract class SpriteObject extends PhysicDrawnObject
 	@Override
 	public int getHeight()
 	{
-		return getSprite().getWidth();
+		return getSprite().getHeight();
 	}
 }
