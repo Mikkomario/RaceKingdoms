@@ -7,9 +7,9 @@ Piirtäminen / graafinen esittäminen			(10)			DONE
 	* TESTAA												Gandalf, DONE
 User Input									(10)			Unto testaa (DONE)
 	* Nuolinäppäimet										DONE
-	* Slidenäppäin
+	* Slidenäppäin											DONE
 	* Ohjusnäppäin
-	* Nitronäppäin											...
+	* Nitronäppäin											DONE
 Fysiikka (auto)								(10)			Unto testaa
 	* Liikkuminen											Testaa (Alpha)
 	* Voimat ja niiden lisääminen							Testaa (Alpha)
@@ -21,7 +21,7 @@ Fysiikka (auto)								(10)			Unto testaa
 		- Nopeusvektorien suunnan määrittäminen				EI MUUTOKSIA?
 		- Kääntymisen aiheuttama kitka, tms.				DONE...
 Kamera										(10)			Gandalf pohja, Unto toteuttaa
-	* Seuraaminen
+	* Seuraaminen											DONE...
 		- Fixed vai jotain muuta?
 		- Käytä kamerana physicobjectia niin menee hyvin
 	* Zoomaus												Gandalfin Overhaul muista
@@ -29,7 +29,8 @@ Kartan luku									(8)
 	* VAATII SUUNNITTELUA
 	* Luetaan väreistä törmäys
 Törmäys										(9)
--Auto voisi pyörähtää törmätessään. Tähän tarvitaan törmäyspisteen tietoja.
+	* Auto voisi pyörähtää törmätessään. Tähän tarvitaan 
+	törmäyspisteen tietoja.									DONE
 Karttageneraattori							(8)
 	* Tilester tyyppinen ohjelma, jolla maalataan tilejä kuvaan ja samalla tehdään tallennuspikselikuvaa
 	* Solukohtaiset värikoodit vai universaalit?
