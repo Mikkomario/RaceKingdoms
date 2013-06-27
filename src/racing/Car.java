@@ -6,7 +6,7 @@ import graphic.SpriteBank;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
-import drawnobjects.SpriteObject;
+import drawnobjects.MaskedSpriteObject;
 
 /**
  * Car is the playable car that races around the stages
@@ -14,7 +14,7 @@ import drawnobjects.SpriteObject;
  * @author Gandalf.
  *         Created 15.6.2013.
  */
-public class Car extends SpriteObject implements listeners.KeyListener
+public class Car extends MaskedSpriteObject implements listeners.KeyListener
 {	
 	// ATTRIBUTES	-----------------------------------------------------
 	
@@ -42,7 +42,7 @@ public class Car extends SpriteObject implements listeners.KeyListener
 			ActorHandler actorhandler, KeyListenerHandler keyhandler, 
 			SpriteBank carspritebank)
 	{
-		super(x, y, carspritebank.getSprite("test"), drawer, actorhandler);
+		super(x, y, drawer, actorhandler, carspritebank, "test", "testcarmask");
 		
 		// Adds the car to the keyhandler (if possible)
 		if (keyhandler != null)
