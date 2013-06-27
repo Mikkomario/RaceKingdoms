@@ -29,6 +29,7 @@ Kartan luku									(8)
 	* VAATII SUUNNITTELUA
 	* Luetaan väreistä törmäys
 Törmäys										(9)
+-Auto voisi pyörähtää törmätessään. Tähän tarvitaan törmäyspisteen tietoja.
 Karttageneraattori							(8)
 	* Tilester tyyppinen ohjelma, jolla maalataan tilejä kuvaan ja samalla tehdään tallennuspikselikuvaa
 	* Solukohtaiset värikoodit vai universaalit?
