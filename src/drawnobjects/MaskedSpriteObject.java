@@ -87,6 +87,25 @@ public abstract class MaskedSpriteObject extends SpriteObject
 	}
 	
 	
+	// GETTERS & SETTERS	----------------------------------------------
+	
+	/**
+	 * @return The mask used in the spriteobject
+	 */
+	public Sprite getMask()
+	{
+		return this.mask;
+	}
+	
+	/**
+	 * @param newmask Changes the object's mask to a new one
+	 */
+	public void setMask(Sprite newmask)
+	{
+		this.mask = newmask;
+	}
+	
+	
 	// OTHER METHODS	--------------------------------------------------
 	
 	private Point[] getRefinedCollisionPoints(Point[] collisionpoints)
