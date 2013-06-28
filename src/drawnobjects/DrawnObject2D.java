@@ -494,7 +494,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		// TODO: This method doesn't work right (should return -300)
 		tempy = HelpMath.lendirY(dist, newDir);
 		//System.out.println(tempx);
-		System.out.println(tempy);
+		//System.out.println(tempy);
 		
 		// Scaling
 		double xdist = tempx;
@@ -559,7 +559,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		// Rotation
 		double prevDir = HelpMath.pointDirection(0, 0, tempx, tempy);
 		//System.out.println(prevDir);
-		double newDir = 360 - HelpMath.checkDirection(prevDir + angle);
+		double newDir = HelpMath.checkDirection(prevDir + angle);
 		//System.out.println(newDir);
 		double dist = HelpMath.pointDistance(0, 0, tempx, tempy);
 		tempx = HelpMath.lendirX(dist, newDir);

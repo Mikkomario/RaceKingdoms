@@ -31,6 +31,11 @@ Kartan luku									(8)
 Törmäys										(9)
 	* Auto voisi pyörähtää törmätessään. Tähän tarvitaan 
 	törmäyspisteen tietoja.									DONE
+	* Auton kääntäminen tietyn pisteen ympäri:
+		- Käännä autoa origon ympäri
+		- Laske, kuinka paljon piste siirtyi mihkäkin suuntaan
+			* vanha törmäyspiste auton koordinaatistossa - Käännöksen jälkeinen törmäyspiste auton koordinaatistosta
+		- Siirrä autoa saman verran siihen suuntaan (vanha - uusi)
 Karttageneraattori							(8)
 	* Tilester tyyppinen ohjelma, jolla maalataan tilejä kuvaan ja samalla tehdään tallennuspikselikuvaa
 	* Solukohtaiset värikoodit vai universaalit?

@@ -139,7 +139,7 @@ public class HelpMath
 	 */
 	public static double lendirY(double length, double direction)
 	{
-		return Math.sin(Math.toRadians(direction))*length;
+		return -Math.sin(Math.toRadians(direction))*length;
 	}
 	
 	/**
