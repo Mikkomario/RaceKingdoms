@@ -1,7 +1,5 @@
 package drawnobjects;
 
-import java.awt.Point;
-
 import racekingdoms.HelpMath;
 import handleds.Actor;
 import handlers.ActorHandler;
@@ -298,24 +296,6 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 			// Changes the velocity
 			setSpeed(newSpeed);
 		}
-	}
-	
-	/**
-	 * Rotates the object around a certain (absolute) position
-	 *
-	 * @param angle The amount of degrees the object rotates
-	 * @param p The point around which the object rotates
-	 */
-	protected void rotateAroundPoint(double angle, Point p)
-	{
-		// Calculates the starting value
-		Point relativebefore = negateTransformations(p.x, p.y);
-		// Rotates the car
-		addAngle(angle);
-		// Calculates the diference between the start and the end
-		Point absoluteafter = transform(relativebefore.x, relativebefore.y);
-		// Moves the car back into the right position
-		addPosition(p.x - absoluteafter.x, p.y - absoluteafter.y);
 	}
 	
 	// Moves the object and handles the friction

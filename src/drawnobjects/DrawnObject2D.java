@@ -474,11 +474,6 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		double tempx = px;
 		double tempy = py;
 		
-		// TODO: The sign of the Y changes unexpectedly during every second 
-		// use of this method
-		
-		//System.out.println(tempy);
-		
 		// Position Translate (test this)
 		tempx -= x;
 		tempy -= y;
@@ -491,7 +486,6 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		double dist = HelpMath.pointDistance(0, 0, tempx, tempy);
 		//System.out.println(dist);
 		tempx = HelpMath.lendirX(dist, newDir);
-		// TODO: This method doesn't work right (should return -300)
 		tempy = HelpMath.lendirY(dist, newDir);
 		//System.out.println(tempx);
 		//System.out.println(tempy);
@@ -570,6 +564,29 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		tempy += y;
 		
 		return new Point((int) tempx, (int) tempy);
+	}
+	
+	/**
+	 * Rotates the object around a certain (absolute) position
+	 *
+	 * @param angle The amount of degrees the object rotates
+	 * @param p The point around which the object rotates
+	 */
+	public void rotateAroundPoint(double angle, Point p)
+	{
+		//double prevdist = HelpMath.pointDistance(getX(), getY(), p.x, p.y);
+		// Calculates the starting value
+		Point relativebefore = negateTransformations(p.x, p.y);
+		// Rotates the car
+		addAngle(angle);
+		// Calculates the diference between the start and the end
+		Point absoluteafter = transform(relativebefore.x, relativebefore.y);
+		// Moves the car back into the right position
+		addPosition(p.x - absoluteafter.x, p.y - absoluteafter.y);
+		//double newdist = HelpMath.pointDistance(getX(), getY(), absoluteafter.x, absoluteafter.y);
+		//System.out.println(prevdist - newdist);
+		//Point relativeafter = negateTransformations(p.x, p.y);
+		//System.out.println(relativebefore + " -> " + relativeafter);
 	}
 	
 	private void initializeCollisionPoints(int edgeprecision, int insideprecision)

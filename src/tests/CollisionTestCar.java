@@ -112,9 +112,9 @@ public class CollisionTestCar extends Car
 				scale(0.9, 0.9);
 			// With d and a the car is rotated around the origin of the screen
 			else if (key == 'd')
-				rotateAroundPoint(-0.5, new Point(0, 0));
+				rotateAroundPoint(-2, new Point(500, 300));
 			else if (key == 'a')
-				rotateAroundPoint(0.5, new Point(0, 0));
+				rotateAroundPoint(2, new Point(500, 300));
 		}
 	}
 }
