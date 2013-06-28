@@ -174,4 +174,21 @@ public class HelpMath
 	{
 		return (point.x > minx && point.y > miny && point.x < maxx && point.y < maxy);
 	}
+	
+	/**
+	 * Calculates a force vector that has been created by projecting a force 
+	 * vector to a certain direction
+	 *
+	 * @param basicdirection The direction of the force to be projected (angles)
+	 * @param basicforce The length of the force vector to be projected
+	 * @param newdirection The new direction to which the vector is projected
+	 * @return The length of the new projected force vector
+	 */
+	public static double getDirectionalForce(double basicdirection, 
+			double basicforce, double newdirection)
+	{
+		double projectdir = newdirection - basicdirection;
+		
+		return lendirX(basicforce, projectdir);
+	}
 }
