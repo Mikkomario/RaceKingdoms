@@ -3,13 +3,13 @@ package drawnobjects;
 import handleds.Collidable;
 import handleds.Drawable;
 import handlers.DrawableHandler;
+import helpAndEnums.HelpMath;
 
 import java.awt.Point;
 
 import listeners.CollisionListener;
 
 import processing.core.PApplet;
-import racekingdoms.HelpMath;
 
 /**
  * An object from this class is can be drawed on screen as an two dimensional image

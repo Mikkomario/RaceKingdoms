@@ -1,4 +1,4 @@
-package racekingdoms;
+package helpAndEnums;
 
 import java.awt.Point;
 

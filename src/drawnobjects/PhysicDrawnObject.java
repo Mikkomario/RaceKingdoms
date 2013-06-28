@@ -1,9 +1,9 @@
 package drawnobjects;
 
-import racekingdoms.HelpMath;
 import handleds.Actor;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.HelpMath;
 
 /**
  * In addition to spriteobjects drawing capabilities many basic physics can be 

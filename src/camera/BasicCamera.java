@@ -9,8 +9,8 @@ import handleds.Drawable;
 import handlers.ActorHandler;
 import handlers.CameraListenerHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.HelpMath;
 import processing.core.PApplet;
-import racekingdoms.HelpMath;
 import drawnobjects.DrawnObject2D;
 import drawnobjects.PhysicDrawnObject;
 

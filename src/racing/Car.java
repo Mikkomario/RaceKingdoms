@@ -4,12 +4,12 @@ import java.awt.Point;
 import java.util.HashMap;
 
 import processing.core.PConstants;
-import racekingdoms.HelpMath;
 import graphic.SpriteBank;
 import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
+import helpAndEnums.HelpMath;
 import drawnobjects.MaskedSpriteObject;
 
 /**
