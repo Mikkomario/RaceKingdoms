@@ -574,6 +574,9 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 */
 	public void rotateAroundPoint(double angle, Point p)
 	{
+		/*
+		 * This was the first version of the method but it had small problems 
+		 * keeping the distance the same
 		//double prevdist = HelpMath.pointDistance(getX(), getY(), p.x, p.y);
 		// Calculates the starting value
 		Point relativebefore = negateTransformations(p.x, p.y);
@@ -587,6 +590,20 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		//System.out.println(prevdist - newdist);
 		//Point relativeafter = negateTransformations(p.x, p.y);
 		//System.out.println(relativebefore + " -> " + relativeafter);
+		 * 
+		 */
+		
+		// Calculates the old and the new directions (from the point to the object)
+		double prevdir = HelpMath.pointDirection(p.x, p.y, getX(), getY());
+		double newdir = HelpMath.checkDirection(prevdir + angle);
+		// Also calculates the distance between the object and the point 
+		// (which stays the same during the process)
+		double dist = HelpMath.pointDistance(p.x, p.y, getX(), getY());
+		// Moves the object around the point to the new position
+		setPosition(p.x + HelpMath.lendirX(dist, newdir), p.y + 
+				HelpMath.lendirY(dist, newdir));
+		// Also rotates the object
+		addAngle(angle);
 	}
 	
 	private void initializeCollisionPoints(int edgeprecision, int insideprecision)
