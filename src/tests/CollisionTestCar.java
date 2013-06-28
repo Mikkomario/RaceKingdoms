@@ -42,6 +42,17 @@ public class CollisionTestCar extends Car
 		// Adds the car to the handler
 		collisionhandler.addCollisionListener(this);
 		setSprite(getMask());
+		
+		// Just tests the miscalculations during transform and negatetransform
+		Point p = new Point(0, 0);
+		System.out.println("Start: " + p);
+		for (int i = 0; i < 10; i++)
+		{
+			p = negateTransformations(p.x, p.y);
+			System.out.println("Relative" + i + ": X " + p.x + " Y " + p.y);
+			p = transform(p.x, p.y);
+			System.out.println("Absolute" + i + ": X " + p.x + " Y " + p.y);
+		}
 	}
 	
 	
@@ -99,6 +110,11 @@ public class CollisionTestCar extends Car
 				scale(1.1, 1.1);
 			else if (key == 's')
 				scale(0.9, 0.9);
+			// With d and a the car is rotated around the origin of the screen
+			else if (key == 'd')
+				rotateAroundPoint(-0.5, new Point(0, 0));
+			else if (key == 'a')
+				rotateAroundPoint(0.5, new Point(0, 0));
 		}
 	}
 }

@@ -449,29 +449,6 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 */
 	public Point negateTransformations(int x, int y)
 	{
-		/*
-		double tempx = x;
-		double tempy = y;
-		
-		// Rotation
-		int prevDir = HelpMath.pointDirection((int) getX(), (int) getY(), x, y);
-		int newDir = prevDir - (int) getAngle();
-		int dist = HelpMath.pointDistance((int) getX(), (int) getY(), x, y);
-		tempx = getX() + HelpMath.lendirX(dist, newDir);
-		tempy = getY() + HelpMath.lendirY(dist, newDir);
-		// Scaling
-		double xdist = tempx - getX();
-		double ydist = tempy - getY();
-		double newxdist = xdist*(1/getXscale());
-		double newydist = ydist*(1/getYscale());
-		tempx -= xdist - newxdist;
-		tempy -= ydist - newydist;
-		// Origin translate
-		tempx += getOriginX();
-		tempy += getOriginY();
-		
-		return new Point((int) tempx, (int) tempy);
-		*/
 		return negateTransformations(x, y, (int) getX(), (int) getY(), 
 				getXscale(), getYscale(), (int) getAngle(), (int) getOriginX(), 
 				(int) getOriginY());
