@@ -79,13 +79,13 @@ public abstract class SpriteObject extends PhysicDrawnObject
 	}
 	
 	@Override
-	public double getOriginX()
+	public int getOriginX()
 	{
 		return getSprite().getOriginX();
 	}
 
 	@Override
-	public double getOriginY()
+	public int getOriginY()
 	{
 		return getSprite().getOriginY();
 	}

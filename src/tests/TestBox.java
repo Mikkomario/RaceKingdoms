@@ -29,13 +29,13 @@ public class TestBox extends DrawnObject2D
 	// IMPLEMENTED METHODS	-----------------------------------------------
 
 	@Override
-	public double getOriginX()
+	public int getOriginX()
 	{
 		return 50;
 	}
 
 	@Override
-	public double getOriginY()
+	public int getOriginY()
 	{
 		return 50;
 	}

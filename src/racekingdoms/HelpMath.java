@@ -20,7 +20,7 @@ public class HelpMath
 	 * @param y2 the second point's y coordinate
 	 * @return the direction from point 1 to point 2 in degrees
 	 */
-	public static double pointDirection(int x1, int y1, int x2, int y2)
+	public static double pointDirection(double x1, double y1, double x2, double y2)
 	{
 		double xdist = x2 - x1;
 		double ydist = y2 - y1;
@@ -82,12 +82,12 @@ public class HelpMath
 	 * @param y2 Second point's y coordinate
 	 * @return Distance between points in pixels
 	 */
-	public static int pointDistance(int x1, int y1, int x2, int y2)
+	public static double pointDistance(double x1, double y1, double x2, double y2)
 	{
 		double a = x1 - x2;
 		double b = y1 - y2;
 		
-		return (int) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 	}
 	
 	/**
@@ -123,7 +123,7 @@ public class HelpMath
 	 * @param direction To what direction from the origin the point is (degrees)
 	 * @return The point's x-coordinate
 	 */
-	public static double lendirX(double length, int direction)
+	public static double lendirX(double length, double direction)
 	{
 		return Math.cos(Math.toRadians(direction))*length;
 	}
@@ -137,7 +137,7 @@ public class HelpMath
 	 * @param direction To what direction from the origin the point is (degrees)
 	 * @return The point's y-coordinate
 	 */
-	public static double lendirY(double length, int direction)
+	public static double lendirY(double length, double direction)
 	{
 		return Math.sin(Math.toRadians(direction))*length;
 	}

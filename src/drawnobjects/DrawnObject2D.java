@@ -63,12 +63,12 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	/**
 	 * @return The Object's origin's x-translation from the left
 	 */
-	public abstract double getOriginX();
+	public abstract int getOriginX();
 	
 	/**
 	 * @return The Object's origin's y-translation from the top
 	 */
-	public abstract double getOriginY();
+	public abstract int getOriginY();
 	
 	/**
 	 * In this method, the object should draw itself as without any concerns 
@@ -157,7 +157,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		// scales it depending on it's xscale and yscale
 		applet.scale((float) getXscale(), (float) getYscale());
 		// and translates the origin to the right position
-		applet.translate((float) -getOriginX(), (float) -getOriginY());
+		applet.translate(-getOriginX(), -getOriginY());
 		
 		// Finally draws the object
 		drawSelfBasic(applet);
@@ -447,11 +447,10 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 * @param y The y-coordinate of the point to be negated
 	 * @return The point where all of the object's transformations are negated
 	 */
-	public Point negateTransformations(int x, int y)
+	public Point negateTransformations(double x, double y)
 	{
-		return negateTransformations(x, y, (int) getX(), (int) getY(), 
-				getXscale(), getYscale(), (int) getAngle(), (int) getOriginX(), 
-				(int) getOriginY());
+		return negateTransformations(x, y, getX(), getY(), getXscale(), 
+				getYscale(), getAngle(), getOriginX(), getOriginY());
 	}
 	
 	/**
@@ -468,11 +467,15 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 * @param originy The y-coordinate of the transformatio's origin
 	 * @return The point where all of the object's transformations are negated
 	 */
-	protected static Point negateTransformations(int px, int py, int x, int y, 
-			double xscale, double yscale, int angle, int originx, int originy)
+	protected static Point negateTransformations(double px, double py, double x, 
+			double y, double xscale, double yscale, double angle, int originx, 
+			int originy)
 	{
 		double tempx = px;
 		double tempy = py;
+		
+		// TODO: The sign of the Y changes unexpectedly during every second 
+		// use of this method
 		
 		//System.out.println(tempy);
 		
@@ -481,11 +484,17 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		tempy -= y;
 		
 		// Rotation
-		double prevDir = HelpMath.pointDirection(0, 0, (int) tempx, (int) tempy);
-		int newDir = (int) HelpMath.checkDirection(prevDir - angle);
-		int dist = HelpMath.pointDistance(0, 0, (int) tempx, (int) tempy);
+		double prevDir = HelpMath.pointDirection(0, 0, tempx, tempy);
+		//System.out.println(prevDir);
+		double newDir = HelpMath.checkDirection(prevDir - angle);
+		//System.out.println(newDir);
+		double dist = HelpMath.pointDistance(0, 0, tempx, tempy);
+		//System.out.println(dist);
 		tempx = HelpMath.lendirX(dist, newDir);
+		// TODO: This method doesn't work right (should return -300)
 		tempy = HelpMath.lendirY(dist, newDir);
+		//System.out.println(tempx);
+		System.out.println(tempy);
 		
 		// Scaling
 		double xdist = tempx;
@@ -509,36 +518,10 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 * @param y Position's y-coordinate relative to the object's origin
 	 * @return Absolute position with transformations added
 	 */
-	protected Point transform(int x, int y)
+	protected Point transform(double x, double y)
 	{	
-		/*
-		double tempx = x;
-		double tempy = y;
-		
-		// Rotates and translates position
-		int prevDir = HelpMath.pointDirection(0, 0, x, y);
-		int newDir = prevDir + (int) getAngle();
-		int dist = x + y;
-		tempx = getX() + HelpMath.lendirX(dist, newDir);
-		tempy = getY() + HelpMath.lendirY(dist, newDir);
-		
-		// Scales
-		double xdist = tempx - getX();
-		double ydist = tempy - getY();
-		double newxdist = xdist*getXscale();
-		double newydist = ydist*getYscale();
-		tempx -= xdist - newxdist;
-		tempy -= ydist - newydist;
-		
-		// Origin translate
-		tempx -= getOriginX();
-		tempy -= getOriginY();
-		
-		return new Point((int) tempx, (int) tempy);
-		*/
-		return transform(x, y, (int) getX(), (int) getY(), getXscale(), 
-				getYscale(), (int) getAngle(), (int) getOriginX(), 
-				(int) getOriginY());
+		return transform(x, y, getX(), getY(), getXscale(), getYscale(), 
+				getAngle(), getOriginX(), getOriginY());
 	}
 	
 	/**
@@ -555,46 +538,15 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 * @param originy The y-coordinate of the origin transformation
 	 * @return Absolute position with transformations added
 	 */
-	protected Point transform(int px, int py, int x, int y, double xscale, 
-			double yscale, int angle, int originx, int originy)
+	protected Point transform(double px, double py, double x, double y, 
+			double xscale, double yscale, double angle, int originx, int originy)
 	{	
-		/*
 		double tempx = px;
 		double tempy = py;
 		
-		// Rotates and translates position
-		double prevDir = HelpMath.pointDirection(0, 0, px, py);
-		int newDir = (int) HelpMath.checkDirection(prevDir + angle);
-		int dist = px + py;
-		tempx = x + HelpMath.lendirX(dist, newDir);
-		tempy = y + HelpMath.lendirY(dist, newDir);
-		
-		// Scales
-		double xdist = tempx - x;
-		double ydist = tempy - y;
-		double newxdist = xdist*xscale;
-		double newydist = ydist*yscale;
-		tempx -= xdist - newxdist;
-		tempy -= ydist - newydist;
-		
 		// Origin translate
 		tempx -= originx;
 		tempy -= originy;
-		
-		return new Point((int) tempx, (int) tempy);
-		*/
-		
-		double tempx = px;
-		// There's a weird problem with the y-coordinate as it seems to be(come) 
-		// reversed
-		// TODO: Try to repair this in a more elegant manner
-		double tempy = py;//getHeight() - py;
-		
-		// Origin translate
-		tempx -= originx;
-		tempy -= originy;
-		
-		// TODO: Change order so that it makes sense
 		
 		// Scaling
 		double xdist = tempx;
@@ -605,11 +557,11 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		tempy -= ydist - newydist;
 		
 		// Rotation
-		double prevDir = HelpMath.pointDirection(0, 0, (int) tempx, (int) tempy);
+		double prevDir = HelpMath.pointDirection(0, 0, tempx, tempy);
 		//System.out.println(prevDir);
-		int newDir = (int) (360 - HelpMath.checkDirection(prevDir + angle));
+		double newDir = 360 - HelpMath.checkDirection(prevDir + angle);
 		//System.out.println(newDir);
-		int dist = HelpMath.pointDistance(0, 0, (int) tempx, (int) tempy);
+		double dist = HelpMath.pointDistance(0, 0, tempx, tempy);
 		tempx = HelpMath.lendirX(dist, newDir);
 		tempy = HelpMath.lendirY(dist, newDir);
 		

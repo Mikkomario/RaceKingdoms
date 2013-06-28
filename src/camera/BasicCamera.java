@@ -64,13 +64,13 @@ public class BasicCamera extends PhysicDrawnObject
 	// IMPLEMENTED METHODS	---------------------------------------------
 
 	@Override
-	public double getOriginX()
+	public int getOriginX()
 	{
 		return -this.screenWidth / 2;
 	}
 
 	@Override
-	public double getOriginY()
+	public int getOriginY()
 	{
 		return -this.screenHeight / 2;
 	}
@@ -87,7 +87,7 @@ public class BasicCamera extends PhysicDrawnObject
 		applet.pushMatrix();
 		
 		// and translates the origin to the right position
-		applet.translate((float) -getOriginX(), (float) -getOriginY());
+		applet.translate(-getOriginX(), -getOriginY());
 		// scales it depending on it's xscale and yscale
 		applet.scale((float) (getXscale()), (float) (getYscale()));
 		// rotates it depending on its angle
@@ -158,9 +158,9 @@ public class BasicCamera extends PhysicDrawnObject
 		// in a different manner (PS: I know it's not DRY)
 		
 		// Negates the transformation
-		Point negatedPoint = negateTransformations(x, y, (int) -getX(), 
-				(int) -getY(), 1 / getXscale(), 1 / getYscale(), 
-				(int) -getAngle(), (int) -getOriginX(), (int) -getOriginY());
+		Point negatedPoint = negateTransformations(x, y, -getX(), 
+				-getY(), 1 / getXscale(), 1 / getYscale(), 
+				-getAngle(), -getOriginX(), -getOriginY());
 		
 		// Returns the object if it collides with the point
 		if (HelpMath.pointIsInRange(negatedPoint, 0, 
