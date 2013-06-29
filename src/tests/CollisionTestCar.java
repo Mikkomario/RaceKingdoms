@@ -65,7 +65,7 @@ public class CollisionTestCar extends Car
 	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
 	{
 		// TODO: MIKSI PERSEESSA TAMA TOIMII VAIN JOKA TOISELLA BUILDILLA?
-		//System.out.println("Collides!");
+		System.out.println("Collides!");
 
 		// Bounces away from drawnobjects
 		if (collided instanceof DrawnObject2D)

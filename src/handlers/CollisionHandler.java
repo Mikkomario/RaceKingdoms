@@ -95,6 +95,7 @@ public class CollisionHandler extends LogicalHandler implements Actor
 			// Informs the listener about each object it collided with
 			for (Collidable c: collidedpoints.keySet())
 				listener.onCollision(collidedpoints.get(c), c);
+			//System.out.println("Informs listener");
 		}
 	}
 	
