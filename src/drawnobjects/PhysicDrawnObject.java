@@ -67,6 +67,9 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		move();
 		rotate();
 		implyMoments();
+		
+		// TODO: Remove this
+		//getPixelSpeed(new Point(0, 0));
 	}
 	
 	
@@ -535,12 +538,27 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	}
 	
 	// Calculates the speed of the relative pixel
-	private Point getPixelSpeed(Point p)
+	private Point getPixelSpeed(Point pixel)
 	{
-		// All the pixels have the global speed
-		double hspeed = getHspeed();
-		double vspeed = getVspeed();
+		Point absolutestart = transform(pixel.x, pixel.y);
+		Point relativeend = (Point) pixel.clone();
+		// Moves the pixel according to rotations / moments
+		// Basic rotation
+		relativeend = HelpMath.getRotatedPosition(getOriginX(), getOriginY(), 
+				relativeend, getAngle());
+		// All moments
+		for (Point momentorigin: this.moments.keySet())
+		{
+			relativeend = HelpMath.getRotatedPosition(momentorigin.x, 
+					momentorigin.y, relativeend, this.moments.get(momentorigin));
+		}
+		// Transforms the point into an absolute value
+		Point absoluteend = transform(relativeend.x, relativeend.y);
+		// Adds the object's speed
+		absoluteend = new Point((int) (absoluteend.x + getHspeed()), 
+				(int) (absoluteend.y + getVspeed()));
 		
-		return new Point(0, 0);
+		return new Point(absoluteend.x - absolutestart.x, 
+				absoluteend.y - absolutestart.y);
 	}
 }
