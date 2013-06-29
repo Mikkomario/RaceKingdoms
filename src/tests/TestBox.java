@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import handleds.Collidable;
 import handlers.DrawableHandler;
 import processing.core.PApplet;
-import drawnobjects.DrawnObject2D;
+import drawnobjects.DrawnObject;
 
 /**
  * This class is a simple box that can be drawn
@@ -14,7 +14,7 @@ import drawnobjects.DrawnObject2D;
  * @author Gandalf.
  *         Created 14.6.2013.
  */
-public class TestBox extends DrawnObject2D
+public class TestBox extends DrawnObject
 {
 	/**
 	 * Creates a new testbox that does nothing but can be drawn

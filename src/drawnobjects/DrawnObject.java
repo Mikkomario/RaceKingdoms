@@ -18,7 +18,7 @@ import processing.core.PApplet;
  * @author Gandalf.
  *         Created 26.11.2012.
  */
-public abstract class DrawnObject2D implements Drawable, Collidable, CollisionListener
+public abstract class DrawnObject implements Drawable, Collidable, CollisionListener
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
@@ -39,7 +39,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	 * @param y The new y-coordinate of the object (Game world Pxl)
 	 * @param drawer The handler that draws the object (optional)
 	 */
-	public DrawnObject2D(int x, int y, DrawableHandler drawer)
+	public DrawnObject(int x, int y, DrawableHandler drawer)
 	{
 		// Initializes the attributes
 		this.collisiontype = CollisionType.BOX;

@@ -11,7 +11,7 @@ import handlers.CameraListenerHandler;
 import handlers.DrawableHandler;
 import helpAndEnums.HelpMath;
 import processing.core.PApplet;
-import drawnobjects.DrawnObject2D;
+import drawnobjects.DrawnObject;
 import drawnobjects.PhysicDrawnObject;
 
 /**
@@ -216,7 +216,7 @@ public class BasicCamera extends PhysicDrawnObject
 	 * @param d The object that may be drawn
 	 * @return Should the object be drawn
 	 */
-	protected boolean objectShouldBeDrawn(DrawnObject2D d)
+	protected boolean objectShouldBeDrawn(DrawnObject d)
 	{
 		Point[] collisionpoints = d.getCollisionPoints();
 		

@@ -14,7 +14,7 @@ import helpAndEnums.HelpMath;
  * @author Gandalf.
  *         Created 28.11.2012.
  */
-public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
+public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 {	
 	// ATTRIBUTES	------------------------------------------------------
 	
@@ -308,7 +308,7 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 	 * @param bounciness How much the object bounces away from the given object (1+)
 	 * @param lostenergymodifier How much energy is lost during the collision (0-1)
 	 */
-	protected void bounceFrom(DrawnObject2D d, Point collisionpoint, 
+	protected void bounceFrom(DrawnObject d, Point collisionpoint, 
 			double bounciness, double lostenergymodifier)
 	{
 		// Some of the speed is lost during the collision

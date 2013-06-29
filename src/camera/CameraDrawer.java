@@ -1,7 +1,7 @@
 package camera;
 
 import processing.core.PApplet;
-import drawnobjects.DrawnObject2D;
+import drawnobjects.DrawnObject;
 import handlers.DrawnObjectHandler;
 
 /**
@@ -45,7 +45,7 @@ public class CameraDrawer extends DrawnObjectHandler
 		// Only draws objects that are within the camera's range
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
-			DrawnObject2D d = getDrawnObject(i);
+			DrawnObject d = getDrawnObject(i);
 			// Only draws object inside the camera's vision
 			if (this.camera.objectShouldBeDrawn(d))
 				d.drawSelf(applet);

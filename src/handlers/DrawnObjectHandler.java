@@ -1,6 +1,6 @@
 package handlers;
 
-import drawnobjects.DrawnObject2D;
+import drawnobjects.DrawnObject;
 import handleds.Handled;
 
 /**
@@ -32,7 +32,7 @@ public class DrawnObjectHandler extends DrawableHandler
 	protected void addHandled(Handled h)
 	{
 		// Can only add drawnobjects
-		if (h instanceof DrawnObject2D)
+		if (h instanceof DrawnObject)
 			super.addHandled(h);
 	}
 	
@@ -44,7 +44,7 @@ public class DrawnObjectHandler extends DrawableHandler
 	 *
 	 * @param d The object to be added
 	 */
-	public void addDrawnObject(DrawnObject2D d)
+	public void addDrawnObject(DrawnObject d)
 	{
 		super.addHandled(d);
 	}
@@ -55,11 +55,11 @@ public class DrawnObjectHandler extends DrawableHandler
 	 * @param index The index of the drawnobject
 	 * @return The drawnobject from the index
 	 */
-	protected DrawnObject2D getDrawnObject(int index)
+	protected DrawnObject getDrawnObject(int index)
 	{
 		Handled maybeDrawnObject = getHandled(index);
-		if (maybeDrawnObject instanceof DrawnObject2D)
-			return (DrawnObject2D) maybeDrawnObject;
+		if (maybeDrawnObject instanceof DrawnObject)
+			return (DrawnObject) maybeDrawnObject;
 		else
 			return null;
 	}

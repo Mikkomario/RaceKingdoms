@@ -3,7 +3,7 @@ package tests;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import drawnobjects.DrawnObject2D;
+import drawnobjects.DrawnObject;
 
 import processing.core.PApplet;
 import graphic.SpriteBank;
@@ -68,9 +68,9 @@ public class CollisionTestCar extends Car
 		System.out.println("Collides!");
 
 		// Bounces away from drawnobjects
-		if (collided instanceof DrawnObject2D)
+		if (collided instanceof DrawnObject)
 		{
-			DrawnObject2D d = (DrawnObject2D) collided;
+			DrawnObject d = (DrawnObject) collided;
 			
 			for (int i = 0; i < collisionpoints.size(); i++)
 				bounceFrom(d, collisionpoints.get(i), 0.1, 0);
