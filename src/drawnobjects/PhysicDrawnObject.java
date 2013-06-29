@@ -382,7 +382,6 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		
 		addMoment(negateTransformations(collisionpoint.x, collisionpoint.y), moment);
 		
-		// TODO: Add moment (needs a new method)
 		// TODO: Also add same effect to the other object (a new method?)
 		// TODO: Add a method that calculates the speed of a single pixel in the object
 //		// TODO: Add massa and tiheys and height
@@ -533,5 +532,15 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 			return -secondspeed;
 		else
 			return -firstspeed;
+	}
+	
+	// Calculates the speed of the relative pixel
+	private Point getPixelSpeed(Point p)
+	{
+		// All the pixels have the global speed
+		double hspeed = getHspeed();
+		double vspeed = getVspeed();
+		
+		return new Point(0, 0);
 	}
 }

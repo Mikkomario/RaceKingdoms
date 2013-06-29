@@ -602,16 +602,11 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 * @param p The point around which the object rotates
 	 */
 	public void rotateAroundPoint(double angle, Point p)
-	{		
-		// Calculates the old and the new directions (from the point to the object)
-		double prevdir = HelpMath.pointDirection(p.x, p.y, getX(), getY());
-		double newdir = HelpMath.checkDirection(prevdir + angle);
-		// Also calculates the distance between the object and the point 
-		// (which stays the same during the process)
-		double dist = HelpMath.pointDistance(p.x, p.y, getX(), getY());
-		// Moves the object around the point to the new position
-		setPosition(p.x + HelpMath.lendirX(dist, newdir), p.y + 
-				HelpMath.lendirY(dist, newdir));
+	{
+		// Moves the object around the point
+		Point newposition = 
+				HelpMath.getRotatedPosition(p.x, p.y, getPosition(), angle);
+		setPosition(newposition.x, newposition.y);
 		// Also rotates the object
 		addAngle(angle);
 	}

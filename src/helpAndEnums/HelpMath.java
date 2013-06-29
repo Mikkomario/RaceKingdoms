@@ -191,4 +191,27 @@ public class HelpMath
 		
 		return lendirX(basicforce, projectdir);
 	}
+	
+	/**
+	 * Rotates a point around the origin and returns the new position
+	 *
+	 * @param originx The x-coordinate of the rotation origin
+	 * @param originy The y-coordinate of the rotation origin
+	 * @param p The point which will be rotated
+	 * @param rotation How many degrees the point is rotated around the origin
+	 * @return The new position after the rotation
+	 */
+	public static Point getRotatedPosition(double originx, double originy, 
+			Point p, double rotation)
+	{
+		// Calculates the old and the new directions (from the origin to the point)
+		double prevdir = pointDirection(originx, originy, p.x, p.y);
+		double newdir = checkDirection(prevdir + rotation);
+		// Also calculates the distance between the object and the point 
+		// (which stays the same during the process)
+		double dist = pointDistance(originx, originy, p.x, p.y);
+		// Returns the new position after the rotation
+		return new Point((int) (originx + lendirX(dist, newdir)), 
+				(int) (originy + lendirY(dist, newdir)));
+	}
 }
