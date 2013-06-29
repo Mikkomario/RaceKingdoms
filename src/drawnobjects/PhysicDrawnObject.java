@@ -232,8 +232,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	 */
 	public double getDirection()
 	{
-		return HelpMath.checkDirection(-(
-				Math.toDegrees(Math.atan2(getVspeed(), getHspeed()))));
+		return HelpMath.getVectorDirection(getHspeed(), getVspeed());
 	}
 	
 	/**
@@ -351,22 +350,25 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// Some of the speed is lost during the collision
 		diminishSpeed(getSpeed()*lostenergymodifier);
 		
+		Point pixelmovement = getPixelSpeed(collisionpoint);
+		double pixelspeed = Math.abs(pixelmovement.x) + Math.abs(pixelmovement.y);
+		double pixeldirection = HelpMath.getVectorDirection(pixelmovement.x, 
+				pixelmovement.y);
+		
 		// If there's no speed, doesn't do anything
-		if (getSpeed() == 0)
+		if (pixelspeed == 0)
 			return;
 		
 		// Calculates the direction towards which the force is applied
 		double forcedir = d.getCollisionForceDirection(collisionpoint);
-		//System.out.println(forcedir);
 		
 		// Calculates the actual amount of force applied to the object
-		double force = -HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
+		double force = -HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
 				forcedir) * (1 + bounciness);
 		
 		// Negative force is ignored
 		if (force <= 0)
 			return;
-		//System.out.println(force);
 		
 		// Applies the force to the object
 		addMotion(forcedir, force);
@@ -384,8 +386,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		addMoment(negateTransformations(collisionpoint.x, collisionpoint.y), moment);
 		
 		// TODO: Also add same effect to the other object (a new method?)
-		// TODO: Add a method that calculates the speed of a single pixel in the object
-//		// TODO: Add massa and tiheys and height
+		// TODO: Add mass and density and height
 	}
 	
 	// Moves the object and handles the friction
@@ -489,13 +490,32 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	
 	private void checkMaxRotation()
 	{
+		// If maxrotation is negative, skips the whole thing
+		if (this.maxrotation < 0)
+			return;
+		
 		// Limits the rotation speed (if needed)
-		if (this.maxrotation >= 0 && Math.abs(getRotation()) > this.maxrotation)
+		if (Math.abs(getRotation()) > this.maxrotation)
 		{
 			if (getRotation() < 0)
 				setRotation(-this.maxrotation);
 			else
 				setRotation(this.maxrotation);
+		}
+		// Also limits the moment(s) if needed
+		for (Point momentorigin: this.moments.keySet())
+		{
+			double moment = this.moments.get(momentorigin);
+			
+			if (Math.abs(moment) > this.maxrotation)
+			{
+				if (moment < 0)
+					moment = -this.maxrotation;
+				else
+					moment = this.maxrotation;
+				
+				this.moments.put(momentorigin, moment);
+			}
 		}
 	}
 	

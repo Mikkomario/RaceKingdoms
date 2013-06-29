@@ -214,4 +214,16 @@ public class HelpMath
 		return new Point((int) (originx + lendirX(dist, newdir)), 
 				(int) (originy + lendirY(dist, newdir)));
 	}
+	
+	/**
+	 * Calculates a direction of a sum of an x- and y-vector
+	 *
+	 * @param xvector The vector's x-component
+	 * @param yvector The vector's y-component
+	 * @return The vector's direction in degrees
+	 */
+	public static double getVectorDirection(double xvector, double yvector)
+	{
+		return checkDirection(-(Math.toDegrees(Math.atan2(yvector, xvector))));
+	}
 }

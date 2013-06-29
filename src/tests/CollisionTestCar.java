@@ -82,6 +82,7 @@ public class CollisionTestCar extends Car
 	{
 		// Also draws the collisionpoints
 		super.drawSelf(applet);
+		//System.out.println(getDirection());
 		
 		//applet.pushMatrix();
 		applet.fill(255, 0, 0);
