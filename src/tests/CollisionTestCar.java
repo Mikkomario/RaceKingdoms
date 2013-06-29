@@ -12,6 +12,7 @@ import handlers.ActorHandler;
 import handlers.CollisionHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
+import helpAndEnums.HelpMath;
 import racing.Car;
 
 /**
@@ -125,6 +126,10 @@ public class CollisionTestCar extends Car
 				rotateAroundPoint(-2, new Point(500, 300));
 			else if (key == 'a')
 				rotateAroundPoint(2, new Point(500, 300));
+			else if (key == 'e')
+				addMotion(HelpMath.checkDirection(getAngle() - 90), 0.5);
+			else if (key == 'q')
+				addMotion(HelpMath.checkDirection(getAngle() + 90), 0.5);
 		}
 	}
 }
