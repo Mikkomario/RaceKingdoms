@@ -67,9 +67,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		move();
 		rotate();
 		implyMoments();
-		
-		// TODO: Remove this
-		//getPixelSpeed(new Point(0, 0));
+		//System.out.println(getPixelSpeed(new Point(0, 0)));
 	}
 	
 	
@@ -545,7 +543,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// Moves the pixel according to rotations / moments
 		// Basic rotation
 		relativeend = HelpMath.getRotatedPosition(getOriginX(), getOriginY(), 
-				relativeend, getAngle());
+				relativeend, getRotation());
 		// All moments
 		for (Point momentorigin: this.moments.keySet())
 		{

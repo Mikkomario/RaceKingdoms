@@ -132,6 +132,8 @@ public class CollisionTestCar extends Car
 				addMotion(HelpMath.checkDirection(getAngle() - 90), 0.5);
 			else if (key == 'q')
 				addMotion(HelpMath.checkDirection(getAngle() + 90), 0.5);
+			else if (key == 'r')
+				addMoment(new Point(100, 50), 1);
 		}
 	}
 }
