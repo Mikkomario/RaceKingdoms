@@ -312,15 +312,24 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 			double bounciness, double lostenergymodifier)
 	{
 		// Some of the speed is lost during the collision
-		diminishSpeed(getSpeed()*(1-lostenergymodifier));
+		diminishSpeed(getSpeed()*lostenergymodifier);
+		
+		// If there's no speed, doesn't do anything
+		if (getSpeed() == 0)
+			return;
 		
 		// Calculates the direction towards which the force is applied
 		double forcedir = d.getCollisionForceDirection(collisionpoint);
 		//System.out.println(forcedir);
 		
 		// Calculates the actual amount of force applied to the object
-		double force = Math.abs(HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
-				forcedir) * (1 + bounciness));
+		double force = -HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
+				forcedir) * (1 + bounciness);
+		
+		// Negative force is ignored
+		if (force <= 0)
+			return;
+		
 		System.out.println(force);
 		
 		// Applies the force to the object

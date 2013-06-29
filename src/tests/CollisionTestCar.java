@@ -64,6 +64,7 @@ public class CollisionTestCar extends Car
 	@Override
 	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
 	{
+		// TODO: MIKSI PERSEESSA TAMA TOIMII VAIN JOKA TOISELLA BUILDILLA?
 		//System.out.println("Collides!");
 
 		// Bounces away from drawnobjects
@@ -72,7 +73,7 @@ public class CollisionTestCar extends Car
 			DrawnObject2D d = (DrawnObject2D) collided;
 			
 			for (int i = 0; i < collisionpoints.size(); i++)
-				bounceFrom(d, collisionpoints.get(i), 3, 0.1);
+				bounceFrom(d, collisionpoints.get(i), 0.1, 0);
 		}
 	}
 	
