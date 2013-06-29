@@ -3,6 +3,8 @@ package tests;
 import java.awt.Point;
 import java.util.HashMap;
 
+import drawnobjects.DrawnObject2D;
+
 import processing.core.PApplet;
 import graphic.SpriteBank;
 import handleds.Collidable;
@@ -62,6 +64,13 @@ public class CollisionTestCar extends Car
 	public void onCollision(HashMap<Point, Collidable> collisionmap)
 	{
 		System.out.println("Collides!");
+		Point[] colpoints = (Point[]) collisionmap.keySet().toArray();
+		Collidable collided = collisionmap.get(colpoints[0]);
+		if (!(collided instanceof DrawnObject2D))
+			return;
+		DrawnObject2D d = (DrawnObject2D) collided;
+		// Bounces away from the drawnobject
+		bounceFrom(d, colpoints[0], 0, 0);
 	}
 	
 	@Override

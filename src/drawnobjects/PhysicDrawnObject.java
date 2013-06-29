@@ -1,5 +1,7 @@
 package drawnobjects;
 
+import java.awt.Point;
+
 import handleds.Actor;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
@@ -296,6 +298,31 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 			// Changes the velocity
 			setSpeed(newSpeed);
 		}
+	}
+	
+	/**
+	 * The object bounces with a certain object it collides with.
+	 *
+	 * @param d The object collided with
+	 * @param collisionpoint The point in which the collision happens
+	 * @param bounciness How much the object bounces away from the given object (1+)
+	 * @param lostenergymodifier How much energy is lost during the collision (0-1)
+	 */
+	protected void bounceFrom(DrawnObject2D d, Point collisionpoint, 
+			double bounciness, double lostenergymodifier)
+	{
+		// Some of the speed is lost during the collision
+		diminishSpeed(getSpeed()*(1-lostenergymodifier));
+		
+		// Calculates the direction towards which the force is applied
+		double forcedir = d.getCollisionForceDirection(collisionpoint);
+		
+		// Calculates the actual amount of force applied to the object
+		double force = HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
+				forcedir) * (1 + bounciness);
+		
+		// Applies the force to the object
+		addMotion(forcedir, force);
 	}
 	
 	// Moves the object and handles the friction
