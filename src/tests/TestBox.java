@@ -1,7 +1,7 @@
 package tests;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import handleds.Collidable;
 import handlers.DrawableHandler;
@@ -80,7 +80,7 @@ public class TestBox extends DrawnObject2D
 	}
 
 	@Override
-	public void onCollision(HashMap<Point, Collidable> collisionmap)
+	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
 	{
 		//System.out.println("Testcollision");
 	}

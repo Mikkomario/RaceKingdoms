@@ -651,11 +651,13 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		// Boxes are the most complicated
 		else if (this.collisiontype == CollisionType.BOX)
 		{
+			//System.out.println("Calculatingbox");
 			// Calculates the side which the object touches
 			Point relativepoint = negateTransformations(collisionpoint.x, 
 					collisionpoint.y);
-			double relxdiffer = -0.5 + relativepoint.x / getWidth();
-			double relydiffer = -0.5 + relativepoint.y / getHeight();
+			double relxdiffer = -0.5 + relativepoint.x / (double) getWidth();
+			double relydiffer = -0.5 + relativepoint.y / (double) getHeight();
+			//System.out.println(relxdiffer + " / " + relydiffer);
 			// Returns drection of one of the sides of the object
 			if (Math.abs(relxdiffer) >= Math.abs(relydiffer))
 			{

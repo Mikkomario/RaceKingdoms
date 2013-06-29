@@ -1,7 +1,7 @@
 package tests;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import graphic.Sprite;
 import handleds.Collidable;
@@ -34,7 +34,7 @@ public class TestSpriteObject extends SpriteObject
 	}
 
 	@Override
-	public void onCollision(HashMap<Point, Collidable> collisionmap)
+	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
 	{
 		// Does nothing
 	}

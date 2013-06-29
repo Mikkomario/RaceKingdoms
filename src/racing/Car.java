@@ -1,7 +1,7 @@
 package racing;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import processing.core.PConstants;
 import graphic.SpriteBank;
@@ -162,7 +162,7 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 	}
 	
 	@Override
-	public void onCollision(HashMap<Point, Collidable> collisionmap)
+	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
 	{
 		// Does nothing
 	}

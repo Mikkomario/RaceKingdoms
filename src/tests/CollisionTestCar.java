@@ -1,7 +1,7 @@
 package tests;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import drawnobjects.DrawnObject2D;
 
@@ -61,16 +61,17 @@ public class CollisionTestCar extends Car
 	// IMPLEMENTED METHODS
 	
 	@Override
-	public void onCollision(HashMap<Point, Collidable> collisionmap)
+	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
 	{
-		System.out.println("Collides!");
-		Point[] colpoints = (Point[]) collisionmap.keySet().toArray();
-		Collidable collided = collisionmap.get(colpoints[0]);
-		if (!(collided instanceof DrawnObject2D))
-			return;
-		DrawnObject2D d = (DrawnObject2D) collided;
-		// Bounces away from the drawnobject
-		bounceFrom(d, colpoints[0], 0, 0);
+		//System.out.println("Collides!");
+
+		// Bounces away from drawnobjects
+		if (collided instanceof DrawnObject2D)
+		{
+			DrawnObject2D d = (DrawnObject2D) collided;
+			
+			bounceFrom(d, collisionpoints.get(0), 3, 0.1);
+		}
 	}
 	
 	@Override

@@ -1,7 +1,7 @@
 package listeners;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import handleds.Collidable;
 import handleds.LogicalHandled;
@@ -25,8 +25,8 @@ public interface CollisionListener extends LogicalHandled
 	/**
 	 * This method is called each time the listening object collides with 
 	 * an object
-	 * @param collisionmap The map that holds each of the points where the object 
-	 * collided and the corresponding collided object that was on the position
+	 * @param colpoints The points in which the collision(s) happened
+	 * @param collided The object with which the collision(s) happened
 	 */
-	public void onCollision(HashMap<Point, Collidable> collisionmap);
+	public void onCollision(ArrayList<Point> colpoints, Collidable collided);
 }

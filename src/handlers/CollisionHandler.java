@@ -1,6 +1,7 @@
 package handlers;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import listeners.CollisionListener;
@@ -56,18 +57,22 @@ public class CollisionHandler extends LogicalHandler implements Actor
 				continue;
 			
 			Point[] colpoints = listener.getCollisionPoints();
+			HashMap<Collidable, ArrayList<Point>> collidedpoints = 
+					new HashMap<Collidable, ArrayList<Point>>();
 			
-			for (int colind = 0; colind < this.collidablehandler.getHandledNumber(); colind++)
+			for (int colind = 0; 
+					colind < this.collidablehandler.getHandledNumber(); colind++)
 			{
 				// Remembers the collidable
 				Collidable c = this.collidablehandler.getCollidable(colind);
 				
+				// Non-solid collidables cannot collide
+				if (!c.isSolid())
+					continue;
+				
 				// Listener cannot collide with itself
 				if (listener.equals(c))
 					continue;
-				
-				HashMap<Point, Collidable> collidedpoints = new HashMap<Point, 
-						Collidable>();
 				
 				// Checks all points if they would collide
 				for (int pointi = 0; pointi < colpoints.length; pointi++)
@@ -78,12 +83,18 @@ public class CollisionHandler extends LogicalHandler implements Actor
 					if (collider == null)
 						continue;
 						//System.out.println("Foundcollision");
-					collidedpoints.put(colpoints[pointi], collider);
+
+					// The arraylist may need to be initialized
+					if (!collidedpoints.containsKey(collider))
+						collidedpoints.put(collider, new ArrayList<Point>());
+					// Remembers the point and the collided object
+					collidedpoints.get(collider).add(colpoints[pointi]);
 				}
-				
-				if (!collidedpoints.isEmpty())
-					listener.onCollision(collidedpoints);
 			}
+			
+			// Informs the listener about each object it collided with
+			for (Collidable c: collidedpoints.keySet())
+				listener.onCollision(collidedpoints.get(c), c);
 		}
 	}
 	

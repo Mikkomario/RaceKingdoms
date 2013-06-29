@@ -316,10 +316,12 @@ public abstract class PhysicDrawnObject extends DrawnObject2D implements Actor
 		
 		// Calculates the direction towards which the force is applied
 		double forcedir = d.getCollisionForceDirection(collisionpoint);
+		//System.out.println(forcedir);
 		
 		// Calculates the actual amount of force applied to the object
-		double force = HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
-				forcedir) * (1 + bounciness);
+		double force = Math.abs(HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
+				forcedir) * (1 + bounciness));
+		System.out.println(force);
 		
 		// Applies the force to the object
 		addMotion(forcedir, force);
