@@ -345,6 +345,8 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		*/
 		// TODO: Add moment (needs a new method)
 		// TODO: Also add same effect to the other object (a new method?)
+		// TODO: Add a method that calculates the speed of a single pixel in the object
+//		// TODO: Add massa and tiheys and height
 	}
 	
 	// Moves the object and handles the friction

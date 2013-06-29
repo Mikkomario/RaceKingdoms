@@ -493,7 +493,6 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 			double y, double xscale, double yscale, double angle, int originx, 
 			int originy)
 	{
-		// TODO: Skip some of the phases if there's nothing to transform
 		double tempx = px;
 		double tempy = py;
 		
@@ -502,24 +501,27 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 		tempy -= y;
 		
 		// Rotation
-		double prevDir = HelpMath.pointDirection(0, 0, tempx, tempy);
-		//System.out.println(prevDir);
-		double newDir = HelpMath.checkDirection(prevDir - angle);
-		//System.out.println(newDir);
-		double dist = HelpMath.pointDistance(0, 0, tempx, tempy);
-		//System.out.println(dist);
-		tempx = HelpMath.lendirX(dist, newDir);
-		tempy = HelpMath.lendirY(dist, newDir);
-		//System.out.println(tempx);
-		//System.out.println(tempy);
+		if (angle > 0)
+		{
+			double prevDir = HelpMath.pointDirection(0, 0, tempx, tempy);
+			double newDir = HelpMath.checkDirection(prevDir - angle);
+			double dist = HelpMath.pointDistance(0, 0, tempx, tempy);
+			
+			tempx = HelpMath.lendirX(dist, newDir);
+			tempy = HelpMath.lendirY(dist, newDir);
+		}
 		
 		// Scaling
-		double xdist = tempx;
-		double ydist = tempy;
-		double newxdist = xdist*(1/xscale);
-		double newydist = ydist*(1/yscale);
-		tempx -= xdist - newxdist;
-		tempy -= ydist - newydist;
+		if (xscale != 1 || yscale != 1)
+		{
+			double xdist = tempx;
+			double ydist = tempy;
+			double newxdist = xdist*(1/xscale);
+			double newydist = ydist*(1/yscale);
+			
+			tempx -= xdist - newxdist;
+			tempy -= ydist - newydist;
+		}
 		
 		// Origin translate
 		tempx += originx;
@@ -550,7 +552,7 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 * @param y The y-coordinate of the position transformation
 	 * @param xscale The xscale transformation
 	 * @param yscale The yscale transformation
-	 * @param angle The angle transformation
+	 * @param angle The angle transformation (0-360)
 	 * @param originx The x-coordinate of the origin transformation
 	 * @param originy The y-coordinate of the origin transformation
 	 * @return Absolute position with transformations added
@@ -566,21 +568,25 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 		tempy -= originy;
 		
 		// Scaling
-		double xdist = tempx;
-		double ydist = tempy;
-		double newxdist = xdist*xscale;
-		double newydist = ydist*yscale;
-		tempx -= xdist - newxdist;
-		tempy -= ydist - newydist;
+		if (xscale != 1 || yscale != 1)
+		{
+			double xdist = tempx;
+			double ydist = tempy;
+			double newxdist = xdist*xscale;
+			double newydist = ydist*yscale;
+			tempx -= xdist - newxdist;
+			tempy -= ydist - newydist;
+		}
 		
 		// Rotation
-		double prevDir = HelpMath.pointDirection(0, 0, tempx, tempy);
-		//System.out.println(prevDir);
-		double newDir = HelpMath.checkDirection(prevDir + angle);
-		//System.out.println(newDir);
-		double dist = HelpMath.pointDistance(0, 0, tempx, tempy);
-		tempx = HelpMath.lendirX(dist, newDir);
-		tempy = HelpMath.lendirY(dist, newDir);
+		if (angle > 0)
+		{
+			double prevDir = HelpMath.pointDirection(0, 0, tempx, tempy);
+			double newDir = HelpMath.checkDirection(prevDir + angle);
+			double dist = HelpMath.pointDistance(0, 0, tempx, tempy);
+			tempx = HelpMath.lendirX(dist, newDir);
+			tempy = HelpMath.lendirY(dist, newDir);
+		}
 		
 		// Position Translate
 		tempx += x;
@@ -596,26 +602,7 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 * @param p The point around which the object rotates
 	 */
 	public void rotateAroundPoint(double angle, Point p)
-	{
-		/*
-		 * This was the first version of the method but it had small problems 
-		 * keeping the distance the same
-		//double prevdist = HelpMath.pointDistance(getX(), getY(), p.x, p.y);
-		// Calculates the starting value
-		Point relativebefore = negateTransformations(p.x, p.y);
-		// Rotates the car
-		addAngle(angle);
-		// Calculates the diference between the start and the end
-		Point absoluteafter = transform(relativebefore.x, relativebefore.y);
-		// Moves the car back into the right position
-		addPosition(p.x - absoluteafter.x, p.y - absoluteafter.y);
-		//double newdist = HelpMath.pointDistance(getX(), getY(), absoluteafter.x, absoluteafter.y);
-		//System.out.println(prevdist - newdist);
-		//Point relativeafter = negateTransformations(p.x, p.y);
-		//System.out.println(relativebefore + " -> " + relativeafter);
-		 * 
-		 */
-		
+	{		
 		// Calculates the old and the new directions (from the point to the object)
 		double prevdir = HelpMath.pointDirection(p.x, p.y, getX(), getY());
 		double newdir = HelpMath.checkDirection(prevdir + angle);
