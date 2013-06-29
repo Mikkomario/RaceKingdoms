@@ -1,8 +1,8 @@
 package drawnobjects;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import handleds.Actor;
 import handlers.ActorHandler;
@@ -340,7 +340,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	 * The object bounces with a certain object it collides with.
 	 *
 	 * @param d The object collided with
-	 * @param collisionpoint The point in which the collision happens
+	 * @param collisionpoint The point in which the collision happens (absolute)
 	 * @param bounciness How much the object bounces away from the given object (1+)
 	 * @param lostenergymodifier How much energy is lost during the collision (0-1)
 	 */
@@ -372,13 +372,16 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		
 		// TODO: Divide stuff in this method between multiple simpler methods
 		// Adds a moment to the object
-		/*
+		
 		double r = HelpMath.pointDistance(getX(), getY(), collisionpoint.x, 
 				collisionpoint.y);
 		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
-				getY(), collisionpoint.x, collisionpoint.y) + 90);
-		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) * r;
-		*/
+				getY(), collisionpoint.x, collisionpoint.y) - 90);
+		// TODO: Change the 0.1 to a variable or something
+		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) * r * 0.1;
+		
+		addMoment(negateTransformations(collisionpoint.x, collisionpoint.y), moment);
+		
 		// TODO: Add moment (needs a new method)
 		// TODO: Also add same effect to the other object (a new method?)
 		// TODO: Add a method that calculates the speed of a single pixel in the object
@@ -447,19 +450,18 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// If there are no moments, doesn't do anything
 		if (this.moments.isEmpty())
 			return;
-		
-		Iterator<Point> i = this.moments.keySet().iterator();
+
+		ArrayList<Point> momentstobeended = new ArrayList<Point>();
 		
 		// Goes through all the moments
-		while (i.hasNext())
+		for (Point p: this.moments.keySet())
 		{
-			Point p = i.next();
 			double f = this.moments.get(p);
 			
 			// If the moment has run out it is no longer recognised
 			if (Math.abs(f) < getRotationFriction())
 			{
-				this.moments.remove(p);
+				momentstobeended.add(p);
 				continue;
 			}
 			else if (f > 0)
@@ -470,6 +472,10 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 			// Changes the moment
 			this.moments.put(p, f);
 		}
+		
+		// Removes the unnecessary moments
+		for (int i = 0; i < momentstobeended.size(); i++)
+			this.moments.remove(momentstobeended.get(i));
 	}
 	
 	private void checkMaxSpeed()
