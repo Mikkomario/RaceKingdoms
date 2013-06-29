@@ -3,6 +3,7 @@ package drawnobjects;
 import handleds.Collidable;
 import handleds.Drawable;
 import handlers.DrawableHandler;
+import helpAndEnums.CollisionType;
 import helpAndEnums.HelpMath;
 
 import java.awt.Point;
@@ -25,6 +26,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	private boolean visible, alive, solid;
 	private Point[] relativecollisionpoints;
 	private boolean active;
+	private CollisionType collisiontype;
 	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
@@ -40,6 +42,7 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 	public DrawnObject2D(int x, int y, DrawableHandler drawer)
 	{
 		// Initializes the attributes
+		this.collisiontype = CollisionType.BOX;
 		this.x = x;
 		this.y = y;
 		this.xscale = 1;
@@ -382,6 +385,25 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 		initializeCollisionPoints(edgeprecision, insideprecision);
 	}
 	
+	/**
+	 * @return The object's collisiontype
+	 */
+	protected CollisionType getCollisionType()
+	{
+		return this.collisiontype;
+	}
+	
+	/**
+	 * Changes the object's collision type
+	 *
+	 * @param newtype The object's new collision type
+	 */
+	protected void setCollisionType(CollisionType newtype)
+	{
+		this.collisiontype = newtype;
+	}
+	
+	
 	// OTHER METHODS	---------------------------------------------------
 	
 	// Restores the angle to between 0 and 360
@@ -604,6 +626,55 @@ public abstract class DrawnObject2D implements Drawable, Collidable, CollisionLi
 				HelpMath.lendirY(dist, newdir));
 		// Also rotates the object
 		addAngle(angle);
+	}
+	
+	/**
+	 * Calculates the direction towards which the force caused by the collision 
+	 * applies.<p>
+	 * 
+	 * Boxes push the point away from the nearest side.<br>
+	 * Circles push the point away from the origin of the object.<br>
+	 * Walls always push the point to their right side
+	 * 
+	 * @param collisionpoint The point at which the collision happens
+	 * @return To which direction the force should apply
+	 */
+	public double getCollisionForceDirection(Point collisionpoint)
+	{
+		// Circles simply push the object away
+		if (this.collisiontype == CollisionType.CIRCLE)
+			return HelpMath.pointDirection(getX(), getY(), 
+					collisionpoint.x, collisionpoint.y);
+		// Walls simply push the object to the right (relative)
+		else if (this.collisiontype == CollisionType.WALL)
+			return getAngle();
+		// Boxes are the most complicated
+		else if (this.collisiontype == CollisionType.BOX)
+		{
+			// Calculates the side which the object touches
+			Point relativepoint = negateTransformations(collisionpoint.x, 
+					collisionpoint.y);
+			double relxdiffer = -0.5 + relativepoint.x / getWidth();
+			double relydiffer = -0.5 + relativepoint.y / getHeight();
+			// Returns drection of one of the sides of the object
+			if (Math.abs(relxdiffer) >= Math.abs(relydiffer))
+			{
+				if (relxdiffer >= 0)
+					return getAngle();
+				else
+					return HelpMath.checkDirection(getAngle() + 180);
+			}
+			else
+			{
+				if (relydiffer >= 0)
+					return HelpMath.checkDirection(getAngle() + 270);
+				else
+					return HelpMath.checkDirection(getAngle() + 90);
+			}
+		}
+		
+		// In case one of these types wasn't the case, returns 0
+		return 0;
 	}
 	
 	private void initializeCollisionPoints(int edgeprecision, int insideprecision)
