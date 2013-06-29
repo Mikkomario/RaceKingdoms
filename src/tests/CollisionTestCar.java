@@ -71,7 +71,8 @@ public class CollisionTestCar extends Car
 		{
 			DrawnObject2D d = (DrawnObject2D) collided;
 			
-			bounceFrom(d, collisionpoints.get(0), 3, 0.1);
+			for (int i = 0; i < collisionpoints.size(); i++)
+				bounceFrom(d, collisionpoints.get(i), 3, 0.1);
 		}
 	}
 	

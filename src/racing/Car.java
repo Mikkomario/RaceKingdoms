@@ -60,8 +60,8 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 		this.acceleration = 0.05;		// How fast the car starts moving (> 0)
 		this.maxturning = 0.4;			// How much the car can turn (> 0)
 		this.turningfriction = 0.03;	// How much turning affects the car's movement (>= 0)
-		this.turnrate = 0.95;			// How much speed is kept while turning (0 - 1)
-		this.brakepower = 0.04;			// How effectively the car brakes (>= 0)
+		this.turnrate = 1.5;			// How much speed is kept while turning (0+)
+		this.brakepower = 0.05;			// How effectively the car brakes (>= 0)
 		this.maxreversespeed = 4;		// How fast the car can move backwards (> 0)
 		this.slidepower = 0.7;			// How effective the slide is (0 - 1)
 		this.rotfriction = 0.7;			// How fast the rotation diminishes (>= 0)
@@ -265,26 +265,19 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 		double turnboost = getTurningFriction();
 		turnboost *= this.turnrate;
 		
+		// The larger the angledifference (up to 90) the smalller the turnboost
+		turnboost *= HelpMath.getDirectionalForce(getDirection(), 1, getAngle());
+		
+		/*
 		// If the car is driving backwards, the boost is reversed
 		if (getAngleDifference180() > 90)
 			turnboost *= -1;
-		
-		// If the car is sliding, the turnboost is much larger
-		/*
-		if (this.sliding)
-			turnboost *= this.slidepower;
 		*/
 		
 		// High slidingpower diminishes turnboost
 		if (this.sliding)
 			turnboost *= 1 - this.slidepower;
-		
-		// If the car is sliding, the speed can't become larger than what it was
-		/*
-		if (this.sliding)
-			addCheckedBoost(getAngle(), turnboost, getSpeed());
-		else
-		*/
+	
 		addMotion(getAngle(), turnboost);
 	}
 	
