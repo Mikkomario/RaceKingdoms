@@ -617,6 +617,19 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	}
 	
 	/**
+	 * Rotates the object around a relative point. 
+	 * A bit heavier than the rotatearoundpoint method
+	 *
+	 * @param angle The amount of degrees the object is rotated
+	 * @param p The relative point around which the object is rotated
+	 */
+	public void rotateAroundRelativePoint(double angle, Point p)
+	{
+		Point abspoint = transform(p.x, p.y);
+		rotateAroundPoint(angle, abspoint);
+	}
+	
+	/**
 	 * Calculates the direction towards which the force caused by the collision 
 	 * applies.<p>
 	 * 

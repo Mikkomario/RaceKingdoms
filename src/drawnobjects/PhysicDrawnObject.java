@@ -1,6 +1,8 @@
 package drawnobjects;
 
 import java.awt.Point;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import handleds.Actor;
 import handlers.ActorHandler;
@@ -18,7 +20,10 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 {	
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private double hspeed, vspeed, rotation, friction, rotFriction, maxspeed, maxrotation;
+	private double hspeed, vspeed, rotation, friction, rotFriction, maxspeed, 
+			maxrotation;
+	// Contains each moment affecting the object
+	private HashMap<Point, Double> moments;
 	
 	
 	// CONSTRUCTOR	------------------------------------------------------
@@ -37,6 +42,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	{
 		super(x, y, drawer);
 		
+		// Initializes attributes
 		this.hspeed = 0;
 		this.vspeed = 0;
 		this.rotation = 0;
@@ -44,6 +50,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		this.rotFriction = 0;
 		this.maxspeed = -1;
 		this.maxrotation = -1;
+		this.moments = new HashMap<Point, Double>();
 		
 		// Adds the object to the actorhandler if possible
 		if (actorhandler != null)
@@ -59,6 +66,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// Handles the movement of the object
 		move();
 		rotate();
+		implyMoments();
 	}
 	
 	
@@ -301,6 +309,34 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	}
 	
 	/**
+	 * Adds a new moment to the object.
+	 *
+	 * @param p The point around which the object will rotate (relative)
+	 * @param force How much the object rotates around the point (degrees / step)
+	 */
+	public void addMoment(Point p, double force)
+	{
+		if (p == null)
+			return;
+		
+		// If there is no moment affecting the given point, it is added as a 
+		// new moment
+		if (!this.moments.containsKey(p))
+			this.moments.put(p, force);
+		// Otherwise the old and the new moment are added together
+		else
+			this.moments.put(p, this.moments.get(p) + force);
+	}
+	
+	/**
+	 * Stops each of the moments affecting the object
+	 */
+	public void stopMoments()
+	{
+		this.moments.clear();
+	}
+	
+	/**
 	 * The object bounces with a certain object it collides with.
 	 *
 	 * @param d The object collided with
@@ -379,6 +415,13 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		implyRotationFriction();
 	}
 	
+	// Rotates the object according to the moments affecting the object
+	private void implyMoments()
+	{
+		for (Point p: this.moments.keySet())
+			rotateAroundRelativePoint(this.moments.get(p), p);
+	}
+	
 	// Slows the speed the amount of given friction
 	private void implyFriction()
 	{
@@ -388,12 +431,45 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	// Slows the rotation speed the amoutn of given friction
 	private void implyRotationFriction()
 	{	
+		// Slows down the object's rotation
 		if (Math.abs(getRotation()) <= getRotationFriction())
 			this.rotation = 0;
 		else if (getRotation() > 0)
 			this.rotation -= getRotationFriction();
 		else
 			this.rotation += getRotationFriction();
+		// Also slows down each of the object's moments
+		implyRotationFrictionToMoments();
+	}
+	
+	private void implyRotationFrictionToMoments()
+	{
+		// If there are no moments, doesn't do anything
+		if (this.moments.isEmpty())
+			return;
+		
+		Iterator<Point> i = this.moments.keySet().iterator();
+		
+		// Goes through all the moments
+		while (i.hasNext())
+		{
+			Point p = i.next();
+			double f = this.moments.get(p);
+			
+			// If the moment has run out it is no longer recognised
+			if (Math.abs(f) < getRotationFriction())
+			{
+				this.moments.remove(p);
+				continue;
+			}
+			else if (f > 0)
+				f -= getRotationFriction();
+			else
+				f += getRotationFriction();
+			
+			// Changes the moment
+			this.moments.put(p, f);
+		}
 	}
 	
 	private void checkMaxSpeed()
