@@ -329,11 +329,22 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// Negative force is ignored
 		if (force <= 0)
 			return;
-		
-		System.out.println(force);
+		//System.out.println(force);
 		
 		// Applies the force to the object
 		addMotion(forcedir, force);
+		
+		// TODO: Divide stuff in this method between multiple simpler methods
+		// Adds a moment to the object
+		/*
+		double r = HelpMath.pointDistance(getX(), getY(), collisionpoint.x, 
+				collisionpoint.y);
+		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
+				getY(), collisionpoint.x, collisionpoint.y) + 90);
+		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) * r;
+		*/
+		// TODO: Add moment (needs a new method)
+		// TODO: Also add same effect to the other object (a new method?)
 	}
 	
 	// Moves the object and handles the friction

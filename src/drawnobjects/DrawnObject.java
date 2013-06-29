@@ -493,6 +493,7 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 			double y, double xscale, double yscale, double angle, int originx, 
 			int originy)
 	{
+		// TODO: Skip some of the phases if there's nothing to transform
 		double tempx = px;
 		double tempy = py;
 		
