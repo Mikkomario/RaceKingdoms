@@ -350,7 +350,9 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// Some of the speed is lost during the collision
 		diminishSpeed(getSpeed()*lostenergymodifier);
 		
+		/*
 		Point pixelmovement = getPixelSpeed(collisionpoint);
+		//System.out.println(pixelmovement);
 		double pixelspeed = Math.abs(pixelmovement.x) + Math.abs(pixelmovement.y);
 		double pixeldirection = HelpMath.getVectorDirection(pixelmovement.x, 
 				pixelmovement.y);
@@ -358,12 +360,13 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// If there's no speed, doesn't do anything
 		if (pixelspeed == 0)
 			return;
+		*/
 		
 		// Calculates the direction towards which the force is applied
 		double forcedir = d.getCollisionForceDirection(collisionpoint);
 		
 		// Calculates the actual amount of force applied to the object
-		double force = -HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
+		double force = -HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
 				forcedir) * (1 + bounciness);
 		
 		// Negative force is ignored
@@ -375,16 +378,14 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		
 		// TODO: Divide stuff in this method between multiple simpler methods
 		// Adds a moment to the object
-		
 		double r = HelpMath.pointDistance(getX(), getY(), collisionpoint.x, 
 				collisionpoint.y);
 		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
-				getY(), collisionpoint.x, collisionpoint.y) - 90);
+				getY(), collisionpoint.x, collisionpoint.y) + 90);
 		// TODO: Change the 0.1 to a variable or something
-		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) * r * 0.1;
+		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) * r * 0.05;
 		
 		addMoment(negateTransformations(collisionpoint.x, collisionpoint.y), moment);
-		
 		// TODO: Also add same effect to the other object (a new method?)
 		// TODO: Add mass and density and height
 	}
