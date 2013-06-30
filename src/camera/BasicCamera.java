@@ -9,9 +9,12 @@ import handleds.Drawable;
 import handlers.ActorHandler;
 import handlers.CameraListenerHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.CollisionType;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 import processing.core.PApplet;
+import drawnobjects.CollidingDrawnObject;
+import drawnobjects.DimensionalDrawnObject;
 import drawnobjects.DrawnObject;
 import drawnobjects.PhysicDrawnObject;
 
@@ -46,10 +49,10 @@ public class BasicCamera extends PhysicDrawnObject
 	 * @param screenWidth The width of the screen
 	 * @param screenHeight The height of the screen
 	 */
-	public BasicCamera(int x, int y, DrawableHandler drawer,
-			ActorHandler actorhandler, int screenWidth, int screenHeight)
+	public BasicCamera(int x, int y, int screenWidth, int screenHeight,  
+			DrawableHandler drawer, ActorHandler actorhandler)
 	{
-		super(x, y, drawer, actorhandler);
+		super(x, y, false, CollisionType.BOX, drawer, null, null, actorhandler);
 		
 		// Initializes attributes
 		this.listenerhandler = new CameraListenerHandler(true, null);
@@ -219,22 +222,42 @@ public class BasicCamera extends PhysicDrawnObject
 	 */
 	protected boolean objectShouldBeDrawn(DrawnObject d)
 	{
-		DoublePoint[] collisionpoints = d.getCollisionPoints();
-		
-		// Does NOT check if the object is solid or not! (used for drawing 
-		// so the visible-status is used instead)
-		// Invisible objects are never drawn
-		if (!d.isVisible())
-			return false;
-					
-		// Returns true if any of the collisionpoints collides
-		for (int i = 0; i < collisionpoints.length; i++)
+		// If the drawnobject is collidingdrawnobject, checks the drawing carefully
+		if (d instanceof CollidingDrawnObject)
 		{
-			if (pointCollides((int) collisionpoints[i].getX(), 
-					(int) collisionpoints[i].getY()) != null)
-				return true;
+			CollidingDrawnObject cd = (CollidingDrawnObject) d;
+			
+			DoublePoint[] collisionpoints = cd.getCollisionPoints();
+			
+			// Does NOT check if the object is solid or not! (used for drawing 
+			// so the visible-status is used instead)
+			// Invisible objects are never drawn
+			if (!cd.isVisible())
+				return false;
+						
+			// Returns true if any of the collisionpoints collides
+			for (int i = 0; i < collisionpoints.length; i++)
+			{
+				if (pointCollides((int) collisionpoints[i].getX(), 
+						(int) collisionpoints[i].getY()) != null)
+					return true;
+			}
+			
+			return false;
 		}
-		
-		return false;
+		// Dimensionalobjects are drawn if they are neat the camera
+		// Draws a bit more objects than necessary
+		else if (d instanceof DimensionalDrawnObject)
+		{
+			DimensionalDrawnObject dd = (DimensionalDrawnObject) d;
+			
+			// Checks if it's possible that any point of the object would be shown
+			double maxrange = dd.getMaxRangeFromOrigin() + getMaxRangeFromOrigin();
+			
+			return HelpMath.pointDistance(-getX(), -getY(), dd.getX(), dd.getY()) 
+					< maxrange;
+		}
+		// Other objects are always drawn
+		return true;
 	}
 }

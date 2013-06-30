@@ -1,5 +1,7 @@
 package helpAndEnums;
 
+import java.awt.Point;
+
 /**
  * DoublePoint is a point that holds the data in a double format. Doublepoint 
  * should be used in situations that require very good accuracy
@@ -67,5 +69,17 @@ public class DoublePoint
 	public void setY(double y)
 	{
 		this.y = y;
+	}
+	
+	
+	// OTHER METHODS	--------------------------------------------------
+	
+	/**
+	 * @return The doublepoint as a normal point. The double values are converted 
+	 * into int values so some data could be lost
+	 */
+	public Point getAsPoint()
+	{
+		return new Point((int) getX(), (int) getY());
 	}
 }

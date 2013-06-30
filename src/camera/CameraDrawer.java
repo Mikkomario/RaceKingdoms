@@ -6,7 +6,8 @@ import handlers.DrawnObjectHandler;
 
 /**
  * This class follows the camera and draws objects. It only draws objects that 
- * will be shown on screen
+ * will be shown on screen. The later only works with CollidingDrawnObjects 
+ * since they can be checked.
  *
  * @author Gandalf.
  *         Created 16.6.2013.

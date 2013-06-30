@@ -1,13 +1,12 @@
 package tests;
 
 import java.awt.Point;
-import java.util.ArrayList;
 
-import handleds.Collidable;
+import handlers.CollidableHandler;
 import handlers.DrawableHandler;
-import helpAndEnums.DoublePoint;
+import helpAndEnums.CollisionType;
 import processing.core.PApplet;
-import drawnobjects.DrawnObject;
+import drawnobjects.DimensionalDrawnObject;
 
 /**
  * This class is a simple box that can be drawn
@@ -15,15 +14,19 @@ import drawnobjects.DrawnObject;
  * @author Gandalf.
  *         Created 14.6.2013.
  */
-public class TestBox extends DrawnObject
+public class TestBox extends DimensionalDrawnObject
 {
+	// CONSTRUCTOR	-------------------------------------------------------
+	
 	/**
 	 * Creates a new testbox that does nothing but can be drawn
 	 * @param drawer The handler that will draw the object (optional)
+	 * @param collidablehandler The collidablehandler that handles the box's 
+	 * collision checking.
 	 */
-	public TestBox(DrawableHandler drawer)
+	public TestBox(DrawableHandler drawer, CollidableHandler collidablehandler)
 	{
-		super(300, 300, drawer);
+		super(300, 300, true, CollisionType.BOX, drawer, collidablehandler);
 	}
 	
 	
@@ -78,11 +81,5 @@ public class TestBox extends DrawnObject
 		//		+ ", Y2: " + testpoint.y);
 		
 		System.out.println("DX: " + (x - testpoint.x) + ", DY: " + (y - testpoint.y));
-	}
-
-	@Override
-	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
-	{
-		System.out.println("Testcollision");
 	}
 }

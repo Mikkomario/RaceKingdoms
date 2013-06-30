@@ -36,8 +36,8 @@ public class FollowerCamera extends BasicCamera {
 	public FollowerCamera(DrawableHandler drawer, ActorHandler actorhandler,
 			int screenWidth, int screenHeight, PhysicDrawnObject followed) {
 
-		super((int) (-followed.getX()), (int) (-followed.getY()), drawer,
-				actorhandler, screenWidth, screenHeight);
+		super((int) (-followed.getX()), (int) (-followed.getY()), 
+				screenWidth, screenHeight, drawer, actorhandler);
 
 		this.followed = followed;
 		this.minimumspeed = 2;

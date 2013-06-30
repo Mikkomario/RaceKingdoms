@@ -7,7 +7,10 @@ import graphic.Sprite;
 import graphic.SpriteBank;
 import handleds.Collidable;
 import handlers.ActorHandler;
+import handlers.CollidableHandler;
+import handlers.CollisionHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.CollisionType;
 
 /**
  * Masked spriteobject checks collisions according to the mask, only collision
@@ -32,17 +35,27 @@ public abstract class MaskedSpriteObject extends SpriteObject
 	 *
 	 * @param x The object's new x-coordinate
 	 * @param y The object's new y-coordinate
+	 * @param isSolid Can the object be collided with
+	 * @param collisiontype What shape the object is collisionwise
 	 * @param drawer The drawer that draws the object
+	 * @param collidablehandler The collidablehandler that handles the object's 
+	 * collision checking
+	 * @param collisionhandler The collisionhandler that informs the object 
+	 * about collisions 
 	 * @param actorhandler The actorhandler that makes the object react to steps
 	 * @param bank The spritebank that holds the sprites used in the object
 	 * @param spritename The name of the sprite in the bank
-	 * @param maskname 
+	 * @param maskname The name of the collisionmask in the bank
 	 */
-	public MaskedSpriteObject(int x, int y, DrawableHandler drawer,
+	public MaskedSpriteObject(int x, int y, boolean isSolid, 
+			CollisionType collisiontype, DrawableHandler drawer, 
+			CollidableHandler collidablehandler, CollisionHandler collisionhandler, 
 			ActorHandler actorhandler, SpriteBank bank, String spritename, 
 			String maskname)
 	{
-		super(x, y, drawer, actorhandler, bank, spritename);
+		super(x, y, isSolid, collisiontype, drawer, collidablehandler, 
+				collisionhandler, actorhandler, bank, spritename);
+		//super(x, y, drawer, actorhandler, bank, spritename);
 
 		// Initializes attributes
 		this.mask = bank.getSprite(maskname);

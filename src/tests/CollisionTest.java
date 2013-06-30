@@ -7,7 +7,8 @@ import processing.core.PApplet;
 import racing.Car;
 import racing.CarSpriteBank;
 
-/**Test to see if the car can collide with a box.
+/**
+ * Test to see if the car can collide with a box.
  * 
  * @author Unto	18.6.2013
  *
@@ -40,10 +41,10 @@ public class CollisionTest extends AbstractTest
 		
 		this.colhandler = new CollisionHandler(true, actorhandler);
 		
-		this.testcar = new CollisionTestCar(drawer, actorhandler, 
-				keylistenerhandler, new CarSpriteBank(applet), this.colhandler);
-		this.testbox = new TestBox(drawer);
-		this.colhandler.addCollidable(this.testbox);
+		this.testcar = new CollisionTestCar(drawer, 
+				this.colhandler.getCollidableHandler(), this.colhandler, actorhandler, 
+				keylistenerhandler, new CarSpriteBank(applet));
+		this.testbox = new TestBox(drawer, this.colhandler.getCollidableHandler());
 		
 		this.testcar.inActivate();
 		this.testcar.setInvisible();

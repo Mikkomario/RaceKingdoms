@@ -6,8 +6,11 @@ import processing.core.PConstants;
 import graphic.SpriteBank;
 import handleds.Collidable;
 import handlers.ActorHandler;
+import handlers.CollidableHandler;
+import handlers.CollisionHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
+import helpAndEnums.CollisionType;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 import drawnobjects.MaskedSpriteObject;
@@ -37,16 +40,22 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 	 * @param x The new x-coordinate of the car (ingame pxl)
 	 * @param y The new y-coordinate of the car (ingame pxl)
 	 * @param drawer The drawablehandler that draws the car (optional)
+	 * @param collidablehandler The collidablehandler that handles the car's collision checking
+	 * @param collisionhandler The collisionhandler that informs the car about 
+	 * collisions 
 	 * @param actorhandler The actorhandler that moves the car (optional)
 	 * @param keyhandler The keylistenerhandler that informs the car of the 
 	 * keypresses (optional)
 	 * @param carspritebank The Spritebank that holds the car's sprite
 	 */
-	public Car(int x, int y, DrawableHandler drawer,
+	public Car(int x, int y, DrawableHandler drawer, 
+			CollidableHandler collidablehandler, CollisionHandler collisionhandler, 
 			ActorHandler actorhandler, KeyListenerHandler keyhandler, 
 			SpriteBank carspritebank)
 	{
-		super(x, y, drawer, actorhandler, carspritebank, "test", "testcarmask");
+		super(x, y, true, CollisionType.BOX, drawer, collidablehandler, 
+				collisionhandler, actorhandler, 
+				carspritebank, "test", "testcarmask");
 		
 		// Adds the car to the keyhandler (if possible)
 		if (keyhandler != null)

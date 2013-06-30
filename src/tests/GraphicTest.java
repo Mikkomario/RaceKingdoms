@@ -36,7 +36,7 @@ public class GraphicTest extends AbstractTest
 			PApplet applet)
 	{
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
-		this.box = new TestBox(drawer);
+		this.box = new TestBox(drawer, null);
 		this.box.setInvisible();
 	}
 	

@@ -110,6 +110,18 @@ public class CollisionHandler extends LogicalHandler implements Actor
 	}
 	
 	
+	// GETTERS & SETTERS	----------------------------------------------
+	
+	/**
+	 * @return The collidablehandler that handles the collisionhandler's 
+	 * collision checking
+	 */
+	public CollidableHandler getCollidableHandler()
+	{
+		return this.collidablehandler;
+	}
+	
+	
 	// OTHER METHODS	--------------------------------------------------
 	
 	/**

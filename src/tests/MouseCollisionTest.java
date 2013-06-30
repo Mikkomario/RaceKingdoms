@@ -12,7 +12,9 @@ import processing.core.PConstants;
  * @author Unto	18.6.2013
  *
  */
-public class MouseCollisionTest extends AbstractTest implements MouseListener, KeyListener{
+public class MouseCollisionTest extends AbstractTest implements MouseListener, 
+		KeyListener
+{
 	
 	//ATTRIBUTES	------------------------------------------------------
 	
@@ -42,7 +44,7 @@ public class MouseCollisionTest extends AbstractTest implements MouseListener, K
 		this.active = false;
 		this.alive = true;
 		
-		this.testbox = new TestBox(drawer);
+		this.testbox = new TestBox(drawer, null);
 		this.testbox.setInvisible();
 		
 	}

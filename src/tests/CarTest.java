@@ -7,7 +7,7 @@ import racing.Car;
 import racing.CarSpriteBank;
 
 /**
- * TODO Put here a description of what this class does.
+ * CarTest simply tests the basic movement of the car
  *
  * @author Gandalf.
  *         Created 15.6.2013.
@@ -37,8 +37,8 @@ public class CarTest extends AbstractTest
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 
 		// Initializes attributes
-		this.car = new Car(300, 300, drawer, actorhandler, keylistenerhandler, 
-				new CarSpriteBank(applet));
+		this.car = new Car(300, 300, drawer, null, null, actorhandler, 
+				keylistenerhandler, new CarSpriteBank(applet));
 		this.car.inActivate();
 		this.car.setInvisible();
 	}

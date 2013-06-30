@@ -39,9 +39,10 @@ public class CameraCarTest extends AbstractTest
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 		
 		// Initializes attributes
-		this.testcar = new Car(500, 225, null, actorhandler, 
+		this.testcar = new Car(500, 225, null, null, null, actorhandler, 
 				keylistenerhandler, new CarSpriteBank(applet));
-		this.testcamera = new FollowerCamera(drawer, actorhandler, 1000, 550, this.testcar);
+		this.testcamera = new FollowerCamera(drawer, actorhandler, 1000, 550, 
+				this.testcar);
 		
 		this.testcamera.inActivate();
 		this.testcamera.setInvisible();

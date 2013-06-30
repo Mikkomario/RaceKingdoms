@@ -36,12 +36,11 @@ public class RotationTest extends AbstractTest
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 
 		// Initializes attributes
-		this.refbox = new TestBox(drawer);
+		this.refbox = new TestBox(drawer, null);
 		this.rotbox = new RotationTestBox(drawer, keylistenerhandler);
 		
 		// Sets the objects invisible
 		this.refbox.setInvisible();
-		this.refbox.inActivate();
 		this.rotbox.setInvisible();
 		this.rotbox.inActivate();
 	}
@@ -54,7 +53,6 @@ public class RotationTest extends AbstractTest
 	{
 		// Activates the objects
 		this.refbox.setVisible();
-		this.refbox.activate();
 		this.rotbox.setVisible();
 		this.rotbox.activate();
 	}

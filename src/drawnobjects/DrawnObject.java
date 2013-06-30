@@ -1,33 +1,26 @@
 package drawnobjects;
 
-import handleds.Collidable;
 import handleds.Drawable;
 import handlers.DrawableHandler;
-import helpAndEnums.CollisionType;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 
 import java.awt.Point;
 
-import listeners.CollisionListener;
-
 import processing.core.PApplet;
 
 /**
- * An object from this class is can be drawed on screen as an two dimensional image
+ * An object from this class is can be drawed on screen as an two dimensional object
  *
  * @author Gandalf.
  *         Created 26.11.2012.
  */
-public abstract class DrawnObject implements Drawable, Collidable, CollisionListener
+public abstract class DrawnObject implements Drawable
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
 	private double xscale, yscale, x, y, angle;
-	private boolean visible, alive, solid;
-	private Point[] relativecollisionpoints;
-	private boolean active;
-	private CollisionType collisiontype;
+	private boolean visible, alive;
 	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
@@ -43,7 +36,6 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	public DrawnObject(int x, int y, DrawableHandler drawer)
 	{
 		// Initializes the attributes
-		this.collisiontype = CollisionType.BOX;
 		this.x = x;
 		this.y = y;
 		this.xscale = 1;
@@ -51,9 +43,6 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 		this.visible = true;
 		this.alive = true;
 		this.angle = 0;
-		this.solid = true;
-		this.active = true;
-		this.relativecollisionpoints = null;
 		//initializeCollisionPoints(1, 1);
 		
 		// Adds the object to the drawer (if possible)
@@ -82,16 +71,6 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 */
 	public abstract void drawSelfBasic(PApplet applet);
 	
-	/**
-	 * @return The width of the object
-	 */
-	public abstract int getWidth();
-	
-	/**
-	 * @return The height of the object
-	 */
-	public abstract int getHeight();
-	
 	
 	// IMPLEMENTED METHODS	-----------------------------------------------
 
@@ -99,26 +78,6 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	public boolean isVisible()
 	{
 		return this.visible;
-	}
-
-	@Override
-	public boolean isActive()
-	{
-		return this.active;
-	}
-	
-	@Override
-	public boolean inActivate()
-	{
-		this.active = false;
-		return true;
-	}
-	
-	@Override
-	public boolean activate()
-	{
-		this.active = true;
-		return true;
 	}
 
 	@Override
@@ -168,60 +127,6 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 		
 		// Loads the previous transformation
 		applet.popMatrix();
-	}
-	
-	@Override
-	public boolean isSolid()
-	{
-		return this.solid;
-	}
-	
-	@Override
-	public boolean makeSolid()
-	{
-		this.solid = true;
-		return true;
-	}
-		
-	@Override
-	public boolean makeUnsolid()
-	{
-		this.solid = false;
-		return true;
-	}
-	
-	@Override
-	public Collidable pointCollides(int x, int y)
-	{
-		// Negates the transformation
-		Point negatedPoint = negateTransformations(x, y);
-		
-		// Returns the object if it collides with the point
-		if (HelpMath.pointIsInRange(negatedPoint, 0, 
-				getWidth(), 0, getHeight()))
-			return this;
-		else
-			return null;
-	}
-	
-	@Override
-	public DoublePoint[] getCollisionPoints()
-	{
-		Point[] relativepoints = getRelativeCollisionPoints();
-		
-		// if relativepoints don't exist, returns an empty table
-		if (relativepoints == null)
-			return new DoublePoint[0];
-		
-		DoublePoint[] newpoints = new DoublePoint[relativepoints.length];
-		
-		// Transforms each of the points and adds them to the new table
-		for (int i = 0; i < relativepoints.length; i++)
-		{
-			newpoints[i] = transform(relativepoints[i].x, relativepoints[i].y);
-		}
-		
-		return newpoints;
 	}
 	
 	
@@ -335,73 +240,6 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	public void addPosition(double hspeed, double vspeed)
 	{
 		setPosition(getX() + hspeed, getY() + vspeed);
-	}
-	
-	/**
-	 * @return The relative collision coordinates from which the collisions 
-	 * are checked
-	 */
-	protected Point[] getRelativeCollisionPoints()
-	{
-		// If the collisionpoints have not yet been initialized, initializes them
-		if (this.relativecollisionpoints == null)
-			initializeCollisionPoints(1, 1);
-		
-		return this.relativecollisionpoints;
-	}
-	
-	/**
-	 * Changes the object's list of collisionpoints
-	 *
-	 * @param collisionpoints The new set of relative collisionpoints. Use 
-	 * null if you wan't no collision points.
-	 */
-	protected void setRelativeCollisionPoints(Point[] collisionpoints)
-	{
-		if (collisionpoints != null)
-			this.relativecollisionpoints = collisionpoints;
-		else
-			this.relativecollisionpoints = new Point[0];
-	}
-	
-	/**
-	 * Changes how precisely the object checks collisions. More precision means 
-	 * slower checking and more precise results. Large and scaled objects should 
-	 * have higher precisions than small objects.
-	 *
-	 * @param edgeprecision How precise is the collision checking on the edges 
-	 * of the object? 0 means no collision checking on edges, 1 means only corners 
-	 * and 2+ adds more (4*edgeprecision) collisionpoints to the edges.
-	 * @param insideprecision How precise is the collision checking inside the 
-	 * object? 0 means no collision checking inside the object, 1 means only 
-	 * the center of the object is checked and 2+ means alot more 
-	 * (insideprecision^2) collisionpoints inside the object.
-	 */
-	protected void setCollisionPrecision(int edgeprecision, int insideprecision)
-	{
-		// Doesn't work with negative values
-		if (edgeprecision < 0 || insideprecision < 0)
-			return;
-		
-		initializeCollisionPoints(edgeprecision, insideprecision);
-	}
-	
-	/**
-	 * @return The object's collisiontype
-	 */
-	protected CollisionType getCollisionType()
-	{
-		return this.collisiontype;
-	}
-	
-	/**
-	 * Changes the object's collision type
-	 *
-	 * @param newtype The object's new collision type
-	 */
-	protected void setCollisionType(CollisionType newtype)
-	{
-		this.collisiontype = newtype;
 	}
 	
 	
@@ -623,122 +461,5 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	{
 		DoublePoint abspoint = transform(p.x, p.y);
 		rotateAroundPoint(angle, abspoint);
-	}
-	
-	/**
-	 * Calculates the direction towards which the force caused by the collision 
-	 * applies.<p>
-	 * 
-	 * Boxes push the point away from the nearest side.<br>
-	 * Circles push the point away from the origin of the object.<br>
-	 * Walls always push the point to their right side
-	 * 
-	 * @param collisionpoint The point at which the collision happens
-	 * @return To which direction the force should apply
-	 */
-	public double getCollisionForceDirection(Point collisionpoint)
-	{
-		// Circles simply push the object away
-		if (this.collisiontype == CollisionType.CIRCLE)
-			return HelpMath.pointDirection(getX(), getY(), 
-					collisionpoint.x, collisionpoint.y);
-		// Walls simply push the object to the right (relative)
-		else if (this.collisiontype == CollisionType.WALL)
-			return getAngle();
-		// Boxes are the most complicated
-		else if (this.collisiontype == CollisionType.BOX)
-		{
-			//System.out.println("Calculatingbox");
-			// Calculates the side which the object touches
-			Point relativepoint = negateTransformations(collisionpoint.x, 
-					collisionpoint.y);
-			double relxdiffer = -0.5 + relativepoint.x / (double) getWidth();
-			double relydiffer = -0.5 + relativepoint.y / (double) getHeight();
-			//System.out.println(relxdiffer + " / " + relydiffer);
-			// Returns drection of one of the sides of the object
-			if (Math.abs(relxdiffer) >= Math.abs(relydiffer))
-			{
-				if (relxdiffer >= 0)
-					return getAngle();
-				else
-					return HelpMath.checkDirection(getAngle() + 180);
-			}
-			else
-			{
-				if (relydiffer >= 0)
-					return HelpMath.checkDirection(getAngle() + 270);
-				else
-					return HelpMath.checkDirection(getAngle() + 90);
-			}
-		}
-		
-		// In case one of these types wasn't the case, returns 0
-		return 0;
-	}
-	
-	/**
-	 * @return the longest possible radius of the object (from origin to a corner)
-	 */
-	protected double getMaxRangeFromOrigin()
-	{
-		// First checks which sides are larger
-		double maxXDist = Math.max(getOriginX(), getWidth() - getOriginX());
-		double maxYDist = Math.max(getOriginY(), getHeight() - getOriginY());
-		
-		// Scales the values according to the object's scaling
-		maxXDist *= getXscale();
-		maxYDist *= getYscale();
-		
-		// Calculates the length from origin to the corner of those sides
-		return HelpMath.pointDistance(0, 0, maxXDist, maxYDist);
-	}
-	
-	private void initializeCollisionPoints(int edgeprecision, int insideprecision)
-	{
-		// edgeprecision 0 -> no sides or corners
-		// insideprecision 0 -> no inside points
-		
-		// Calculates the number of collisionpoints
-		int size = edgeprecision*4 + (int) Math.pow(insideprecision, 2);
-		this.relativecollisionpoints = new Point[size];
-		
-		int index = 0;
-		
-		if (edgeprecision > 0)
-		{
-			// Goes through the edgepoints and adds them to the table
-			for (int ex = 0; ex < edgeprecision + 1; ex++)
-			{
-				for (int ey = 0; ey < edgeprecision + 1; ey++)
-				{
-					// Only adds edges
-					if (ex != 0 && ex != edgeprecision && ey != 0 && ey != edgeprecision)
-						continue;
-					
-					// Adds a point to the table
-					this.relativecollisionpoints[index] = new Point(
-							(int) (ex / (double) edgeprecision *getWidth()), 
-							(int) (ey / (double) edgeprecision *getHeight()));
-					
-					index++;
-				}
-			}
-		}
-		if (insideprecision > 0)
-		{
-			// Goes through the insidepoints and adds them to the table
-			for (int ix = 1; ix < insideprecision + 1; ix++)
-			{
-				for (int iy = 1; iy < insideprecision + 1; iy++)
-				{	
-					// Adds a point to the table
-					this.relativecollisionpoints[index] = new Point(
-							(int) (ix / (double) (insideprecision + 1) *getWidth()), 
-							(int) (iy / (double) (insideprecision + 1) *getHeight()));
-					
-					index++;
-				}
-			}
-		}
 	}
 }

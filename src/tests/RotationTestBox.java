@@ -14,6 +14,11 @@ import helpAndEnums.DoublePoint;
  */
 public class RotationTestBox extends TestBox implements KeyListener
 {
+	// ATTRIBUTES	------------------------------------------------------
+	
+	private boolean active;
+	
+	
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
@@ -25,7 +30,10 @@ public class RotationTestBox extends TestBox implements KeyListener
 	public RotationTestBox(DrawableHandler drawer, 
 			KeyListenerHandler keyhandler)
 	{
-		super(drawer);
+		super(drawer, null);
+		
+		// Initializes attributes
+		this.active = true;
 		
 		// Adds the object to the handler (if possible)
 		if (keyhandler != null)
@@ -56,5 +64,25 @@ public class RotationTestBox extends TestBox implements KeyListener
 	public void onKeyReleased(int key, int keyCode, boolean coded)
 	{
 		// Does nothing
+	}
+
+	@Override
+	public boolean isActive()
+	{
+		return this.active;
+	}
+
+	@Override
+	public boolean activate()
+	{
+		this.active = true;
+		return true;
+	}
+
+	@Override
+	public boolean inActivate()
+	{
+		this.active = false;
+		return true;
 	}
 }

@@ -3,12 +3,13 @@ package tests;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import drawnobjects.DrawnObject;
+import drawnobjects.DimensionalDrawnObject;
 
 import processing.core.PApplet;
 import graphic.SpriteBank;
 import handleds.Collidable;
 import handlers.ActorHandler;
+import handlers.CollidableHandler;
 import handlers.CollisionHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
@@ -31,20 +32,22 @@ public class CollisionTestCar extends Car
 	 * added to the necessary handlers
 	 *
 	 * @param drawer The drawer that will draw the car
+	 * @param collidablehandler The collidablehandler that will handle the 
+	 * car's collision checking
 	 * @param actorhandler The actorhandler that will call the car's act event
 	 * @param keyhandler The keyhandler that informs the car about keypresses
 	 * @param carspritebank The spritebank holding "testcar" sprite
 	 * @param collisionhandler The collisionhandler that will inform the car 
 	 * about collisions
 	 */
-	public CollisionTestCar(DrawableHandler drawer,
+	public CollisionTestCar(DrawableHandler drawer, 
+			CollidableHandler collidablehandler, CollisionHandler collisionhandler,
 			ActorHandler actorhandler, KeyListenerHandler keyhandler,
-			SpriteBank carspritebank, CollisionHandler collisionhandler)
+			SpriteBank carspritebank)
 	{
-		super(500, 300, drawer, actorhandler, keyhandler, carspritebank);
+		super(500, 300, drawer, collidablehandler, collisionhandler, 
+				actorhandler, keyhandler, carspritebank);
 		
-		// Adds the car to the handler
-		collisionhandler.addCollisionListener(this);
 		setSprite(getMask());
 		
 		// Just tests the miscalculations during transform and negatetransform
@@ -67,10 +70,10 @@ public class CollisionTestCar extends Car
 	@Override
 	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
 	{
-		// Bounces away from drawnobjects
-		if (collided instanceof DrawnObject)
+		// Bounces away from dimensionaldrawnobjects
+		if (collided instanceof DimensionalDrawnObject)
 		{
-			DrawnObject d = (DrawnObject) collided;
+			DimensionalDrawnObject d = (DimensionalDrawnObject) collided;
 			
 			for (int i = 0; i < collisionpoints.size(); i++)
 				bounceFrom(d, collisionpoints.get(i), 0, 0);

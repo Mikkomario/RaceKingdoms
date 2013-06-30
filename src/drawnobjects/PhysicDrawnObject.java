@@ -6,18 +6,21 @@ import java.util.HashMap;
 
 import handleds.Actor;
 import handlers.ActorHandler;
+import handlers.CollidableHandler;
+import handlers.CollisionHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.CollisionType;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 
 /**
- * In addition to spriteobjects drawing capabilities many basic physics can be 
- * applied to the physicobject
+ * In addition to CollidingDrawnObject's abilities Physicobject handles 
+ * basic physical methods
  *
  * @author Gandalf.
  *         Created 28.11.2012.
  */
-public abstract class PhysicDrawnObject extends DrawnObject implements Actor
+public abstract class PhysicDrawnObject extends CollidingDrawnObject implements Actor
 {	
 	// ATTRIBUTES	------------------------------------------------------
 	
@@ -36,12 +39,20 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	 *
 	 * @param x The ingame x-coordinate of the new object
 	 * @param y The ingame y-coordinate of the new object
+	 * @param isSolid Can the object be collided with
+	 * @param collisiontype What is the shape of the object collisionwise
 	 * @param drawer The drawablehandler that draws the object (optional)
+	 * @param collidablehandler The collidablehandler that handles the object's 
+	 * collision checking (optional)
+	 * @param collisionhandler Collisionhandler that informs the object about collisions (optional)
 	 * @param actorhandler The actorhandler that calls the object's act event (optional)
 	 */
-	public PhysicDrawnObject(int x, int y, DrawableHandler drawer, ActorHandler actorhandler)
+	public PhysicDrawnObject(int x, int y, boolean isSolid, 
+			CollisionType collisiontype, DrawableHandler drawer, 
+			CollidableHandler collidablehandler, CollisionHandler collisionhandler, 
+			ActorHandler actorhandler)
 	{
-		super(x, y, drawer);
+		super(x, y, isSolid, collisiontype, drawer, collidablehandler, collisionhandler);
 		
 		// Initializes attributes
 		this.hspeed = 0;
@@ -345,7 +356,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	 * @param bounciness How much the object bounces away from the given object (1+)
 	 * @param lostenergymodifier How much energy is lost during the collision (0-1)
 	 */
-	protected void bounceFrom(DrawnObject d, DoublePoint collisionpoint, 
+	protected void bounceFrom(DimensionalDrawnObject d, DoublePoint collisionpoint, 
 			double bounciness, double lostenergymodifier)
 	{
 		// Some of the speed is lost during the collision
@@ -383,8 +394,10 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// TODO: Should r be relative to scale or width of the object?
 		double r = HelpMath.pointDistance(getX(), getY(), collisionpoint.getX(), 
 				collisionpoint.getY());
+		// TODO: Change to either +90 or -90 depending on whether the object 
+		// is sliding or stuck on the collided object
 		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
-				getY(), collisionpoint.getX(), collisionpoint.getY()) + 90);
+				getY(), collisionpoint.getX(), collisionpoint.getY()) - 90);
 		// Calculates the moment
 		// The moment also depends of the largest possible range of the object
 		// TODO: Add a nice variable here

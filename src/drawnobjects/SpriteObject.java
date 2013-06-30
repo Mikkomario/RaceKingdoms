@@ -3,13 +3,16 @@ package drawnobjects;
 import graphic.Sprite;
 import graphic.SpriteBank;
 import handlers.ActorHandler;
+import handlers.CollidableHandler;
+import handlers.CollisionHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.CollisionType;
 
 import processing.core.PApplet;
 
 /**
- * This class represents a creature or object in the game world that is drawn
- * to screen with a sprite (image)
+ * This class represents an object in the game world that is drawn
+ * to screen with a sprite (image). The sprite can be animated.
  *
  * @author Gandalf.
  *         Created 26.11.2012.
@@ -25,19 +28,28 @@ public abstract class SpriteObject extends PhysicDrawnObject
 	// CONSTRUCTOR	-------------------------------------------------------
 	
 	/**
-	 * Creates a new spriteobject with the given information. Animation and 
-	 * visibility are set 
-	 * on at default. Scaling and image angle won't be affected.
+	 * Creates a new spriteobject with the given information.
 	 *
 	 * @param x The new x-coordinate of the object (Game world Pxl)
 	 * @param y The new y-coordinate of the object (Game world Pxl)
+	 * @param isSolid Can the object be collided with
+	 * @param collisiontype What shape the object has collisionwise
 	 * @param sprite The Sprite with which the object will be drawn
 	 * @param drawer The drawablehandler that draws the object (optional)
+	 * @param collidablehandler The collidablehandler that will handle the object's 
+	 * collision checking (optional)
+	 * @param collisionhandler Collisionhandler that will inform the object of 
+	 * collisions (optional)
 	 * @param actorhandler The actorhandler that calls the object's act event (optional)
 	 */
-	public SpriteObject(int x, int y, Sprite sprite, DrawableHandler drawer, ActorHandler actorhandler)
+	public SpriteObject(int x, int y, boolean isSolid, 
+			CollisionType collisiontype, Sprite sprite, DrawableHandler drawer, 
+			CollidableHandler collidablehandler, 
+			CollisionHandler collisionhandler, ActorHandler actorhandler)
 	{
-		super(x, y, drawer, actorhandler);
+		super(x, y, isSolid, collisiontype, drawer, collidablehandler, 
+				collisionhandler, actorhandler);
+		//super(x, y, drawer, actorhandler);
 		
 		// Initializes the attributes
 		this.sprite = sprite;
@@ -51,15 +63,25 @@ public abstract class SpriteObject extends PhysicDrawnObject
 	 *
 	 * @param x The ingame x-coordinate of the object's origin (pxl)
 	 * @param y The ingame y-coordinate of the object's origin (pxl)
+	 * @param isSolid Can the object be collided with
+	 * @param collisiontype What shape the object has collisionwise
 	 * @param drawer The drawablehandler that draws the object (optional)
+	 * @param collidablehandler The collidablehandler that will handle the object's 
+	 * collision checking (optional)
+	 * @param collisionhandler Collisionhandler that will inform the object of 
+	 * collisions (optional)
 	 * @param actorhandler The actorhandler that calls the object's act event (optional)
 	 * @param bank The spritebank that holds the sprite of the object
 	 * @param spritename The name of the object's sprite in the bank
 	 */
-	public SpriteObject(int x, int y, DrawableHandler drawer, 
+	public SpriteObject(int x, int y, boolean isSolid, 
+			CollisionType collisiontype, DrawableHandler drawer, 
+			CollidableHandler collidablehandler, 
+			CollisionHandler collisionhandler,
 			ActorHandler actorhandler, SpriteBank bank, String spritename)
 	{
-		super(x, y, drawer, actorhandler);
+		super(x, y, isSolid, collisiontype, drawer, collidablehandler, 
+				collisionhandler, actorhandler);
 		
 		// Initializes the attributes
 		this.sprite = bank.getSprite(spritename);

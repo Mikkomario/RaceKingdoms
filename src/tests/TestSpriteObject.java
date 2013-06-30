@@ -6,6 +6,7 @@ import graphic.Sprite;
 import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.CollisionType;
 import helpAndEnums.DoublePoint;
 import drawnobjects.SpriteObject;
 
@@ -26,9 +27,11 @@ public class TestSpriteObject extends SpriteObject
 	 * @param drawer The drawer that will draw the object (optional)
 	 * @param actorhandler The actorhandler that will call the object's act-event (optional)
 	 */
-	public TestSpriteObject(Sprite sprite, DrawableHandler drawer, ActorHandler actorhandler)
+	public TestSpriteObject(Sprite sprite, DrawableHandler drawer, 
+			ActorHandler actorhandler)
 	{
-		super(200, 200, sprite, drawer, actorhandler);
+		super(200, 200, false, CollisionType.BOX, sprite, 
+				drawer, null, null, actorhandler);
 
 		this.setImageSpeed(0.1);
 	}
