@@ -61,7 +61,7 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 		this.maxturning = 0.4;			// How much the car can turn (> 0)
 		this.turningfriction = 0.03;	// How much turning affects the car's movement (>= 0)
 		this.turnrate = 1.5;			// How much speed is kept while turning (0+)
-		this.brakepower = 0.05;			// How effectively the car brakes (>= 0)
+		this.brakepower = 0.01;			// How effectively the car brakes (>= 0)
 		this.maxreversespeed = 4;		// How fast the car can move backwards (> 0)
 		this.slidepower = 0.7;			// How effective the slide is (0 - 1)
 		this.rotfriction = 0.7;			// How fast the rotation diminishes (>= 0)
@@ -182,7 +182,7 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 		if (getSpeed() > maxspeed)
 		{
 			// If the car was already going too fast, boost only affects direction
-			if (lastspeed > maxspeed)
+			if (lastspeed < getSpeed() && lastspeed > maxspeed)
 				setSpeed(lastspeed);
 			// Otherwise, caps the speed to the max
 			else
