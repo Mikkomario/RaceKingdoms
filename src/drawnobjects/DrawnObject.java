@@ -604,8 +604,6 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 */
 	public void rotateAroundPoint(double angle, DoublePoint p)
 	{
-		// TODO: Causes a slight change in position if p is not the same as origin
-		
 		// Moves the object around the point
 		DoublePoint newposition = 
 				HelpMath.getRotatedPosition(p.getX(), p.getY(), getPosition(), angle);
@@ -676,6 +674,23 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 		
 		// In case one of these types wasn't the case, returns 0
 		return 0;
+	}
+	
+	/**
+	 * @return the longest possible radius of the object (from origin to a corner)
+	 */
+	protected double getMaxRangeFromOrigin()
+	{
+		// First checks which sides are larger
+		double maxXDist = Math.max(getOriginX(), getWidth() - getOriginX());
+		double maxYDist = Math.max(getOriginY(), getHeight() - getOriginY());
+		
+		// Scales the values according to the object's scaling
+		maxXDist *= getXscale();
+		maxYDist *= getYscale();
+		
+		// Calculates the length from origin to the corner of those sides
+		return HelpMath.pointDistance(0, 0, maxXDist, maxYDist);
 	}
 	
 	private void initializeCollisionPoints(int edgeprecision, int insideprecision)

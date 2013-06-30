@@ -385,8 +385,11 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 				collisionpoint.getY());
 		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
 				getY(), collisionpoint.getX(), collisionpoint.getY()) + 90);
-		// TODO: Change the 0.1 to a variable or something
-		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) * r * 0.05;
+		// Calculates the moment
+		// The moment also depends of the largest possible range of the object
+		// TODO: Add a nice variable here
+		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) 
+				* r / getMaxRangeFromOrigin() * 5;
 		
 		addMoment(negateTransformations(collisionpoint.getX(), 
 				collisionpoint.getY()), moment);
