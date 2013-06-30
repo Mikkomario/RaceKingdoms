@@ -17,7 +17,7 @@ import processing.core.PApplet;
  * @author Gandalf.
  *         Created 26.11.2012.
  */
-public abstract class SpriteObject extends PhysicDrawnObject
+public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	

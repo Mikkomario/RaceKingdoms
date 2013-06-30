@@ -16,7 +16,7 @@ import processing.core.PApplet;
 import drawnobjects.CollidingDrawnObject;
 import drawnobjects.DimensionalDrawnObject;
 import drawnobjects.DrawnObject;
-import drawnobjects.PhysicDrawnObject;
+import drawnobjects.BasicPhysicDrawnObject;
 
 /**
  * This object acts as the camera of the game, drawing multiple elements from the 
@@ -25,7 +25,7 @@ import drawnobjects.PhysicDrawnObject;
  * @author Gandalf.
  *         Created 16.6.2013.
  */
-public class BasicCamera extends PhysicDrawnObject
+public class BasicCamera extends BasicPhysicDrawnObject
 {
 	// ATTRIBUTES	------------------------------------------------------
 	

@@ -1,6 +1,6 @@
 package camera;
 
-import drawnobjects.PhysicDrawnObject;
+import drawnobjects.BasicPhysicDrawnObject;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 
@@ -14,7 +14,7 @@ public class FollowerCamera extends BasicCamera {
 
 	// ATTRIBUTES ----------------------------------------------------
 
-	private PhysicDrawnObject followed;
+	private BasicPhysicDrawnObject followed;
 	private int minimumspeed;
 	private double zoommodifier;
 
@@ -34,7 +34,7 @@ public class FollowerCamera extends BasicCamera {
 	 * @param followed The followed PhysicDrawnObject e.g. the Car
 	 */
 	public FollowerCamera(DrawableHandler drawer, ActorHandler actorhandler,
-			int screenWidth, int screenHeight, PhysicDrawnObject followed) {
+			int screenWidth, int screenHeight, BasicPhysicDrawnObject followed) {
 
 		super((int) (-followed.getX()), (int) (-followed.getY()), 
 				screenWidth, screenHeight, drawer, actorhandler);
