@@ -12,6 +12,7 @@ import handlers.ActorHandler;
 import handlers.CollisionHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
+import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 import racing.Car;
 
@@ -47,26 +48,25 @@ public class CollisionTestCar extends Car
 		setSprite(getMask());
 		
 		// Just tests the miscalculations during transform and negatetransform
-		Point p = new Point(0, 0);
+		/*
+		DoublePoint p = new DoublePoint(0, 0);
 		System.out.println("Start: " + p);
 		for (int i = 0; i < 10; i++)
 		{
-			p = negateTransformations(p.x, p.y);
+			p = negateTransformations(p.getX(), p.getY());
 			System.out.println("Relative" + i + ": X " + p.x + " Y " + p.y);
 			p = transform(p.x, p.y);
 			System.out.println("Absolute" + i + ": X " + p.x + " Y " + p.y);
 		}
+		*/
 	}
 	
 	
 	// IMPLEMENTED METHODS
 	
 	@Override
-	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
+	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
 	{
-		// TODO: MIKSI PERSEESSA TAMA TOIMII VAIN JOKA TOISELLA BUILDILLA?
-		System.out.println("Collides!");
-
 		// Bounces away from drawnobjects
 		if (collided instanceof DrawnObject)
 		{
@@ -94,9 +94,9 @@ public class CollisionTestCar extends Car
 		
 		//System.out.println("*******");
 		
-		for (Point p: getCollisionPoints())
+		for (DoublePoint p: getCollisionPoints())
 		{
-			applet.rect(p.x, p.y, 5, 5);
+			applet.rect((int) p.getX(), (int) p.getY(), 5, 5);
 			//System.out.println(p);
 		}
 		
@@ -126,15 +126,22 @@ public class CollisionTestCar extends Car
 				scale(0.9, 0.9);
 			// With d and a the car is rotated around the origin of the screen
 			else if (key == 'd')
-				rotateAroundPoint(-2, new Point(500, 300));
+				rotateAroundPoint(-2, new DoublePoint(500, 300));
 			else if (key == 'a')
-				rotateAroundPoint(2, new Point(500, 300));
+				rotateAroundPoint(2, new DoublePoint(500, 300));
 			else if (key == 'e')
 				addMotion(HelpMath.checkDirection(getAngle() - 90), 0.5);
 			else if (key == 'q')
 				addMotion(HelpMath.checkDirection(getAngle() + 90), 0.5);
 			else if (key == 'r')
-				addMoment(new Point(100, 50), 1);
+			{
+				addMoment(new Point(getOriginX(), getOriginY() -100), 0.001);
+				System.out.println(getPixelSpeed(new Point(0, 0)));
+			}
+			else if (key == 'f')
+			{
+				rotateAroundPoint(1, new DoublePoint(50, 50));
+			}
 		}
 	}
 }

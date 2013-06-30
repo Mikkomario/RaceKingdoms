@@ -7,6 +7,7 @@ import java.util.HashMap;
 import handleds.Actor;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 
 /**
@@ -322,10 +323,10 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// If there is no moment affecting the given point, it is added as a 
 		// new moment
 		if (!this.moments.containsKey(p))
-			this.moments.put(p, force);
+			this.moments.put(p, getRotationFriction() + force);
 		// Otherwise the old and the new moment are added together
 		else
-			this.moments.put(p, this.moments.get(p) + force);
+			this.moments.put(p, this.moments.get(p) + getRotationFriction() + force);
 	}
 	
 	/**
@@ -344,7 +345,7 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	 * @param bounciness How much the object bounces away from the given object (1+)
 	 * @param lostenergymodifier How much energy is lost during the collision (0-1)
 	 */
-	protected void bounceFrom(DrawnObject d, Point collisionpoint, 
+	protected void bounceFrom(DrawnObject d, DoublePoint collisionpoint, 
 			double bounciness, double lostenergymodifier)
 	{
 		// Some of the speed is lost during the collision
@@ -363,7 +364,8 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		*/
 		
 		// Calculates the direction towards which the force is applied
-		double forcedir = d.getCollisionForceDirection(collisionpoint);
+		double forcedir = d.getCollisionForceDirection(new 
+				Point((int) collisionpoint.getX(), (int) collisionpoint.getY()));
 		
 		// Calculates the actual amount of force applied to the object
 		double force = -HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
@@ -378,14 +380,16 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		
 		// TODO: Divide stuff in this method between multiple simpler methods
 		// Adds a moment to the object
-		double r = HelpMath.pointDistance(getX(), getY(), collisionpoint.x, 
-				collisionpoint.y);
+		// TODO: Should r be relative to scale or width of the object?
+		double r = HelpMath.pointDistance(getX(), getY(), collisionpoint.getX(), 
+				collisionpoint.getY());
 		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
-				getY(), collisionpoint.x, collisionpoint.y) + 90);
+				getY(), collisionpoint.getX(), collisionpoint.getY()) + 90);
 		// TODO: Change the 0.1 to a variable or something
 		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) * r * 0.05;
 		
-		addMoment(negateTransformations(collisionpoint.x, collisionpoint.y), moment);
+		addMoment(negateTransformations(collisionpoint.getX(), 
+				collisionpoint.getY()), moment);
 		// TODO: Also add same effect to the other object (a new method?)
 		// TODO: Add mass and density and height
 	}
@@ -557,10 +561,16 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 	}
 	
 	// Calculates the speed of the relative pixel
-	private Point getPixelSpeed(Point pixel)
+	/**
+	 * Calculates the speed of a single pixel in the object
+	 *
+	 * @param pixel The pixel's relative coordinates
+	 * @return The pixel's x- and y-movment (absolute)
+	 */
+	protected DoublePoint getPixelSpeed(Point pixel)
 	{
-		Point absolutestart = transform(pixel.x, pixel.y);
-		Point relativeend = (Point) pixel.clone();
+		DoublePoint absolutestart = transform(pixel.x, pixel.y);
+		DoublePoint relativeend = new DoublePoint(pixel.getX(), pixel.getY());
 		// Moves the pixel according to rotations / moments
 		// Basic rotation
 		relativeend = HelpMath.getRotatedPosition(getOriginX(), getOriginY(), 
@@ -572,12 +582,12 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 					momentorigin.y, relativeend, this.moments.get(momentorigin));
 		}
 		// Transforms the point into an absolute value
-		Point absoluteend = transform(relativeend.x, relativeend.y);
+		DoublePoint absoluteend = transform(relativeend.getX(), relativeend.getY());
 		// Adds the object's speed
-		absoluteend = new Point((int) (absoluteend.x + getHspeed()), 
-				(int) (absoluteend.y + getVspeed()));
+		absoluteend = new DoublePoint(absoluteend.getX() + getHspeed(), 
+				absoluteend.getY() + getVspeed());
 		
-		return new Point(absoluteend.x - absolutestart.x, 
-				absoluteend.y - absolutestart.y);
+		return new DoublePoint(absoluteend.getX() - absolutestart.getX(), 
+				absoluteend.getY() - absolutestart.getY());
 	}
 }

@@ -1,12 +1,12 @@
 package tests;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import graphic.Sprite;
 import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.DoublePoint;
 import drawnobjects.SpriteObject;
 
 /**
@@ -34,7 +34,7 @@ public class TestSpriteObject extends SpriteObject
 	}
 
 	@Override
-	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
+	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
 	{
 		// Does nothing
 	}

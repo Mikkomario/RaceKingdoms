@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import handleds.Collidable;
 import handlers.DrawableHandler;
+import helpAndEnums.DoublePoint;
 import processing.core.PApplet;
 import drawnobjects.DrawnObject;
 
@@ -80,7 +81,7 @@ public class TestBox extends DrawnObject
 	}
 
 	@Override
-	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
+	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
 	{
 		System.out.println("Testcollision");
 	}

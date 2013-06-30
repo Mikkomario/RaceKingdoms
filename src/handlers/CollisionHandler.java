@@ -1,6 +1,5 @@
 package handlers;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,6 +7,7 @@ import listeners.CollisionListener;
 import handleds.Actor;
 import handleds.Collidable;
 import handleds.Handled;
+import helpAndEnums.DoublePoint;
 
 /**
  * A handler that checks collisions between multiple collisionlisteners and 
@@ -56,9 +56,9 @@ public class CollisionHandler extends LogicalHandler implements Actor
 			if (!listener.isActive())
 				continue;
 			
-			Point[] colpoints = listener.getCollisionPoints();
-			HashMap<Collidable, ArrayList<Point>> collidedpoints = 
-					new HashMap<Collidable, ArrayList<Point>>();
+			DoublePoint[] colpoints = listener.getCollisionPoints();
+			HashMap<Collidable, ArrayList<DoublePoint>> collidedpoints = 
+					new HashMap<Collidable, ArrayList<DoublePoint>>();
 			
 			for (int colind = 0; 
 					colind < this.collidablehandler.getHandledNumber(); colind++)
@@ -77,8 +77,8 @@ public class CollisionHandler extends LogicalHandler implements Actor
 				// Checks all points if they would collide
 				for (int pointi = 0; pointi < colpoints.length; pointi++)
 				{
-					Collidable collider = c.pointCollides(colpoints[pointi].x, 
-							colpoints[pointi].y);
+					Collidable collider = c.pointCollides((int) colpoints[pointi].getX(), 
+							(int) colpoints[pointi].getY());
 					
 					if (collider == null)
 						continue;
@@ -86,7 +86,7 @@ public class CollisionHandler extends LogicalHandler implements Actor
 
 					// The arraylist may need to be initialized
 					if (!collidedpoints.containsKey(collider))
-						collidedpoints.put(collider, new ArrayList<Point>());
+						collidedpoints.put(collider, new ArrayList<DoublePoint>());
 					// Remembers the point and the collided object
 					collidedpoints.get(collider).add(colpoints[pointi]);
 				}

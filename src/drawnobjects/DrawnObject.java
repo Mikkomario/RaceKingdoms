@@ -4,6 +4,7 @@ import handleds.Collidable;
 import handleds.Drawable;
 import handlers.DrawableHandler;
 import helpAndEnums.CollisionType;
+import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 
 import java.awt.Point;
@@ -204,15 +205,15 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	}
 	
 	@Override
-	public Point[] getCollisionPoints()
+	public DoublePoint[] getCollisionPoints()
 	{
 		Point[] relativepoints = getRelativeCollisionPoints();
 		
 		// if relativepoints don't exist, returns an empty table
 		if (relativepoints == null)
-			return new Point[0];
+			return new DoublePoint[0];
 		
-		Point[] newpoints = new Point[relativepoints.length];
+		DoublePoint[] newpoints = new DoublePoint[relativepoints.length];
 		
 		// Transforms each of the points and adds them to the new table
 		for (int i = 0; i < relativepoints.length; i++)
@@ -307,9 +308,9 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	/**
 	 * @return The position of the object in a point format
 	 */
-	public Point getPosition()
+	public DoublePoint getPosition()
 	{
-		return new Point((int) this.x, (int) this.y);
+		return new DoublePoint(this.x, this.y);
 	}
 	
 	/**
@@ -537,7 +538,7 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 * @param y Position's y-coordinate relative to the object's origin
 	 * @return Absolute position with transformations added
 	 */
-	protected Point transform(double x, double y)
+	protected DoublePoint transform(double x, double y)
 	{	
 		return transform(x, y, getX(), getY(), getXscale(), getYscale(), 
 				getAngle(), getOriginX(), getOriginY());
@@ -557,7 +558,7 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 * @param originy The y-coordinate of the origin transformation
 	 * @return Absolute position with transformations added
 	 */
-	protected Point transform(double px, double py, double x, double y, 
+	protected DoublePoint transform(double px, double py, double x, double y, 
 			double xscale, double yscale, double angle, int originx, int originy)
 	{	
 		double tempx = px;
@@ -592,7 +593,7 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 		tempx += x;
 		tempy += y;
 		
-		return new Point((int) tempx, (int) tempy);
+		return new DoublePoint(tempx, tempy);
 	}
 	
 	/**
@@ -601,12 +602,14 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 * @param angle The amount of degrees the object rotates
 	 * @param p The point around which the object rotates
 	 */
-	public void rotateAroundPoint(double angle, Point p)
+	public void rotateAroundPoint(double angle, DoublePoint p)
 	{
+		// TODO: Causes a slight change in position if p is not the same as origin
+		
 		// Moves the object around the point
-		Point newposition = 
-				HelpMath.getRotatedPosition(p.x, p.y, getPosition(), angle);
-		setPosition(newposition.x, newposition.y);
+		DoublePoint newposition = 
+				HelpMath.getRotatedPosition(p.getX(), p.getY(), getPosition(), angle);
+		setPosition(newposition.getX(), newposition.getY());
 		// Also rotates the object
 		addAngle(angle);
 	}
@@ -620,7 +623,7 @@ public abstract class DrawnObject implements Drawable, Collidable, CollisionList
 	 */
 	public void rotateAroundRelativePoint(double angle, Point p)
 	{
-		Point abspoint = transform(p.x, p.y);
+		DoublePoint abspoint = transform(p.x, p.y);
 		rotateAroundPoint(angle, abspoint);
 	}
 	

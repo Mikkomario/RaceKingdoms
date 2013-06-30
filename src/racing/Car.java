@@ -1,6 +1,5 @@
 package racing;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import processing.core.PConstants;
@@ -9,6 +8,7 @@ import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
+import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 import drawnobjects.MaskedSpriteObject;
 
@@ -162,7 +162,7 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 	}
 	
 	@Override
-	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
+	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
 	{
 		// Does nothing
 	}

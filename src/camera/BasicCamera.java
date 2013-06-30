@@ -9,6 +9,7 @@ import handleds.Drawable;
 import handlers.ActorHandler;
 import handlers.CameraListenerHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 import processing.core.PApplet;
 import drawnobjects.DrawnObject;
@@ -171,7 +172,7 @@ public class BasicCamera extends PhysicDrawnObject
 	}
 	
 	@Override
-	public void onCollision(ArrayList<Point> collisionpoints, Collidable collided)
+	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
 	{
 		// Doesn't do anything upon collision
 	}
@@ -218,7 +219,7 @@ public class BasicCamera extends PhysicDrawnObject
 	 */
 	protected boolean objectShouldBeDrawn(DrawnObject d)
 	{
-		Point[] collisionpoints = d.getCollisionPoints();
+		DoublePoint[] collisionpoints = d.getCollisionPoints();
 		
 		// Does NOT check if the object is solid or not! (used for drawing 
 		// so the visible-status is used instead)
@@ -229,7 +230,8 @@ public class BasicCamera extends PhysicDrawnObject
 		// Returns true if any of the collisionpoints collides
 		for (int i = 0; i < collisionpoints.length; i++)
 		{
-			if (pointCollides(collisionpoints[i].x, collisionpoints[i].y) != null)
+			if (pointCollides((int) collisionpoints[i].getX(), 
+					(int) collisionpoints[i].getY()) != null)
 				return true;
 		}
 		
