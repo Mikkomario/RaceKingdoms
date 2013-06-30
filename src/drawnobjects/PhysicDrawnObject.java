@@ -351,24 +351,24 @@ public abstract class PhysicDrawnObject extends DrawnObject implements Actor
 		// Some of the speed is lost during the collision
 		diminishSpeed(getSpeed()*lostenergymodifier);
 		
-		/*
-		Point pixelmovement = getPixelSpeed(collisionpoint);
+		DoublePoint pixelmovement = getPixelSpeed(negateTransformations(
+				collisionpoint.getX(), collisionpoint.getY()));
 		//System.out.println(pixelmovement);
-		double pixelspeed = Math.abs(pixelmovement.x) + Math.abs(pixelmovement.y);
-		double pixeldirection = HelpMath.getVectorDirection(pixelmovement.x, 
-				pixelmovement.y);
+		double pixelspeed = Math.abs(pixelmovement.getX()) + 
+				Math.abs(pixelmovement.getY());
+		double pixeldirection = HelpMath.getVectorDirection(pixelmovement.getX(), 
+				pixelmovement.getY());
 		
 		// If there's no speed, doesn't do anything
 		if (pixelspeed == 0)
 			return;
-		*/
 		
-		// Calculates the direction towards which the force is applied
+		// Calculates the direction, towards which the force is applied
 		double forcedir = d.getCollisionForceDirection(new 
 				Point((int) collisionpoint.getX(), (int) collisionpoint.getY()));
 		
 		// Calculates the actual amount of force applied to the object
-		double force = -HelpMath.getDirectionalForce(getDirection(), getSpeed(), 
+		double force = -HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
 				forcedir) * (1 + bounciness);
 		
 		// Negative force is ignored
