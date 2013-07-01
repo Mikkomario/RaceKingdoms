@@ -60,7 +60,7 @@ public abstract class MaskedSpriteObject extends SpriteObject
 		// Initializes attributes
 		this.mask = bank.getSprite(maskname);
 		
-		setCollisionPrecision(1, 2);
+		setBoxCollisionPrecision(1, 2);
 	}
 
 	
@@ -77,9 +77,9 @@ public abstract class MaskedSpriteObject extends SpriteObject
 	}
 	
 	@Override
-	protected void setCollisionPrecision(int edgeprecision, int insideprecision)
+	protected void setBoxCollisionPrecision(int edgeprecision, int insideprecision)
 	{
-		super.setCollisionPrecision(edgeprecision, insideprecision);
+		super.setBoxCollisionPrecision(edgeprecision, insideprecision);
 		
 		// Refines the collisionpoints
 		setRelativeCollisionPoints(getRelativeCollisionPoints());

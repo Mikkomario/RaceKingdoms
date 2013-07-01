@@ -5,6 +5,7 @@ import handlers.CollisionHandler;
 import handlers.DrawableHandler;
 import helpAndEnums.CollisionType;
 import helpAndEnums.DoublePoint;
+import helpAndEnums.HelpMath;
 
 import java.awt.Point;
 
@@ -110,7 +111,13 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	{
 		// If the collisionpoints have not yet been initialized, initializes them
 		if (this.relativecollisionpoints == null)
-			initializeCollisionPoints(1, 1);
+		{
+			if (getCollisionType() == CollisionType.CIRCLE)
+				initializeCircleCollisionPoints(getRadius(), 8, 2);
+			//if (getCollisionType() == CollisionType.BOX)
+			else
+				initializeBoxCollisionPoints(1, 1);
+		}
 		
 		return this.relativecollisionpoints;
 	}
@@ -142,19 +149,35 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	 * the center of the object is checked and 2+ means alot more 
 	 * (insideprecision^2) collisionpoints inside the object.
 	 */
-	protected void setCollisionPrecision(int edgeprecision, int insideprecision)
+	protected void setBoxCollisionPrecision(int edgeprecision, int insideprecision)
 	{
 		// Doesn't work with negative values
 		if (edgeprecision < 0 || insideprecision < 0)
 			return;
 		
-		initializeCollisionPoints(edgeprecision, insideprecision);
+		initializeBoxCollisionPoints(edgeprecision, insideprecision);
+	}
+	
+	/**
+	 * Changes how accurte the collisionpoints are. Works with circular collisiontype
+	 *
+	 * @param radius The maximum radius of the collision circle (from origin) (>= 0)
+	 * @param edgeprecision How many collisionpoints will be added to the outer edge (>= 0)
+	 * @param layers How many collisionpoint layers there will be? (>= 0)
+	 */
+	protected void setCircleCollisionPrecision(int radius, int edgeprecision, int layers)
+	{
+		// Checks the arguments
+		if (radius < 0 || edgeprecision < 0 || layers < 0)
+			return;
+		
+		initializeCircleCollisionPoints(radius, edgeprecision, layers);
 	}
 	
 	
 	// OTHER METHODS	--------------------------------------------------
 	
-	private void initializeCollisionPoints(int edgeprecision, int insideprecision)
+	private void initializeBoxCollisionPoints(int edgeprecision, int insideprecision)
 	{
 		// edgeprecision 0 -> no sides or corners
 		// insideprecision 0 -> no inside points
@@ -199,6 +222,44 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 					
 					index++;
 				}
+			}
+		}
+	}
+	
+	// Initializes collisionpoints for circular object
+	private void initializeCircleCollisionPoints(int radius, int edgeprecision, 
+			int layers)
+	{
+		// Calculates the number of collisionpoints
+		int size = edgeprecision;
+		// From layer 2 onwards, center is added
+		if (layers >= 2)
+			size ++;
+		// Larger amount of layers means more collisionpoints
+		for (int i = 3; i <= layers; i++)
+		{
+			int more = (int) ((i - 2.0) / (layers - 1.0) * edgeprecision);
+			size += more;
+		}
+		
+		this.relativecollisionpoints = new Point[size];
+		int index = 0;
+		
+		for (int i = 1; i <= layers; i++)
+		{
+			// Calculates the necessary information
+			int pointsonlayer = (int) ((i - 1.0)/(layers - 1.0) * edgeprecision);
+			// The first layer has an extra 1 point (instead of 0)
+			if (i == 1)
+				pointsonlayer = 1;
+			int layerradius = (int) (radius * ((i - 1.0) / (layers - 1.0)));
+			
+			// Creates the points
+			for (int a = 0; a < 360; a += 360 / pointsonlayer)
+			{
+				this.relativecollisionpoints[index] = new Point(
+						getOriginX() + (int) HelpMath.lendirX(layerradius, a), 
+						getOriginY() + (int) HelpMath.lendirY(layerradius, a));
 			}
 		}
 	}

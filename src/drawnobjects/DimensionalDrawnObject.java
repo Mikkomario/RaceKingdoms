@@ -21,6 +21,7 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	
 	private boolean solid;
 	private CollisionType collisiontype;
+	private int radius;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -45,6 +46,9 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 		// Initializes attributes
 		this.solid = isSolid;
 		this.collisiontype = collisiontype;
+		// Negative radius means uninitialized (needs to be done later since it 
+		// uses width and height)
+		this.radius = -1;
 		
 		// Adds the object to the handler, if possible
 		if (collidablehandler != null)
@@ -94,11 +98,24 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 		Point negatedPoint = negateTransformations(x, y);
 		
 		// Returns the object if it collides with the point
-		if (HelpMath.pointIsInRange(negatedPoint, 0, 
-				getWidth(), 0, getHeight()))
-			return this;
+		// Circular objects react if the point is near enough
+		if (this.collisiontype == CollisionType.CIRCLE)
+		{
+			if (HelpMath.pointDistance(getOriginX(), getOriginY(), x, y) 
+					<= getRadius())
+				return this;
+			else
+				return null;
+		}
+		// Other types collide if the point is within them
 		else
-			return null;
+		{
+			if (HelpMath.pointIsInRange(negatedPoint, 0, 
+					getWidth(), 0, getHeight()))
+				return this;
+			else
+				return null;
+		}
 	}
 	
 	
@@ -120,6 +137,32 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	protected void setCollisionType(CollisionType newtype)
 	{
 		this.collisiontype = newtype;
+	}
+	
+	/**
+	 * @return The radius of the object if it was a circle. If the radius has 
+	 * not been specified, returns an approximation.
+	 */
+	public int getRadius()
+	{
+		// Checks if the radius needs initializing
+		if (this.radius < 0)
+			initializeRadius();
+		return this.radius;
+	}
+	
+	/**
+	 * Changes the object's radius
+	 *
+	 * @param r The object's new radius. Use a negative number if you want 
+	 * the radius to be approximated automatically.
+	 */
+	public void setRadius(int r)
+	{
+		if (r >= 0)
+			this.radius = r;
+		else
+			initializeRadius();
 	}
 	
 	
@@ -191,5 +234,10 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 		
 		// Calculates the length from origin to the corner of those sides
 		return HelpMath.pointDistance(0, 0, maxXDist, maxYDist);
+	}
+	
+	private void initializeRadius()
+	{
+		this.radius = (getWidth() + getHeight()) / 4;
 	}
 }
