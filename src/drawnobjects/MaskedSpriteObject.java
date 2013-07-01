@@ -143,7 +143,12 @@ public abstract class MaskedSpriteObject extends SpriteObject
 	
 	private boolean maskContainsPoint(Point p)
 	{	
-		int c = this.mask.getSubImage(getImageIndex()).get(p.x, p.y);
+		int maskindex = 0;
+		// If the mask is animated as well, uses the animated mask
+		if (getMask().getImageNumber() == getSprite().getImageNumber())
+			maskindex = getImageIndex();
+		
+		int c = this.mask.getSubImage(maskindex).get(p.x, p.y);
 		//System.out.println(c == maskcolor);
 		return c == maskcolor;
 	}
