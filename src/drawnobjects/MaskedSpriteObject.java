@@ -35,6 +35,7 @@ public abstract class MaskedSpriteObject extends SpriteObject
 	 *
 	 * @param x The object's new x-coordinate
 	 * @param y The object's new y-coordinate
+	 * @param depth How 'deep' the object is drawn
 	 * @param isSolid Can the object be collided with
 	 * @param collisiontype What shape the object is collisionwise
 	 * @param drawer The drawer that draws the object
@@ -47,13 +48,13 @@ public abstract class MaskedSpriteObject extends SpriteObject
 	 * @param spritename The name of the sprite in the bank
 	 * @param maskname The name of the collisionmask in the bank
 	 */
-	public MaskedSpriteObject(int x, int y, boolean isSolid, 
+	public MaskedSpriteObject(int x, int y, int depth, boolean isSolid, 
 			CollisionType collisiontype, DrawableHandler drawer, 
 			CollidableHandler collidablehandler, CollisionHandler collisionhandler, 
 			ActorHandler actorhandler, SpriteBank bank, String spritename, 
 			String maskname)
 	{
-		super(x, y, isSolid, collisiontype, drawer, collidablehandler, 
+		super(x, y, depth, isSolid, collisiontype, drawer, collidablehandler, 
 				collisionhandler, actorhandler, bank, spritename);
 		//super(x, y, drawer, actorhandler, bank, spritename);
 

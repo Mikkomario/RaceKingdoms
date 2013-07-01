@@ -13,6 +13,12 @@ import handleds.Handled;
  */
 public class DrawableHandler extends Handler implements Drawable
 {	
+	// ATTRIBUTES	------------------------------------------------------
+	
+	private int depth;
+	private boolean usesDepth;
+	
+	
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
@@ -20,11 +26,18 @@ public class DrawableHandler extends Handler implements Drawable
 	 * If autodeath is on and no drawables are added, the handler will die.
 	 *
 	 * @param autodeath Will the handler die if it has no living drawables to handle
+	 * @param usesDepth Will the handler draw the objects in a depth-specific order
+	 * @param depth How 'deep' the objects in this handler are drawn
 	 * @param superhandler The drawablehandler that will draw this handler (optional)
 	 */
-	public DrawableHandler(boolean autodeath, DrawableHandler superhandler)
+	public DrawableHandler(boolean autodeath, boolean usesDepth, int depth, 
+			DrawableHandler superhandler)
 	{
 		super(autodeath, superhandler);
+		
+		// Initializes attributes
+		this.depth = depth;
+		this.usesDepth = usesDepth;
 	}
 	
 	
@@ -87,11 +100,56 @@ public class DrawableHandler extends Handler implements Drawable
 	}
 	
 	@Override
+	public int getDepth()
+	{
+		return this.depth;
+	}
+	
+	@Override
+	public boolean setDepth(int depth)
+	{
+		this.depth = depth;
+		return true;
+	}
+	
+	@Override
 	protected void addHandled(Handled h)
 	{
 		// Can only add drawables
+		if (!(h instanceof Drawable))
+			return;
+		
+		Drawable d = (Drawable) h;
+		
+		// If the depth sorting is on, finds the spot for the object
+		if (this.usesDepth)
+		{
+			int index = 0;
+			
+			while (index < getHandledNumber() - 1)
+			{
+				// Checks if there's an object with a higher depth
+				if (((Drawable) getHandled(index)).getDepth() < d.getDepth())
+				{
+					super.insertHandled(d, index);
+					return;
+				}
+				else
+					index ++;
+			}
+			// If no object with a higher depth was found, simply adds the 
+			// drawable to the end of the list as usual
+		}
+		
+		super.addHandled(d);
+	}
+	
+	@Override
+	protected void insertHandled(Handled h, int index)
+	{
+		// Only handles drawables
 		if (h instanceof Drawable)
-			super.addHandled(h);
+			super.insertHandled(h, index);
 	}
 	
 	

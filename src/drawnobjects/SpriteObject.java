@@ -32,6 +32,7 @@ public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 	 *
 	 * @param x The new x-coordinate of the object (Game world Pxl)
 	 * @param y The new y-coordinate of the object (Game world Pxl)
+	 * @param depth How 'deep' the object is drawn
 	 * @param isSolid Can the object be collided with
 	 * @param collisiontype What shape the object has collisionwise
 	 * @param sprite The Sprite with which the object will be drawn
@@ -42,12 +43,12 @@ public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 	 * collisions (optional)
 	 * @param actorhandler The actorhandler that calls the object's act event (optional)
 	 */
-	public SpriteObject(int x, int y, boolean isSolid, 
+	public SpriteObject(int x, int y, int depth, boolean isSolid, 
 			CollisionType collisiontype, Sprite sprite, DrawableHandler drawer, 
 			CollidableHandler collidablehandler, 
 			CollisionHandler collisionhandler, ActorHandler actorhandler)
 	{
-		super(x, y, isSolid, collisiontype, drawer, collidablehandler, 
+		super(x, y, depth, isSolid, collisiontype, drawer, collidablehandler, 
 				collisionhandler, actorhandler);
 		//super(x, y, drawer, actorhandler);
 		
@@ -63,6 +64,7 @@ public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 	 *
 	 * @param x The ingame x-coordinate of the object's origin (pxl)
 	 * @param y The ingame y-coordinate of the object's origin (pxl)
+	 * @param depth How 'deep' the object is drawn
 	 * @param isSolid Can the object be collided with
 	 * @param collisiontype What shape the object has collisionwise
 	 * @param drawer The drawablehandler that draws the object (optional)
@@ -74,13 +76,13 @@ public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 	 * @param bank The spritebank that holds the sprite of the object
 	 * @param spritename The name of the object's sprite in the bank
 	 */
-	public SpriteObject(int x, int y, boolean isSolid, 
+	public SpriteObject(int x, int y, int depth, boolean isSolid, 
 			CollisionType collisiontype, DrawableHandler drawer, 
 			CollidableHandler collidablehandler, 
 			CollisionHandler collisionhandler,
 			ActorHandler actorhandler, SpriteBank bank, String spritename)
 	{
-		super(x, y, isSolid, collisiontype, drawer, collidablehandler, 
+		super(x, y, depth, isSolid, collisiontype, drawer, collidablehandler, 
 				collisionhandler, actorhandler);
 		
 		// Initializes the attributes

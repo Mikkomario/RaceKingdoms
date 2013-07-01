@@ -3,6 +3,7 @@ package camera;
 import processing.core.PApplet;
 import drawnobjects.DrawnObject;
 import handlers.DrawnObjectHandler;
+import helpAndEnums.DepthConstants;
 
 /**
  * This class follows the camera and draws objects. It only draws objects that 
@@ -31,7 +32,7 @@ public class CameraDrawer extends DrawnObjectHandler
 	 */
 	public CameraDrawer(boolean autodeath, BasicCamera camera)
 	{
-		super(autodeath, null);
+		super(autodeath, true, DepthConstants.BACK, null);
 		
 		// Initializes attributes
 		this.camera = camera;

@@ -10,6 +10,7 @@ import handlers.ActorHandler;
 import handlers.CameraListenerHandler;
 import handlers.DrawableHandler;
 import helpAndEnums.CollisionType;
+import helpAndEnums.DepthConstants;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 import processing.core.PApplet;
@@ -52,7 +53,8 @@ public class BasicCamera extends BasicPhysicDrawnObject
 	public BasicCamera(int x, int y, int screenWidth, int screenHeight,  
 			DrawableHandler drawer, ActorHandler actorhandler)
 	{
-		super(x, y, false, CollisionType.BOX, drawer, null, null, actorhandler);
+		super(x, y, DepthConstants.BACK, false, CollisionType.BOX, drawer, 
+				null, null, actorhandler);
 		
 		// Initializes attributes
 		this.listenerhandler = new CameraListenerHandler(true, null);

@@ -35,4 +35,18 @@ public interface Drawable extends Handled
 	 * @return Was the object made invisible
 	 */
 	public boolean setInvisible();
+	
+	/**
+	 * @return How deep should the object be drawn (object with positive depth 
+	 * are drawn to the bottom, objects with negative depth are drawn to the top)
+	 */
+	public int getDepth();
+	
+	/**
+	 * Tries to change the objects depth
+	 * 
+	 * @param depth The object's new depth (negative = top, positive = bottom)
+	 * @return Was the object's depth successfully changed
+	 */
+	public boolean setDepth(int depth);
 }

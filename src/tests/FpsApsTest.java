@@ -1,6 +1,7 @@
 package tests;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import handleds.Actor;
 import handleds.Drawable;
 import handlers.ActorHandler;
@@ -152,5 +153,18 @@ public class FpsApsTest extends AbstractTest implements Actor, Drawable
 			this.lastmillis = System.currentTimeMillis();
 		}
 	}
+	
+	@Override
+	public int getDepth()
+	{
+		// The test is always drawn on top
+		return PConstants.TOP;
+	}
 
+	@Override
+	public boolean setDepth(int depth)
+	{
+		// The depth of the test can't be changed
+		return false;
+	}
 }

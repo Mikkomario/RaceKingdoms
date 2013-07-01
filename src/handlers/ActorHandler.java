@@ -54,6 +54,14 @@ public class ActorHandler extends LogicalHandler implements Actor
 			super.addHandled(h);
 	}
 	
+	@Override
+	protected void insertHandled(Handled h, int index)
+	{
+		// Only handles actors
+		if (h instanceof Actor)
+			super.insertHandled(h, index);
+	}
+	
 	// OTHER METHODS	---------------------------------------------------
 	
 	// Casts the handled to actor (or null)

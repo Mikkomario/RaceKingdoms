@@ -18,11 +18,14 @@ public class DrawnObjectHandler extends DrawableHandler
 	 * Creates a new empty drawnobjecthandler with the given information
 	 *
 	 * @param autodeath Will the handler automatically die when it runs out of handleds
+	 * @param usesDepth Does the handler sort the drawn objects according to their depth
+	 * @param depth How 'deep' the handler draws the objects
 	 * @param superhandler Which drawablehandler will draw the handler and its content
 	 */
-	public DrawnObjectHandler(boolean autodeath, DrawableHandler superhandler)
+	public DrawnObjectHandler(boolean autodeath, boolean usesDepth, int depth, 
+			DrawableHandler superhandler)
 	{
-		super(autodeath, superhandler);
+		super(autodeath, usesDepth, depth, superhandler);
 	}
 	
 	
@@ -34,6 +37,14 @@ public class DrawnObjectHandler extends DrawableHandler
 		// Can only add drawnobjects
 		if (h instanceof DrawnObject)
 			super.addHandled(h);
+	}
+	
+	@Override
+	protected void insertHandled(Handled h, int index)
+	{
+		// Only handles drawnobjects
+		if (h instanceof DrawnObject)
+			super.insertHandled(h, index);
 	}
 	
 	

@@ -21,6 +21,7 @@ public abstract class DrawnObject implements Drawable
 	
 	private double xscale, yscale, x, y, angle;
 	private boolean visible, alive;
+	private int depth;
 	
 	
 	// CONSTRUCTOR	-------------------------------------------------------
@@ -31,9 +32,10 @@ public abstract class DrawnObject implements Drawable
 	 *
 	 * @param x The new x-coordinate of the object (Game world Pxl)
 	 * @param y The new y-coordinate of the object (Game world Pxl)
+	 * @param depth How 'deep' the object is drawn
 	 * @param drawer The handler that draws the object (optional)
 	 */
-	public DrawnObject(int x, int y, DrawableHandler drawer)
+	public DrawnObject(int x, int y, int depth, DrawableHandler drawer)
 	{
 		// Initializes the attributes
 		this.x = x;
@@ -43,6 +45,7 @@ public abstract class DrawnObject implements Drawable
 		this.visible = true;
 		this.alive = true;
 		this.angle = 0;
+		this.depth = depth;
 		//initializeCollisionPoints(1, 1);
 		
 		// Adds the object to the drawer (if possible)
@@ -127,6 +130,19 @@ public abstract class DrawnObject implements Drawable
 		
 		// Loads the previous transformation
 		applet.popMatrix();
+	}
+	
+	@Override
+	public int getDepth()
+	{
+		return this.depth;
+	}
+	
+	@Override
+	public boolean setDepth(int depth)
+	{
+		this.depth = depth;
+		return true;
 	}
 	
 	

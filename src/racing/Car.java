@@ -11,6 +11,7 @@ import handlers.CollisionHandler;
 import handlers.DrawableHandler;
 import handlers.KeyListenerHandler;
 import helpAndEnums.CollisionType;
+import helpAndEnums.DepthConstants;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
 import drawnobjects.MaskedSpriteObject;
@@ -53,8 +54,8 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 			ActorHandler actorhandler, KeyListenerHandler keyhandler, 
 			SpriteBank carspritebank)
 	{
-		super(x, y, true, CollisionType.BOX, drawer, collidablehandler, 
-				collisionhandler, actorhandler, 
+		super(x, y, DepthConstants.NORMAL, true, CollisionType.BOX, drawer, 
+				collidablehandler, collisionhandler, actorhandler, 
 				carspritebank, "test", "testcarmask");
 		
 		// Adds the car to the keyhandler (if possible)

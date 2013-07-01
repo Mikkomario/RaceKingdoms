@@ -34,6 +34,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	 *
 	 * @param x The object's position's x-coordinate
 	 * @param y The object's position's y-coordinate
+	 * @param depth How 'deep' the object is drawn
 	 * @param isSolid Can the object be collided with
 	 * @param collisiontype What shape the object is collisionwise
 	 * @param drawer The drawer that draws the object (optional)
@@ -43,12 +44,12 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	 * about collisions (optional)
 	 * @param actorhandler The actorhandler that informs the object about steps (optional)
 	 */
-	public AdvancedPhysicDrawnObject(int x, int y, boolean isSolid,
+	public AdvancedPhysicDrawnObject(int x, int y, int depth, boolean isSolid,
 			CollisionType collisiontype, DrawableHandler drawer,
 			CollidableHandler collidablehandler,
 			CollisionHandler collisionhandler, ActorHandler actorhandler)
 	{
-		super(x, y, isSolid, collisiontype, drawer, collidablehandler,
+		super(x, y, depth, isSolid, collisiontype, drawer, collidablehandler,
 				collisionhandler, actorhandler);
 		
 		// Initializes attributes
@@ -142,7 +143,6 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		
 		// TODO: Divide stuff in this method between multiple simpler methods
 		// Adds a moment to the object
-		// TODO: Should r be relative to scale or width of the object?
 		double r = HelpMath.pointDistance(getX(), getY(), collisionpoint.getX(), 
 				collisionpoint.getY());
 		// TODO: Change to either +90 or -90 depending on whether the object 

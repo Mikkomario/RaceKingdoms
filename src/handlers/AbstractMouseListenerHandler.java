@@ -63,6 +63,14 @@ implements Actor
 	}
 	
 	@Override
+	protected void insertHandled(Handled h, int index)
+	{
+		// Only handles mouselisteners
+		if (h instanceof MouseListener)
+			super.insertHandled(h, index);
+	}
+	
+	@Override
 	public void act()
 	{
 		//System.out.println(this.entered.size());

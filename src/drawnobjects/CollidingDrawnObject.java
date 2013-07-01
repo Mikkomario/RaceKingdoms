@@ -34,6 +34,7 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	 *
 	 * @param x The object's position's x-coordinate
 	 * @param y The object's position's y-coordinate
+	 * @param depth How 'deep' the object is drawn
 	 * @param isSolid Can the object be collided with
 	 * @param collisiontype What shape the object is collisionwise
 	 * @param drawer Which drawablehandler will draw the object (optional)
@@ -42,11 +43,11 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	 * @param collisionhandler The collisionhandler that will handle the object's 
 	 * collision informing (optional)
 	 */
-	public CollidingDrawnObject(int x, int y, boolean isSolid,
+	public CollidingDrawnObject(int x, int y, int depth, boolean isSolid,
 			CollisionType collisiontype, DrawableHandler drawer, 
 			CollidableHandler collidablehandler, CollisionHandler collisionhandler)
 	{
-		super(x, y, isSolid, collisiontype, drawer, collidablehandler);
+		super(x, y, depth, isSolid, collisiontype, drawer, collidablehandler);
 		
 		// Initializes attributes
 		this.active = true;

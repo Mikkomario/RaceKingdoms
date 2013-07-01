@@ -76,6 +76,14 @@ public class CollidableHandler extends Handler implements Collidable
 			super.addHandled(h);
 	}
 	
+	@Override
+	protected void insertHandled(Handled h, int index)
+	{
+		// Only handles collidables
+		if (h instanceof Collidable)
+			super.insertHandled(h, index);
+	}
+	
 	
 	// OTHER METHOD	-----------------------------------------------------
 	

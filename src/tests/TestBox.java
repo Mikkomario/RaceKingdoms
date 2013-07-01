@@ -5,6 +5,7 @@ import java.awt.Point;
 import handlers.CollidableHandler;
 import handlers.DrawableHandler;
 import helpAndEnums.CollisionType;
+import helpAndEnums.DepthConstants;
 import processing.core.PApplet;
 import drawnobjects.DimensionalDrawnObject;
 
@@ -26,7 +27,8 @@ public class TestBox extends DimensionalDrawnObject
 	 */
 	public TestBox(DrawableHandler drawer, CollidableHandler collidablehandler)
 	{
-		super(300, 300, true, CollisionType.BOX, drawer, collidablehandler);
+		super(300, 300, DepthConstants.NORMAL, true, CollisionType.BOX, drawer, 
+				collidablehandler);
 	}
 	
 	

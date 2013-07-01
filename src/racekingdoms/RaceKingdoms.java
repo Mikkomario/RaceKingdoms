@@ -8,6 +8,7 @@ import handlers.MainKeyListenerHandler;
 import handlers.MainMouseListenerHandler;
 import handlers.MouseListenerHandler;
 import handlers.StepHandler;
+import helpAndEnums.DepthConstants;
 import processing.core.PApplet;
 import tests.CollisionTest;
 import tests.FpsApsTest;
@@ -57,7 +58,7 @@ public class RaceKingdoms extends PApplet
 		this.mainkeyhandler = new MainKeyListenerHandler(this.listeneractorhandler);
 		this.mainmousehandler = new MainMouseListenerHandler(this.listeneractorhandler);
 		
-		this.drawer = new DrawableHandler(false, null);
+		this.drawer = new DrawableHandler(false, true, DepthConstants.NORMAL, null);
 		this.keylistenerhandler = new KeyListenerHandler(false, null);
 		this.mouselistenerhandler = new MouseListenerHandler(false, 
 				this.listeneractorhandler, null);

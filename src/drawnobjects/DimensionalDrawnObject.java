@@ -31,17 +31,18 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	 *
 	 * @param x The x-coordinate of the object's position
 	 * @param y The y-coordinate of the object's position
+	 * @param depth How 'deep' the object is drawn
 	 * @param isSolid Is the object solid. In other words, can the object be collided with
 	 * @param collisiontype What kind of shape the object is collisionwise
 	 * @param drawer The drawablehandler that draws the object (optional)
 	 * @param collidablehandler The collidablehandler that will handle the object's 
 	 * collision checking (optional)
 	 */
-	public DimensionalDrawnObject(int x, int y, boolean isSolid, 
+	public DimensionalDrawnObject(int x, int y, int depth, boolean isSolid, 
 			CollisionType collisiontype, DrawableHandler drawer, 
 			CollidableHandler collidablehandler)
 	{
-		super(x, y, drawer);
+		super(x, y, depth, drawer);
 		
 		// Initializes attributes
 		this.solid = isSolid;

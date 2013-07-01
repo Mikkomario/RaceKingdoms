@@ -33,6 +33,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 *
 	 * @param x The ingame x-coordinate of the new object
 	 * @param y The ingame y-coordinate of the new object
+	 * @param depth How 'deep' the object is drawn
 	 * @param isSolid Can the object be collided with
 	 * @param collisiontype What is the shape of the object collisionwise
 	 * @param drawer The drawablehandler that draws the object (optional)
@@ -41,12 +42,13 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 * @param collisionhandler Collisionhandler that informs the object about collisions (optional)
 	 * @param actorhandler The actorhandler that calls the object's act event (optional)
 	 */
-	public BasicPhysicDrawnObject(int x, int y, boolean isSolid, 
+	public BasicPhysicDrawnObject(int x, int y, int depth, boolean isSolid, 
 			CollisionType collisiontype, DrawableHandler drawer, 
 			CollidableHandler collidablehandler, CollisionHandler collisionhandler, 
 			ActorHandler actorhandler)
 	{
-		super(x, y, isSolid, collisiontype, drawer, collidablehandler, collisionhandler);
+		super(x, y, depth, isSolid, collisiontype, drawer, collidablehandler, 
+				collisionhandler);
 		
 		// Initializes attributes
 		this.hspeed = 0;

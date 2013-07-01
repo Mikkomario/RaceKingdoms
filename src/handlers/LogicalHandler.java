@@ -82,6 +82,15 @@ public abstract class LogicalHandler extends Handler implements LogicalHandled
 			super.addHandled(h);
 	}
 	
+	@Override
+	protected void insertHandled(Handled h, int index)
+	{
+		// Only handles Logicalhandleds
+		if (h instanceof LogicalHandled)
+			super.insertHandled(h, index);
+	}
+	
+	
 	// OTHER METHODS	--------------------------------------------------
 
 	// Casts the handled object to an logical object (or null)

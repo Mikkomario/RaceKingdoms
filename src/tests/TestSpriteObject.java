@@ -7,6 +7,7 @@ import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.DrawableHandler;
 import helpAndEnums.CollisionType;
+import helpAndEnums.DepthConstants;
 import helpAndEnums.DoublePoint;
 import drawnobjects.SpriteObject;
 
@@ -30,7 +31,7 @@ public class TestSpriteObject extends SpriteObject
 	public TestSpriteObject(Sprite sprite, DrawableHandler drawer, 
 			ActorHandler actorhandler)
 	{
-		super(200, 200, false, CollisionType.BOX, sprite, 
+		super(200, 200, DepthConstants.NORMAL, false, CollisionType.BOX, sprite, 
 				drawer, null, null, actorhandler);
 
 		this.setImageSpeed(0.1);
