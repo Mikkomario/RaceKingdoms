@@ -3,6 +3,7 @@ package handlers;
 import handleds.Handled;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handlers specialise in handling certain types of objects. Each handler can 
@@ -100,6 +101,33 @@ public abstract class Handler implements Handled
 		if (h != null && !this.handleds.contains(h))
 		{
 			this.handleds.add(h);
+			
+			// Also starts the handler if it wasn't already
+			if (!this.started)
+				this.started = true;
+		}
+	}
+	
+	/**
+	 * Adds a new object to the handled objects
+	 *
+	 * @param h The object to be handled
+	 * @param index The index to which the handled is inserted to
+	 */
+	protected void insertHandled(Handled h, int index)
+	{
+		if (h != null && !this.handleds.contains(h))
+		{
+			// Removes all of the handleds after the index to another list
+			List<Handled> sublist = this.handleds.subList(index, 
+					this.handleds.size() - 1);
+			List<Handled> holding = new ArrayList<Handled>();
+			holding.addAll(sublist);
+			sublist.clear();
+			// Adds the current handled
+			this.handleds.add(h);
+			// Adds the moved handleds back to the list
+			this.handleds.addAll(holding);
 			
 			// Also starts the handler if it wasn't already
 			if (!this.started)
