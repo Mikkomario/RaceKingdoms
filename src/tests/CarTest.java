@@ -38,7 +38,8 @@ public class CarTest extends AbstractTest
 
 		// Initializes attributes
 		this.car = new Car(300, 300, drawer, null, null, actorhandler, 
-				keylistenerhandler, new CarSpriteBank(applet));
+				keylistenerhandler, new CarSpriteBank(applet), "test", 
+				"testcarmask");
 		this.car.inActivate();
 		this.car.setInvisible();
 	}

@@ -11,6 +11,8 @@ import helpAndEnums.CollisionType;
 import processing.core.PApplet;
 
 /**
+ * THIS CLASS IS OUTDATED AND SHOULD NOT BE USED
+ * 
  * This class represents an object in the game world that is drawn
  * to screen with a sprite (image). The sprite can be animated.
  *
@@ -57,6 +59,9 @@ public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 		
 		this.imageSpeed = 0.1;
 		this.imageIndex = 0;
+		
+		System.out.println("SpriteObject is an outdated class and should not " +
+				"be used anymore");
 	}
 	
 	/**
@@ -90,6 +95,9 @@ public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 		
 		this.imageSpeed = 0.1;
 		this.imageIndex = 0;
+		
+		System.out.println("SpriteObject is an outdated class and should not " +
+				"be used anymore");
 	}
 	
 	

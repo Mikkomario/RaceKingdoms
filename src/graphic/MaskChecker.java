@@ -65,6 +65,10 @@ public class MaskChecker
 	 */
 	public Point[] getRefinedRelativeCollisionPoints(Point[] collisionpoints)
 	{
+		// In case the mask is null (= not used), simply returns the same points
+		if (getMask() == null)
+			return collisionpoints;
+		
 		// Removes the collisionpoints that aren't in the mask
 		ArrayList<Point> templist = new ArrayList<Point>();
 		// Adds all the relevant points to the list
@@ -90,6 +94,10 @@ public class MaskChecker
 	 */
 	public boolean maskContainsRelativePoint(Point relativep)
 	{		
+		// In case mask is not used (mask == null), always returns true
+		if (getMask() == null)
+			return true;
+		
 		int c = this.mask.getSubImage(0).get(relativep.x, relativep.y);
 		return c == maskcolor;
 	}

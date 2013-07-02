@@ -225,6 +225,10 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	 */
 	public double getMaxRangeFromOrigin()
 	{
+		// For circular objects the process is more simple
+		if (getCollisionType() == CollisionType.CIRCLE)
+			return Math.max(getWidth(), getHeight()) / 2.0;
+		
 		// First checks which sides are larger
 		double maxXDist = Math.max(getOriginX(), getWidth() - getOriginX());
 		double maxYDist = Math.max(getOriginY(), getHeight() - getOriginY());

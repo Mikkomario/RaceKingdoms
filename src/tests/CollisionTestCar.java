@@ -46,9 +46,9 @@ public class CollisionTestCar extends Car
 			SpriteBank carspritebank)
 	{
 		super(500, 300, drawer, collidablehandler, collisionhandler, 
-				actorhandler, keyhandler, carspritebank);
+				actorhandler, keyhandler, carspritebank, "test", "testcarmask");
 		
-		setSprite(getMask());
+		//setSprite(getMask());
 		
 		// Just tests the miscalculations during transform and negatetransform
 		/*

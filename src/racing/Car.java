@@ -2,8 +2,11 @@ package racing;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
 import processing.core.PConstants;
+import graphic.MaskChecker;
 import graphic.SpriteBank;
+import graphic.SpriteDrawer;
 import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.CollidableHandler;
@@ -14,7 +17,7 @@ import helpAndEnums.CollisionType;
 import helpAndEnums.DepthConstants;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
-import drawnobjects.MaskedSpriteObject;
+import drawnobjects.AdvancedPhysicDrawnObject;
 
 /**
  * Car is the playable car that races around the stages
@@ -22,9 +25,12 @@ import drawnobjects.MaskedSpriteObject;
  * @author Gandalf.
  *         Created 15.6.2013.
  */
-public class Car extends MaskedSpriteObject implements listeners.KeyListener
+public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListener
 {	
 	// ATTRIBUTES	-----------------------------------------------------
+	
+	private SpriteDrawer spritedrawer;
+	private MaskChecker maskChecker;
 	
 	private double maxdrivespeed, acceleration, turning, maxturning;
 	private double turningfriction, turnrate, brakepower, maxreversespeed;
@@ -47,20 +53,17 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 	 * @param actorhandler The actorhandler that moves the car (optional)
 	 * @param keyhandler The keylistenerhandler that informs the car of the 
 	 * keypresses (optional)
-	 * @param carspritebank The Spritebank that holds the car's sprite
+	 * @param bank The spritebank that holds the car's sprite and mask
+	 * @param carspritename The name of the car's sprite in the bank
+	 * @param carmaskname The name of the car's mask in the bank (null if no mask is used)
 	 */
 	public Car(int x, int y, DrawableHandler drawer, 
 			CollidableHandler collidablehandler, CollisionHandler collisionhandler, 
 			ActorHandler actorhandler, KeyListenerHandler keyhandler, 
-			SpriteBank carspritebank)
+			SpriteBank bank, String carspritename, String carmaskname)
 	{
 		super(x, y, DepthConstants.NORMAL, true, CollisionType.BOX, drawer, 
-				collidablehandler, collisionhandler, actorhandler, 
-				carspritebank, "test", "testcarmask");
-		
-		// Adds the car to the keyhandler (if possible)
-		if (keyhandler != null)
-			keyhandler.addKeyListener(this);
+				collidablehandler, collisionhandler, actorhandler);
 		
 		// Initializes attributes
 		this.sliding = false;
@@ -79,11 +82,18 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 		this.turbopower = 1;			// What is the accelration of the turbos
 		this.turbospeed = 15;			// What is the maximum speed with the turbo
 		
+		this.spritedrawer = new SpriteDrawer(bank.getSprite(carspritename), actorhandler);
+		this.maskChecker = new MaskChecker(bank.getSprite(carmaskname));
+		
 		// Initializes some stats
 		setMaxRotation(20);				// How much the car can possibly spin (> maxturning)
 		setMaxSpeed(25);				// How fast the car can possibly go (> maxdrivespeed)
 		setFriction(0.05);				// How much speed diminishes over time
 		setRotationFriction(this.rotfriction);
+		
+		// Adds the car to the keyhandler (if possible)
+		if (keyhandler != null)
+			keyhandler.addKeyListener(this);
 	}
 	
 	
@@ -175,6 +185,86 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 	public void onCollision(ArrayList<DoublePoint> collisionpoints, Collidable collided)
 	{
 		// Does nothing
+	}
+	
+	@Override
+	public int getWidth()
+	{
+		return this.spritedrawer.getSprite().getWidth();
+	}
+
+	@Override
+	public int getHeight()
+	{
+		return this.spritedrawer.getSprite().getHeight();
+	}
+
+	@Override
+	public int getOriginX()
+	{
+		return this.spritedrawer.getSprite().getOriginX();
+	}
+
+	@Override
+	public int getOriginY()
+	{
+		return this.spritedrawer.getSprite().getOriginY();
+	}
+
+	@Override
+	public void drawSelfBasic(PApplet applet)
+	{
+		// Draws the sprite
+		this.spritedrawer.drawSprite(applet);
+	}
+	
+	@Override
+	public Collidable pointCollides(int x, int y)
+	{
+		// Point only collides if it also collides the mask
+		Collidable collided = super.pointCollides(x, y);
+		
+		if (collided == null)
+			return null;
+		
+		if (this.maskChecker.maskContainsRelativePoint(negateTransformations(x, y)))
+			return collided;
+		else
+			return null;
+	}
+	
+	@Override
+	protected void setBoxCollisionPrecision(int edgeprecision, int insideprecision)
+	{
+		// Adds only the collisionpoints that are also in the mask
+		super.setBoxCollisionPrecision(edgeprecision, insideprecision);
+		refineRelativeCollisionPoints();
+	}
+	
+	@Override
+	protected void setCircleCollisionPrecision(int radius, int edgeprecision, int layers)
+	{
+		super.setCircleCollisionPrecision(radius, edgeprecision, layers);
+		refineRelativeCollisionPoints();
+	}
+	
+	
+	// GETTERS & SETTERS	----------------------------------------------
+	
+	/**
+	 * @return Spritedrawer that draws the car's sprite
+	 */
+	public SpriteDrawer getSpriteDrawer()
+	{
+		return this.spritedrawer;
+	}
+	
+	/**
+	 * @return MaskChecker that checks the car's mask
+	 */
+	public MaskChecker getMaskChecker()
+	{
+		return this.maskChecker;
 	}
 	
 	
@@ -305,5 +395,12 @@ public class Car extends MaskedSpriteObject implements listeners.KeyListener
 			return 0;
 		
 		return this.turningfriction * Math.log(angledifference);
+	}
+	
+	private void refineRelativeCollisionPoints()
+	{
+		super.setRelativeCollisionPoints(
+				this.maskChecker.getRefinedRelativeCollisionPoints(
+						getRelativeCollisionPoints()));
 	}
 }

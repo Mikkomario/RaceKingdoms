@@ -13,6 +13,8 @@ import handlers.DrawableHandler;
 import helpAndEnums.CollisionType;
 
 /**
+ * THIS CLASS IS OUTDATED AND SHOULD NOT BE USED
+ * 
  * Masked spriteobject checks collisions according to the mask, only collision
  * points within the mask are taken into notice
  *
@@ -62,6 +64,9 @@ public abstract class MaskedSpriteObject extends SpriteObject
 		this.mask = bank.getSprite(maskname);
 		
 		setBoxCollisionPrecision(1, 2);
+		
+		System.out.println("MaskedSpriteObject is an outdated class and should not " +
+				"be used anymore");
 	}
 
 	
