@@ -15,6 +15,8 @@ import drawnobjects.DrawnObject;
  */
 public class Background extends DrawnObject
 {
+	// TODO: To be continued after some preparations are made
+	
 	// ATTRIBUTES	-------------------------------------------------------
 	
 	private Sprite texture;

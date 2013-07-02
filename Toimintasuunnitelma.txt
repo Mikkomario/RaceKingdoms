@@ -24,9 +24,16 @@ Kamera										(10)			Gandalf pohja, Unto toteuttaa
 	* Seuraaminen											DONE...
 		- Fixed vai jotain muuta?
 		- Käytä kamerana physicobjectia niin menee hyvin
-	* Zoomaus												Gandalfin Overhaul muista
+	* Zoomaus												DONE
 Kartan luku									(8)
 	* VAATII SUUNNITTELUA
+	* Tarvitaan tilet
+		- 50*50 objekteja. Hyvin hyvin yksinkertaisia
+			* Pitäisköhän tehdä simpleDrawnObject luokka 
+			niitä varten
+		- 
+	* Tarvitaan myös background
+		- Sama kuin tile mutta isompi
 	* Luetaan väreistä törmäys
 Törmäys										(9)
 	* Auto voisi pyörähtää törmätessään. Tähän tarvitaan 

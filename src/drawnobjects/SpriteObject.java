@@ -123,6 +123,18 @@ public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 		animate();
 	}
 	
+	@Override
+	public int getWidth()
+	{
+		return getSprite().getWidth();
+	}
+
+	@Override
+	public int getHeight()
+	{
+		return getSprite().getHeight();
+	}
+	
 	
 	// GETTERS & SETTERS	-----------------------------------------------
 	
@@ -195,17 +207,5 @@ public abstract class SpriteObject extends AdvancedPhysicDrawnObject
 		
 		if (this.imageIndex < 0)
 			this.imageIndex += getSprite().getImageNumber();
-	}
-
-	@Override
-	public int getWidth()
-	{
-		return getSprite().getWidth();
-	}
-
-	@Override
-	public int getHeight()
-	{
-		return getSprite().getHeight();
 	}
 }
