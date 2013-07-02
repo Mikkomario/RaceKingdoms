@@ -84,6 +84,9 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	@Override
 	public DoublePoint[] getCollisionPoints()
 	{
+		// TODO: Causes problems when height and width have not yet been 
+		// initialized in another thread
+		
 		Point[] relativepoints = getRelativeCollisionPoints();
 		
 		// if relativepoints don't exist, returns an empty table
