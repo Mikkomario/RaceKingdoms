@@ -25,6 +25,14 @@ import racing.Car;
  */
 public class CollisionTestCar extends Car
 {
+	// ATTRIBUTES	------------------------------------------------------
+	
+	private static Point[] relcolpoints = {new Point(1, 48), new Point(24, 27), 
+		new Point(31, 16), new Point(59, 14), new Point(85, 14), new Point(111, 19), 
+		new Point(127, 28), new Point(128, 42), new Point(122, 53), new Point(126, 65), 
+		new Point(129, 72), new Point(117, 83), new Point(73, 87), new Point(59, 87), 
+		new Point(31, 82)};
+	
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
@@ -60,6 +68,22 @@ public class CollisionTestCar extends Car
 			System.out.println("Relative" + i + ": X " + p.x + " Y " + p.y);
 			p = transform(p.x, p.y);
 			System.out.println("Absolute" + i + ": X " + p.x + " Y " + p.y);
+		}
+		*/
+		
+		// Sets custom collisionpoints
+		setRelativeCollisionPoints(relcolpoints);
+		
+		// Test: Prints the classes of the object
+		
+		//System.out.println("Printing classes");
+		//System.out.println(Car.class.isInstance(this));
+		/*
+		Class<?>[] classes = getClass().getClasses();
+		System.out.println(classes.length);
+		for (int i = 0; i < classes.length; i++)
+		{
+			System.out.println(classes[i].getName());
 		}
 		*/
 	}

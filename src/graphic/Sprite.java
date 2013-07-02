@@ -72,7 +72,6 @@ public class Sprite
 			sw = this.strip.width / numberOfImages;
 			sx = i*sw;
 			
-			// TODO: Test this at some point!
 			this.images[i] = this.strip.get(sx, 0, sw, this.strip.height);
 		}
 	}

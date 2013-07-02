@@ -153,7 +153,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// The moment also depends of the largest possible range of the object
 		// TODO: Add a nice variable here
 		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) 
-				* r / getMaxRangeFromOrigin() * 5;
+				* r / getMaxRangeFromOrigin() * 3;
 		
 		addMoment(negateTransformations(collisionpoint.getX(), 
 				collisionpoint.getY()), moment);

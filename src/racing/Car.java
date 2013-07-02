@@ -94,6 +94,9 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		// Adds the car to the keyhandler (if possible)
 		if (keyhandler != null)
 			keyhandler.addKeyListener(this);
+		
+		// Resets the collisionpoints
+		setBoxCollisionPrecision(3, 4);
 	}
 	
 	
@@ -288,6 +291,9 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 			else
 				setSpeed(maxspeed);
 		}
+		
+		// TODO: Rotate the car according to the accelration difference between 
+		// the pixels?
 	}
 	
 	/*
