@@ -145,11 +145,9 @@ public class DrawableHandler extends Handler implements Drawable
 	}
 	
 	@Override
-	protected void insertHandled(Handled h, int index)
+	protected Class<?> getSupportedClass()
 	{
-		// Only handles drawables
-		if (h instanceof Drawable)
-			super.insertHandled(h, index);
+		return Drawable.class;
 	}
 	
 	

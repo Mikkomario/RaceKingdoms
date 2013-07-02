@@ -40,19 +40,9 @@ public class CameraListenerHandler extends LogicalHandler implements CameraListe
 	}
 	
 	@Override
-	protected void addHandled(Handled h)
+	protected Class<?> getSupportedClass()
 	{
-		// Only handles cameralisteners
-		if (h instanceof CameraListener)
-			super.addHandled(h);
-	}
-	
-	@Override
-	protected void insertHandled(Handled h, int index)
-	{
-		// Only handles cameralisteners
-		if (h instanceof CameraListener)
-			super.insertHandled(h, index);
+		return CameraListener.class;
 	}
 	
 	

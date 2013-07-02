@@ -69,19 +69,9 @@ public class CollidableHandler extends Handler implements Collidable
 	}
 	
 	@Override
-	protected void addHandled(Handled h)
+	protected Class<?> getSupportedClass()
 	{
-		// Only adds Collidables
-		if (h instanceof Collidable)
-			super.addHandled(h);
-	}
-	
-	@Override
-	protected void insertHandled(Handled h, int index)
-	{
-		// Only handles collidables
-		if (h instanceof Collidable)
-			super.insertHandled(h, index);
+		return Collidable.class;
 	}
 	
 	

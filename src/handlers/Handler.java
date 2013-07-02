@@ -48,6 +48,14 @@ public abstract class Handler implements Handled
 	}
 	
 	
+	// ABSTRACT METHODS	---------------------------------------------------
+	
+	/**
+	 * @return The class supported by the handler
+	 */
+	protected abstract Class<?> getSupportedClass();
+	
+	
 	// IMPLEMENTED METHODS	-----------------------------------------------
 
 	@Override
@@ -100,6 +108,10 @@ public abstract class Handler implements Handled
 	 */
 	protected void addHandled(Handled h)
 	{
+		// Handled must be of the supported class
+		if (!getSupportedClass().isInstance(h))
+			return;
+		
 		if (h != null && !this.handleds.contains(h))
 		{
 			this.handleds.add(h);
@@ -118,6 +130,10 @@ public abstract class Handler implements Handled
 	 */
 	protected void insertHandled(Handled h, int index)
 	{
+		// Handled must be of the supported class
+		if (!getSupportedClass().isInstance(h))
+			return;
+		
 		if (h != null && !this.handleds.contains(h))
 		{
 			// Removes all of the handleds after the index to another list

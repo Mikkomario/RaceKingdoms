@@ -47,20 +47,11 @@ public class ActorHandler extends LogicalHandler implements Actor
 	}
 	
 	@Override
-	protected void addHandled(Handled h)
+	protected Class<?> getSupportedClass()
 	{
-		// Actorhandler only adds actors
-		if (h instanceof Actor)
-			super.addHandled(h);
+		return Actor.class;
 	}
 	
-	@Override
-	protected void insertHandled(Handled h, int index)
-	{
-		// Only handles actors
-		if (h instanceof Actor)
-			super.insertHandled(h, index);
-	}
 	
 	// OTHER METHODS	---------------------------------------------------
 	
@@ -82,6 +73,6 @@ public class ActorHandler extends LogicalHandler implements Actor
 	 */
 	public void addActor(Actor a)
 	{
-		super.addHandled(a);
+		addHandled(a);
 	}
 }

@@ -53,19 +53,9 @@ public class KeyListenerHandler extends LogicalHandler implements KeyListener
 	}
 	
 	@Override
-	protected void addHandled(Handled h)
+	protected Class<?> getSupportedClass()
 	{
-		// Only handles listeners
-		if (h instanceof KeyListener)
-			super.addHandled(h);
-	}
-	
-	@Override
-	protected void insertHandled(Handled h, int index)
-	{
-		// Only handles keyListeners
-		if (h instanceof KeyListener)
-			super.insertHandled(h, index);
+		return KeyListener.class;
 	}
 	
 	

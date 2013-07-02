@@ -74,22 +74,6 @@ public abstract class LogicalHandler extends Handler implements LogicalHandled
 		return returnValue;
 	}
 	
-	@Override
-	protected void addHandled(Handled h)
-	{
-		// Only logicalhandleds can be added
-		if (h instanceof LogicalHandled)
-			super.addHandled(h);
-	}
-	
-	@Override
-	protected void insertHandled(Handled h, int index)
-	{
-		// Only handles Logicalhandleds
-		if (h instanceof LogicalHandled)
-			super.insertHandled(h, index);
-	}
-	
 	
 	// OTHER METHODS	--------------------------------------------------
 

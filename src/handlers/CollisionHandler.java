@@ -100,13 +100,9 @@ public class CollisionHandler extends LogicalHandler implements Actor
 	}
 	
 	@Override
-	public void addHandled(Handled h)
+	protected Class<?> getSupportedClass()
 	{
-		// Only adds collisionlisteners and collidables
-		if (h instanceof CollisionListener)
-			super.addHandled(h);
-		else if (h instanceof Collidable)
-			this.collidablehandler.addCollidable((Collidable) h);
+		return CollisionListener.class;
 	}
 	
 	

@@ -55,22 +55,6 @@ implements Actor
 	// IMPLEMENTED METHODS	-----------------------------------------------
 	
 	@Override
-	protected void addHandled(Handled h)
-	{
-		// Only handles listeners
-		if (h instanceof MouseListener)
-			super.addHandled(h);
-	}
-	
-	@Override
-	protected void insertHandled(Handled h, int index)
-	{
-		// Only handles mouselisteners
-		if (h instanceof MouseListener)
-			super.insertHandled(h, index);
-	}
-	
-	@Override
 	public void act()
 	{
 		//System.out.println(this.entered.size());
@@ -129,6 +113,12 @@ implements Actor
 		this.rpressed = false;
 		this.lreleased = false;
 		this.rreleased = false;
+	}
+	
+	@Override
+	protected Class<?> getSupportedClass()
+	{
+		return MouseListener.class;
 	}
 	
 	

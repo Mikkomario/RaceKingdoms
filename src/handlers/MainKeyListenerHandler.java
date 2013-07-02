@@ -108,13 +108,11 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 		this.codesPressed.clear();
 		this.codesReleased.clear();
 	}
-
+	
 	@Override
-	protected void addHandled(Handled h)
+	protected Class<?> getSupportedClass()
 	{
-		// Only adds keyListeners
-		if (h instanceof KeyListener)
-			super.addHandled(h);
+		return KeyListener.class;
 	}
 	
 	

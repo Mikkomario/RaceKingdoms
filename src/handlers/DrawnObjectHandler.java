@@ -32,19 +32,9 @@ public class DrawnObjectHandler extends DrawableHandler
 	// IMPLEMENTED METHODS	---------------------------------------------
 	
 	@Override
-	protected void addHandled(Handled h)
+	protected Class<?> getSupportedClass()
 	{
-		// Can only add drawnobjects
-		if (h instanceof DrawnObject)
-			super.addHandled(h);
-	}
-	
-	@Override
-	protected void insertHandled(Handled h, int index)
-	{
-		// Only handles drawnobjects
-		if (h instanceof DrawnObject)
-			super.insertHandled(h, index);
+		return DrawnObject.class;
 	}
 	
 	
