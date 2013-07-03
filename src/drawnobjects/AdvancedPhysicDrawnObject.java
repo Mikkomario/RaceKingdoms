@@ -131,34 +131,22 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 				Point((int) collisionpoint.getX(), (int) collisionpoint.getY()));
 		
 		// Calculates the actual amount of force applied to the object
-		double force = -HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
+		double oppforce = -HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
 				forcedir) * (1 + bounciness);
 		
-		// Negative force is ignored
-		if (force <= 0)
-			return;
+		double force = bounciness * oppforce;
 		
-		// Applies the force to the object
-		addMotion(forcedir, force);
+		// Adds the opposing force and the force (if they are not negative)
+		if (force > 0)
+			addForce(force, forcedir, collisionpoint);
+		if (oppforce > 0)
+			addOpposingForce(oppforce, forcedir, collisionpoint);
 		
 		// TODO: Divide stuff in this method between multiple simpler methods
-		// Adds a moment to the object
-		double r = HelpMath.pointDistance(getX(), getY(), collisionpoint.getX(), 
-				collisionpoint.getY());
-		// TODO: Change to either +90 or -90 depending on whether the object 
-		// is sliding or stuck on the collided object
-		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
-				getY(), collisionpoint.getX(), collisionpoint.getY()) - 90);
-		// Calculates the moment
-		// The moment also depends of the largest possible range of the object
-		// TODO: Add a nice variable here
-		double moment = HelpMath.getDirectionalForce(forcedir, force, tangle) 
-				* r / getMaxRangeFromOrigin() * 3;
-		
-		addMoment(negateTransformations(collisionpoint.getX(), 
-				collisionpoint.getY()), moment);
 		// TODO: Also add same effect to the other object (a new method?)
 		// TODO: Add mass and density and height
+		// TODO: Add methods: addForce and addOpposingForce (which add the 
+		// moment in a different manner)
 	}
 	
 	// Calculates the speed of the relative pixel
@@ -249,5 +237,37 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 				this.moments.put(momentorigin, moment);
 			}
 		}
+	}
+	
+	private void addForce(double force, double forcedir, DoublePoint pixel)
+	{
+		// Applies the force to the object
+		addMotion(forcedir, force);
+		addRotation(calculateMoment(forcedir, force, pixel));
+	}
+	
+	private void addOpposingForce(double force, double forcedir, DoublePoint pixel)
+	{
+		// Applies the force to the object
+		addMotion(forcedir, force);
+		// TODO: Test if negative moment should really be used here
+		addMoment(negateTransformations(pixel.getX(), 
+				pixel.getY()), -calculateMoment(forcedir, force, pixel));
+	}
+	
+	private double calculateMoment(double forcedir, double force, DoublePoint pixel)
+	{
+		// Calculates the range
+		double r = HelpMath.pointDistance(getX(), getY(), pixel.getX(), 
+				pixel.getY());
+		// Calculates the right direction for the force
+		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
+				getY(), pixel.getX(), pixel.getY()) - 90);
+		System.out.println(HelpMath.getDirectionalForce(forcedir, force, tangle));
+		// Calculates the moment
+		// The moment also depends of the largest possible range of the object
+		// TODO: Add a nice variable here
+		return HelpMath.getDirectionalForce(forcedir, force, tangle) 
+				* r / getMaxRangeFromOrigin();
 	}
 }

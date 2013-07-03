@@ -165,10 +165,6 @@ public class CollisionTestCar extends Car
 				addMoment(new Point(getOriginX(), getOriginY() -100), 0.001);
 				System.out.println(getPixelSpeed(new Point(0, 0)));
 			}
-			else if (key == 'f')
-			{
-				rotateAroundPoint(1, new DoublePoint(50, 50));
-			}
 		}
 	}
 }
