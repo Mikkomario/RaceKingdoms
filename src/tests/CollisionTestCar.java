@@ -86,6 +86,10 @@ public class CollisionTestCar extends Car
 			System.out.println(classes[i].getName());
 		}
 		*/
+		
+		// TODO: I don't think these should be the same!
+		System.out.println(HelpMath.getDirectionalForce(135, 1, 270));
+		System.out.println(HelpMath.getDirectionalForce(45, 1, 270));
 	}
 	
 	

@@ -136,11 +136,13 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		
 		double force = bounciness * oppforce;
 		
+		// TODO: Calculate the rotation dirction (is the angledifference between 
+		// pixeldirection and forcedirection either <180 or >180)
 		// Adds the opposing force and the force (if they are not negative)
 		if (force > 0)
 			addForce(force, forcedir, collisionpoint);
 		if (oppforce > 0)
-			addOpposingForce(oppforce, forcedir, collisionpoint);
+			addOpposingForce(oppforce, forcedir, collisionpoint, pixeldirection);
 		
 		// TODO: Divide stuff in this method between multiple simpler methods
 		// TODO: Also add same effect to the other object (a new method?)
@@ -246,13 +248,26 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		addRotation(calculateMoment(forcedir, force, pixel));
 	}
 	
-	private void addOpposingForce(double force, double forcedir, DoublePoint pixel)
+	private void addOpposingForce(double force, double forcedir, 
+			DoublePoint pixel, double pixeldirection)
 	{
 		// Applies the force to the object
 		addMotion(forcedir, force);
-		// TODO: Test if negative moment should really be used here
+		
+		double modifier = 1;
+		
+		// TODO: Why doesn't this change a thing?!?
+		if (HelpMath.checkDirection(forcedir - pixeldirection) < 180)
+		{
+			System.out.println("Otherdir - >" + -calculateMoment(forcedir, force, pixel));
+			modifier = -1;
+		}
+		else
+			System.out.println("Dir -> " + calculateMoment(forcedir, force, pixel));
+		
+		// TODO: Okay, WHY DOESN'T CHANGING THE SIGN HERE CAUSE ANYTHING TO HAPPEN?!?
 		addMoment(negateTransformations(pixel.getX(), 
-				pixel.getY()), -calculateMoment(forcedir, force, pixel));
+				pixel.getY()), modifier * calculateMoment(forcedir, force, pixel));
 	}
 	
 	private double calculateMoment(double forcedir, double force, DoublePoint pixel)
