@@ -11,6 +11,7 @@ import handlers.DrawableHandler;
 import helpAndEnums.CollisionType;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
+import helpAndEnums.Movement;
 
 /**
  * In addition to physicobject's functions. Advanced physicobject also handles 
@@ -116,33 +117,22 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		
 		// TODO: There must be something wrong with the pixelspeed or something 
 		// since the object bounces even when bounciness = 0
-		DoublePoint pixelmovement = getPixelSpeed(negateTransformations(
-				collisionpoint.getX(), collisionpoint.getY()));
-		//System.out.println(pixelmovement);
-		double pixelspeed = Math.abs(pixelmovement.getX()) + 
-				Math.abs(pixelmovement.getY());
-		double pixeldirection = HelpMath.getVectorDirection(pixelmovement.getX(), 
-				pixelmovement.getY());
-		//System.out.println(pixelspeed + " Towards " + pixeldirection);
+		Movement pixelmovement = getPixelMovement(collisionpoint);
+		double pixelspeed = pixelmovement.getSpeed();
+		double pixeldirection = pixelmovement.getDirection();
 		
 		// If there's no speed, doesn't do anything
 		if (pixelspeed == 0)
 			return;
 		
 		// Calculates the direction, towards which the force is applied
-		double forcedir = d.getCollisionForceDirection(new 
-				Point((int) collisionpoint.getX(), (int) collisionpoint.getY()));
+		double forcedir = d.getCollisionForceDirection(collisionpoint.getAsPoint());
 		
 		// Calculates the actual amount of force applied to the object
 		double oppforce = -HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
 				forcedir);
-		
 		double force = bounciness * oppforce;
 		
-		//System.out.println(oppforce + " / " + pixelspeed);
-		
-		// TODO: Calculate the rotation dirction (is the angledifference between 
-		// pixeldirection and forcedirection either <180 or >180)
 		// Adds the opposing force and the force (if they are not negative)
 		if (force > 0)
 			addForce(force, forcedir, collisionpoint);
@@ -174,10 +164,33 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	 * @param pixel The pixel's relative coordinates
 	 * @return The pixel's x- and y-movment (absolute)
 	 */
-	protected DoublePoint getPixelSpeed(Point pixel)
+	protected Movement getPixelMovement(DoublePoint pixel)
 	{
-		// TODO: Fix this method to calculate the rotation force right (tangentual)
+		// TODO: Check whether the tangent should be +90 or -90. I'm too 
+		// confused right now
+		Movement pixelmovement = getMovement();
+		// Adds the basic rotation
+		pixelmovement = Movement.movementSum(pixelmovement, 
+				Movement.createMovement(
+						HelpMath.pointDirection(getX(), getY(), pixel.getX(), 
+								pixel.getY()) + 90, getRotation()));
+		// Adds movement caused by the moments
+		for (Point relmomentorigin: this.moments.keySet())
+		{
+			// Calculates the momentorigin's absolute position
+			DoublePoint absmomentorigin = transform(relmomentorigin.x, 
+					relmomentorigin.y);
+			// Adds the movement
+			pixelmovement = Movement.movementSum(pixelmovement, 
+					Movement.createMovement(
+					HelpMath.pointDirection(absmomentorigin.getX(), 
+					absmomentorigin.getY(), pixel.getX(), pixel.getY()) + 90, 
+					this.moments.get(relmomentorigin)));
+		}
 		
+		return pixelmovement;
+		
+		/* Old version, use if the new one doesn't work
 		DoublePoint absolutestart = transform(pixel.x, pixel.y);
 		DoublePoint relativeend = new DoublePoint(pixel.getX(), pixel.getY());
 		// Moves the pixel according to rotations / moments
@@ -198,6 +211,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		
 		return new DoublePoint(absoluteend.getX() - absolutestart.getX(), 
 				absoluteend.getY() - absolutestart.getY());
+		*/
 	}
 	
 	// Rotates the object according to the moments affecting the object
@@ -281,7 +295,9 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		for (int i = 0; i < colpoints.length; i++)
 		{
 			DoublePoint colpoint = colpoints[i];
-			double moment = calculateMoment(forcedir, 0.5*force, colpoint, colpixel);
+			// TODO: Try to come up with a way to always get nice numbers here
+			// The moment seems to be exponential when it comes to speed...
+			double moment = calculateMoment(forcedir, 0.75*force, colpoint, colpixel);
 			// TODO: Kinda works but the whole moment system is a bit too aggressive
 			addMoment(negateTransformations(colpoint.getX(), colpoint.getY()), 
 					moment);

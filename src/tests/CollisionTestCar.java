@@ -1,6 +1,5 @@
 package tests;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import drawnobjects.DimensionalDrawnObject;
@@ -151,11 +150,6 @@ public class CollisionTestCar extends Car
 				addMotion(HelpMath.checkDirection(getAngle() - 90), 0.5);
 			else if (key == 'q')
 				addMotion(HelpMath.checkDirection(getAngle() + 90), 0.5);
-			else if (key == 'r')
-			{
-				addMoment(new Point(getOriginX(), getOriginY() -100), 0.001);
-				System.out.println(getPixelSpeed(new Point(0, 0)));
-			}
 		}
 	}
 }
