@@ -278,18 +278,18 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		// TODO: Make boost dependent on the friction?
 		
 		// Remembers the last speed
-		double lastspeed = getSpeed();
+		double lastspeed = getMovement().getSpeed();
 		// Adds the boost
 		addMotion(direction, force);
 		// Checks if the car is going too fast and does the necessary repairs
-		if (getSpeed() > maxspeed)
+		if (getMovement().getSpeed() > maxspeed)
 		{
 			// If the car was already going too fast, boost only affects direction
-			if (lastspeed < getSpeed() && lastspeed > maxspeed)
-				setSpeed(lastspeed);
+			if (lastspeed < getMovement().getSpeed() && lastspeed > maxspeed)
+				getMovement().setSpeed(lastspeed);
 			// Otherwise, caps the speed to the max
 			else
-				setSpeed(maxspeed);
+				getMovement().setSpeed(maxspeed);
 		}
 		
 		// TODO: Rotate the car according to the accelration difference between 
@@ -311,7 +311,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		// Adds the turn
 		addRotation(amount);
 		
-		double maxturn = Math.abs(this.maxturning * getSpeed());
+		double maxturn = Math.abs(this.maxturning * getMovement().getSpeed());
 		
 		// Sliding affects the maxrotation (makes turning easier)
 		if (this.sliding)
@@ -325,9 +325,9 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 				setRotation(lastrotation);
 			// Otherwise, caps the speed to the max
 			else if (getRotation() > 0)
-				setRotation(this.maxturning * getSpeed());
+				setRotation(this.maxturning * getMovement().getSpeed());
 			else
-				setRotation(-this.maxturning * getSpeed());
+				setRotation(-this.maxturning * getMovement().getSpeed());
 		}
 	}
 	
@@ -344,7 +344,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 	
 	private double getAngleDifference180()
 	{
-		double angledifference = Math.abs(getAngle() - getDirection());
+		double angledifference = Math.abs(getAngle() - getMovement().getDirection());
 		
 		// > 180 = < 180
 		if (angledifference > 180)
@@ -372,7 +372,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		turnboost *= this.turnrate;
 		
 		// The larger the angledifference (up to 90) the smalller the turnboost
-		turnboost *= HelpMath.getDirectionalForce(getDirection(), 1, getAngle());
+		turnboost *= HelpMath.getDirectionalForce(getMovement().getDirection(), 1, getAngle());
 		
 		/*
 		// If the car is driving backwards, the boost is reversed
@@ -389,7 +389,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 	
 	private double calculateTurning()
 	{
-		return getRotationFriction() + this.turning * getSpeed();
+		return getRotationFriction() + this.turning * getMovement().getSpeed();
 	}
 	
 	private double getTurningFriction()
@@ -397,7 +397,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		// Reduces the object's speed depending on how much the object is turning
 		double angledifference = getAngleDifference90();
 		// If there's no difference or no speed, doesn't imply friction
-		if (angledifference < 1 || getSpeed() == 0)
+		if (angledifference < 1 || getMovement().getSpeed() == 0)
 			return 0;
 		
 		return this.turningfriction * Math.log(angledifference);

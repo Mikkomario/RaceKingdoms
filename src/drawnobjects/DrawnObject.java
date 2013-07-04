@@ -4,6 +4,7 @@ import handleds.Drawable;
 import handlers.DrawableHandler;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
+import helpAndEnums.Movement;
 
 import java.awt.Point;
 
@@ -256,6 +257,16 @@ public abstract class DrawnObject implements Drawable
 	public void addPosition(double hspeed, double vspeed)
 	{
 		setPosition(getX() + hspeed, getY() + vspeed);
+	}
+	
+	/**
+	 * Changes the object's position according to the given movement
+	 *
+	 * @param movement The movement the object 'makes'
+	 */
+	public void addPosition(Movement movement)
+	{
+		addPosition(movement.getHSpeed(), movement.getVSpeed());
 	}
 	
 	

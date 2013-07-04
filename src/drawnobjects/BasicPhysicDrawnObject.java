@@ -6,7 +6,7 @@ import handlers.CollidableHandler;
 import handlers.CollisionHandler;
 import handlers.DrawableHandler;
 import helpAndEnums.CollisionType;
-import helpAndEnums.HelpMath;
+import helpAndEnums.Movement;
 
 /**
  * In addition to CollidingDrawnObject's abilities Physicobject handles 
@@ -20,8 +20,9 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 {	
 	// ATTRIBUTES	------------------------------------------------------
 	
-	private double hspeed, vspeed, rotation, friction, rotFriction, maxspeed, 
+	private double rotation, friction, rotFriction, maxspeed, 
 			maxrotation;
+	private Movement movement;
 	
 	
 	// CONSTRUCTOR	------------------------------------------------------
@@ -51,8 +52,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 				collisionhandler);
 		
 		// Initializes attributes
-		this.hspeed = 0;
-		this.vspeed = 0;
+		this.movement = new Movement(0, 0);
 		this.rotation = 0;
 		this.friction = 0;
 		this.rotFriction = 0;
@@ -79,27 +79,11 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	// GETTERS & SETTERS	-----------------------------------------------
 	
 	/**
-	 * @return The speed with which the object is moving horizontally (pxl / step)
+	 * @return The current movement of the object
 	 */
-	public double getHspeed()
+	public Movement getMovement()
 	{
-		return this.hspeed;
-	}
-	
-	/**
-	 * @return The speed with which the object is moving vertically (pxl / step)
-	 */
-	public double getVspeed()
-	{
-		return this.vspeed;
-	}
-	
-	/**
-	 * @return The speed with which the object is moving (pxl / step)
-	 */
-	public double getSpeed()
-	{
-		return Math.abs(this.hspeed) + Math.abs(this.vspeed);
+		return this.movement;
 	}
 	
 	/**
@@ -110,8 +94,17 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 */
 	public void setVelocity(double hspeed, double vspeed)
 	{
-		this.hspeed = hspeed;
-		this.vspeed = vspeed;
+		this.movement = new Movement(hspeed, vspeed);
+	}
+	
+	/**
+	 * Changes the object's movement
+	 *
+	 * @param movement The object's new movement
+	 */
+	public void setMovement(Movement movement)
+	{
+		this.movement = movement;
 	}
 	
 	/**
@@ -124,8 +117,8 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 */
 	public void addVelocity(double haccelration, double vacceltarion)
 	{
-		this.hspeed += haccelration;
-		this.vspeed += vacceltarion;
+		this.movement = Movement.movementSum(getMovement(), 
+				new Movement(haccelration, vacceltarion));
 	}
 	
 	/**
@@ -201,7 +194,8 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 */
 	public void addMotion(double direction, double force)
 	{
-		addVelocity(dirHSpeed(direction, force), dirVSpeed(direction, force));
+		this.movement = Movement.movementSum(getMovement(), 
+				Movement.createMovement(direction, force));
 	}
 	
 	/**
@@ -213,41 +207,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 */
 	public void setMotion(double direction, double speed)
 	{	
-		setVelocity(dirHSpeed(direction, speed), dirVSpeed(direction, speed));
-	}
-	
-	/**
-	 * 
-	 * Changes the object's movement direction
-	 *
-	 * @param direction The object's new direction (degrees)
-	 */
-	public void setDirection(int direction)
-	{
-		setMotion(direction, getSpeed());
-	}
-	
-	/**
-	 * @return The direction towards which the object is currently moving
-	 */
-	public double getDirection()
-	{
-		return HelpMath.getVectorDirection(getHspeed(), getVspeed());
-	}
-	
-	/**
-	 * Changes the objects moving speed, keeping the same direction
-	 *
-	 * @param speed The object's new speed (pxl / step)
-	 */
-	public void setSpeed(double speed)
-	{
-		//setMotion(getDirection(), speed);
-		double lastSpeed = getSpeed();
-		
-		// Changes the velocity
-		this.hspeed *= speed / lastSpeed;
-		this.vspeed *= speed / lastSpeed;
+		this.movement = Movement.createMovement(direction, speed);
 	}
 	
 	/**
@@ -296,38 +256,22 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 * @param force
 	 */
 	public void diminishSpeed(double force)
-	{
-		// Calculates the old speed
-		double lastSpeed = getSpeed();
-		double newSpeed = lastSpeed;
-		
-		// Calculates the new speed
-		if (lastSpeed <= force)
-		{
-			// Changes the velocity
-			this.hspeed = 0;
-			this.vspeed = 0;
-		}
+	{	
+		// If speed was already low, sets it to 0
+		if (getMovement().getSpeed() <= force)
+			getMovement().setSpeed(0);
 		else
-		{
-			newSpeed -= force;
-			// Changes the velocity
-			setSpeed(newSpeed);
-		}
+			getMovement().addSpeed(-force);
 	}
 	
 	// Moves the object and handles the friction
 	private void move()
 	{
-		//this.x += getHspeed();
-		//this.y += getVspeed();
-		addPosition(getHspeed(), getVspeed());
+		addPosition(getMovement());
 		
 		// Checks the friction
-		if (getFriction() == 0)
-			return;
-		
-		implyFriction();
+		if (getFriction() != 0)
+			implyFriction();
 		
 		// Also checks the maximum speed and rotation
 		checkMaxSpeed();
@@ -366,11 +310,8 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	
 	private void checkMaxSpeed()
 	{
-		if (this.maxspeed >= 0 && getSpeed() > this.maxspeed)
-		{
-			//System.out.println(getSpeed());
-			setSpeed(this.maxspeed);
-		}
+		if (this.maxspeed >= 0 && getMovement().getSpeed() > this.maxspeed)
+			getMovement().setSpeed(this.maxspeed);
 	}
 	
 	private void checkMaxRotation()
@@ -387,41 +328,5 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 			else
 				setRotation(this.maxrotation);
 		}
-	}
-	
-	private double dirHSpeed(double direction, double speed)
-	{
-		double checkdir = HelpMath.checkDirection(direction);
-		double alpha = checkdir % 90;
-		//System.out.println(alpha);
-		double firstspeed = alpha / 90 * speed;
-		double secondspeed = speed - firstspeed;
-		
-		if (checkdir >= 270)
-			return firstspeed;
-		else if (checkdir >= 180)
-			return -secondspeed;
-		else if (checkdir >= 90)
-			return -firstspeed;
-		else
-			return secondspeed;
-	}
-	
-	private double dirVSpeed(double direction, double speed)
-	{
-		double checkdir = HelpMath.checkDirection(direction);
-		double alpha = checkdir % 90;
-		//System.out.println(alpha);
-		double firstspeed = alpha / 90 * speed;
-		double secondspeed = speed - firstspeed;
-		
-		if (checkdir >= 270)
-			return secondspeed;
-		else if (checkdir >= 180)
-			return firstspeed;
-		else if (checkdir >= 90)
-			return -secondspeed;
-		else
-			return -firstspeed;
 	}
 }

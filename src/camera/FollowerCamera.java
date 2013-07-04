@@ -59,8 +59,8 @@ public class FollowerCamera extends BasicCamera {
 		// Zooms out
 		double scale = 1;
 
-		if (this.followed.getSpeed() > this.minimumspeed + 1)
-			scale = 1 / ((1 + Math.log(this.followed.getSpeed()
+		if (this.followed.getMovement().getSpeed() > this.minimumspeed + 1)
+			scale = 1 / ((1 + Math.log(this.followed.getMovement().getSpeed()
 					- this.minimumspeed)) * this.zoommodifier);
 		setScale(scale, scale);
 	}

@@ -112,7 +112,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 			double bounciness, double lostenergymodifier)
 	{
 		// Some of the speed is lost during the collision
-		diminishSpeed(getSpeed()*lostenergymodifier);
+		diminishSpeed(getMovement().getSpeed()*lostenergymodifier);
 		
 		// TODO: There must be something wrong with the pixelspeed or something 
 		// since the object bounces even when bounciness = 0
@@ -193,8 +193,8 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// Transforms the point into an absolute value
 		DoublePoint absoluteend = transform(relativeend.getX(), relativeend.getY());
 		// Adds the object's speed
-		absoluteend = new DoublePoint(absoluteend.getX() + getHspeed(), 
-				absoluteend.getY() + getVspeed());
+		absoluteend = new DoublePoint(absoluteend.getX() + getMovement().getHSpeed(), 
+				absoluteend.getY() + getMovement().getVSpeed());
 		
 		return new DoublePoint(absoluteend.getX() - absolutestart.getX(), 
 				absoluteend.getY() - absolutestart.getY());

@@ -76,7 +76,7 @@ public class Movement
 	 */
 	public double getSpeed()
 	{
-		return getHSpeed() + getVSpeed();
+		return Math.abs(getHSpeed()) + Math.abs(getVSpeed());
 	}
 	
 	/**
@@ -86,6 +86,46 @@ public class Movement
 	public Movement getOpposingMovement()
 	{
 		return new Movement(-getHSpeed(), -getVSpeed());
+	}
+	
+	/**
+	 * Changes the movement's direction
+	 *
+	 * @param direction The new direction of the movement
+	 */
+	public void setDirection(double direction)
+	{
+		setDirSpeed(direction, getSpeed());
+	}
+	
+	/**
+	 * Changes the speed of the movement
+	 *
+	 * @param speed The movement's new speed
+	 */
+	public void setSpeed(double speed)
+	{
+		setDirSpeed(getDirection(), speed);
+	}
+	
+	/**
+	 * Increases the movement's speed by the given amount
+	 *
+	 * @param accelration How much the speed increases
+	 */
+	public void addSpeed(double accelration)
+	{
+		setSpeed(getSpeed() + accelration);
+	}
+	
+	/**
+	 * Changes the movement's direction
+	 * 
+	 * @param rotation How much the direction turns (degrees)
+	 */
+	public void addDirection(double rotation)
+	{
+		setDirection(getDirection() + rotation);
 	}
 	
 	
@@ -133,6 +173,14 @@ public class Movement
 	
 	private void setDirSpeed(double direction, double speed)
 	{
+		// If speed is 0, simply creates a new movement
+		if (speed == 0)
+		{
+			this.hspeed = 0;
+			this.vspeed = 0;
+			return;
+		}
+		
 		double checkdir = HelpMath.checkDirection(direction);
 		double alpha = checkdir % 90;
 		double firstspeed = alpha / 90 * speed;
