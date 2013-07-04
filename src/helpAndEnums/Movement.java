@@ -68,6 +68,7 @@ public class Movement
 	 */
 	public double getDirection()
 	{
+		// TODO: Does this actually work?
 		return HelpMath.getVectorDirection(getHSpeed(), getVSpeed());
 	}
 	
@@ -95,6 +96,7 @@ public class Movement
 	 */
 	public void setDirection(double direction)
 	{
+		// TODO: Doesn't work with small values
 		setDirSpeed(direction, getSpeed());
 	}
 	
@@ -105,17 +107,37 @@ public class Movement
 	 */
 	public void setSpeed(double speed)
 	{
+		// Note: Doesn't work so well when the speed's sign changes
 		setDirSpeed(getDirection(), speed);
 	}
 	
 	/**
 	 * Increases the movement's speed by the given amount
 	 *
-	 * @param accelration How much the speed increases
+	 * @param accelration How much the speed increases (positive number)
 	 */
 	public void addSpeed(double accelration)
 	{
-		setSpeed(getSpeed() + accelration);
+		if (accelration > 0)
+			setSpeed(getSpeed() + accelration);
+	}
+	
+	/**
+	 * Lessens the movement's speed by the given amount
+	 * 
+	 * @param speedloss How much speed is lost
+	 */
+	public void diminishSpeed(double speedloss)
+	{
+		// Doesn't work with negative values
+		if (speedloss <= 0)
+			return;
+		
+		// If speed was already low, sets it to 0
+		if (getSpeed() <= speedloss)
+			setSpeed(0);
+		else if (getSpeed() > 0)
+			setSpeed(getSpeed() - speedloss);
 	}
 	
 	/**
@@ -183,7 +205,7 @@ public class Movement
 		
 		double checkdir = HelpMath.checkDirection(direction);
 		double alpha = checkdir % 90;
-		double firstspeed = alpha / 90 * speed;
+		double firstspeed = alpha / 90.0 * speed;
 		double secondspeed = speed - firstspeed;
 		
 		if (checkdir >= 270)

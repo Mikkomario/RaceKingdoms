@@ -112,7 +112,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 			double bounciness, double lostenergymodifier)
 	{
 		// Some of the speed is lost during the collision
-		diminishSpeed(getMovement().getSpeed()*lostenergymodifier);
+		getMovement().diminishSpeed(getMovement().getSpeed()*lostenergymodifier);
 		
 		// TODO: There must be something wrong with the pixelspeed or something 
 		// since the object bounces even when bounciness = 0

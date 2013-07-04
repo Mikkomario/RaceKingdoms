@@ -12,6 +12,7 @@ import handlers.KeyListenerHandler;
 import helpAndEnums.CollisionType;
 import helpAndEnums.DepthConstants;
 import helpAndEnums.DoublePoint;
+import helpAndEnums.Movement;
 import drawnobjects.BasicPhysicDrawnObject;
 
 /**
@@ -90,7 +91,15 @@ public class MovementTestBox extends BasicPhysicDrawnObject implements KeyListen
 		if (!coded)
 		{
 			if (key == 'd')
-				addMotion(0, 0.1);
+				setMovement(Movement.createMovement(45, 5));
+			if (key == 'a')
+			{
+				//getMovement().setDirection(0.05);
+				setMovement(new Movement(1, -0.5));
+				System.out.println(getMovement().getDirection());
+			}
+			if (key == 'w')
+				System.out.println(getMovement().getDirection());
 		}
 	}
 

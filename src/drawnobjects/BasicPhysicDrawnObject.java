@@ -250,20 +250,6 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	
 	// OTHER METHODS	----------------------------------------------------
 	
-	/**
-	 * Reduces the speed of the object (positive or negative) by the given amount
-	 *
-	 * @param force
-	 */
-	public void diminishSpeed(double force)
-	{	
-		// If speed was already low, sets it to 0
-		if (getMovement().getSpeed() <= force)
-			getMovement().setSpeed(0);
-		else
-			getMovement().addSpeed(-force);
-	}
-	
 	// Moves the object and handles the friction
 	private void move()
 	{
@@ -293,7 +279,7 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	// Slows the speed the amount of given friction
 	private void implyFriction()
 	{
-		diminishSpeed(getFriction());
+		getMovement().diminishSpeed(getFriction());
 	}
 	
 	// Slows the rotation speed the amoutn of given friction

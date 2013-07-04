@@ -339,7 +339,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		if (this.sliding)
 			modifier = 1 - this.slidepower;
 		
-		diminishSpeed(modifier * getTurningFriction());
+		getMovement().diminishSpeed(modifier * getTurningFriction());
 	}
 	
 	private double getAngleDifference180()
