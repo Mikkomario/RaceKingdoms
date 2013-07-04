@@ -176,6 +176,8 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	 */
 	protected DoublePoint getPixelSpeed(Point pixel)
 	{
+		// TODO: Fix this method to calculate the rotation force right (tangentual)
+		
 		DoublePoint absolutestart = transform(pixel.x, pixel.y);
 		DoublePoint relativeend = new DoublePoint(pixel.getX(), pixel.getY());
 		// Moves the pixel according to rotations / moments

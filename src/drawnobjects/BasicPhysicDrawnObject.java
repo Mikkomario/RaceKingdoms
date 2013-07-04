@@ -201,11 +201,6 @@ public abstract class BasicPhysicDrawnObject extends CollidingDrawnObject
 	 */
 	public void addMotion(double direction, double force)
 	{
-		//double haccelration = Math.cos(Math.toRadians(direction))*force;
-		//double haccelration = HelpMath.lendirX(force, direction);
-		//double vaccelration = Math.sin(Math.toRadians(direction))*force;
-		//double vaccelration = HelpMath.lendirY(force, direction);
-		
 		addVelocity(dirHSpeed(direction, force), dirVSpeed(direction, force));
 	}
 	

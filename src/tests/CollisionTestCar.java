@@ -27,11 +27,13 @@ public class CollisionTestCar extends Car
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
+	/*
 	private static Point[] relcolpoints = {new Point(1, 48), new Point(24, 27), 
 		new Point(31, 16), new Point(59, 14), new Point(85, 14), new Point(111, 19), 
 		new Point(127, 28), new Point(128, 42), new Point(122, 53), new Point(126, 65), 
 		new Point(129, 72), new Point(117, 83), new Point(73, 87), new Point(59, 87), 
 		new Point(31, 82)};
+	*/
 	
 	// CONSTRUCTOR	------------------------------------------------------
 	
@@ -74,6 +76,7 @@ public class CollisionTestCar extends Car
 		// Sets custom collisionpoints
 		//setRelativeCollisionPoints(relcolpoints);
 		setBoxCollisionPrecision(5, 5);
+		//System.out.println(HelpMath.getVectorDirection(1, -1));
 	}
 	
 	
