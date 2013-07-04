@@ -94,8 +94,8 @@ public class MovementTestBox extends BasicPhysicDrawnObject implements KeyListen
 				setMovement(Movement.createMovement(45, 5));
 			if (key == 'a')
 			{
-				//getMovement().setDirection(0.05);
-				setMovement(new Movement(1, -0.5));
+				getMovement().setDirection(30);
+				//setMovement(new Movement(1, -0.5));
 				System.out.println(getMovement().getDirection());
 			}
 			if (key == 'w')

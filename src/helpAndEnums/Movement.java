@@ -77,7 +77,9 @@ public class Movement
 	 */
 	public double getSpeed()
 	{
-		return Math.abs(getHSpeed()) + Math.abs(getVSpeed());
+		//return Math.abs(getHSpeed()) + Math.abs(getVSpeed());
+		// TODO: Just trying this out, remove if it doesn't work at all
+		return HelpMath.pointDistance(0, 0, getHSpeed(), getVSpeed());
 	}
 	
 	/**
@@ -203,6 +205,11 @@ public class Movement
 			return;
 		}
 		
+		// TODO: Tried this new way to do this. Remove if doesn't work
+		this.hspeed = HelpMath.lendirX(speed, direction);
+		this.vspeed = HelpMath.lendirY(speed, direction);
+		
+		/*
 		double checkdir = HelpMath.checkDirection(direction);
 		double alpha = checkdir % 90;
 		double firstspeed = alpha / 90.0 * speed;
@@ -228,5 +235,6 @@ public class Movement
 			this.hspeed = secondspeed;
 			this.vspeed = -firstspeed;
 		}
+		*/
 	}
 }
