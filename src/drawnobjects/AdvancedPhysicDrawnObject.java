@@ -67,22 +67,6 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		implyMoments();
 		implyRotationFrictionToMoments();
 		checkMaxRotationForMoments();
-		
-		
-		
-		DoublePoint[] colpoints = getCollisionPoints();
-		
-		// TODO: Doesn't even fricking work :(
-		for (int i = 0; i < colpoints.length; i++)
-		{
-			DoublePoint colpoint = colpoints[i];
-			double moment = calculateMoment(0, 0.1, colpoint, new DoublePoint(getX(), getY()));
-			System.out.println(moment);
-			// TODO: All the moments turn the object to the same direction 
-			// ecen though they shouldn't
-			addMoment(negateTransformations(colpoint.getX(), colpoint.getY()), 
-					moment);
-		}
 	}
 	
 	
@@ -102,10 +86,10 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// If there is no moment affecting the given point, it is added as a 
 		// new moment
 		if (!this.moments.containsKey(p))
-			this.moments.put(p, getRotationFriction() + force);
+			this.moments.put(p, force);
 		// Otherwise the old and the new moment are added together
 		else
-			this.moments.put(p, this.moments.get(p) + getRotationFriction() + force);
+			this.moments.put(p, this.moments.get(p) + force);
 	}
 	
 	/**
@@ -130,6 +114,8 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// Some of the speed is lost during the collision
 		diminishSpeed(getSpeed()*lostenergymodifier);
 		
+		// TODO: There must be something wrong with the pixelspeed or something 
+		// since the object bounces even when bounciness = 0
 		DoublePoint pixelmovement = getPixelSpeed(negateTransformations(
 				collisionpoint.getX(), collisionpoint.getY()));
 		//System.out.println(pixelmovement);
@@ -137,6 +123,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 				Math.abs(pixelmovement.getY());
 		double pixeldirection = HelpMath.getVectorDirection(pixelmovement.getX(), 
 				pixelmovement.getY());
+		//System.out.println(pixelspeed + " Towards " + pixeldirection);
 		
 		// If there's no speed, doesn't do anything
 		if (pixelspeed == 0)
@@ -148,9 +135,11 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		
 		// Calculates the actual amount of force applied to the object
 		double oppforce = -HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
-				forcedir) * (1 + bounciness);
+				forcedir);
 		
 		double force = bounciness * oppforce;
+		
+		//System.out.println(oppforce + " / " + pixelspeed);
 		
 		// TODO: Calculate the rotation dirction (is the angledifference between 
 		// pixeldirection and forcedirection either <180 or >180)
@@ -159,6 +148,17 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 			addForce(force, forcedir, collisionpoint);
 		if (oppforce > 0)
 			addOpposingForce(oppforce, forcedir, collisionpoint);
+		
+		/*
+		pixelmovement = getPixelSpeed(negateTransformations(
+				collisionpoint.getX(), collisionpoint.getY()));
+		pixelspeed = Math.abs(pixelmovement.getX()) + 
+				Math.abs(pixelmovement.getY());
+		pixeldirection = HelpMath.getVectorDirection(pixelmovement.getX(), 
+				pixelmovement.getY());
+		System.out.println(-HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
+				forcedir));
+		*/
 		
 		// TODO: Divide stuff in this method between multiple simpler methods
 		// TODO: Also add same effect to the other object (a new method?)
@@ -201,6 +201,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	// Rotates the object according to the moments affecting the object
 	private void implyMoments()
 	{
+		// TODO: Take rotationfriction into account somewhere?
 		for (Point p: this.moments.keySet())
 			rotateAroundRelativePoint(this.moments.get(p), p);
 	}
@@ -273,20 +274,16 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		
 		// Applies moment to all (the other) points in the object
 		DoublePoint[] colpoints = getCollisionPoints();
-		double forcemodifier = 1 / (double) colpoints.length;
 		
-		// TODO: Doesn't even fricking work :(
+		// TODO: Doesn't work right when the speed is too high!
 		for (int i = 0; i < colpoints.length; i++)
 		{
 			DoublePoint colpoint = colpoints[i];
-			double moment = calculateMoment(forcedir, forcemodifier * force, colpoint, colpixel);
-			System.out.println(moment);
-			// TODO: All the moments turn the object to the same direction 
-			// ecen though they shouldn't
+			double moment = calculateMoment(forcedir, 0.5*force, colpoint, colpixel);
+			// TODO: Kinda works but the whole moment system is a bit too aggressive
 			addMoment(negateTransformations(colpoint.getX(), colpoint.getY()), 
 					moment);
 		}
-		
 		/*
 		addMoment(negateTransformations(pixel.getX(), 
 				pixel.getY()), modifier * calculateMoment(forcedir, force, pixel));

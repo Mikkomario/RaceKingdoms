@@ -119,6 +119,8 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 			if (getCollisionType() == CollisionType.CIRCLE)
 				initializeCircleCollisionPoints(getRadius(), 8, 2);
 			//if (getCollisionType() == CollisionType.BOX)
+			// TODO: Causes NullPointerException if the object has not been 
+			// fully initialized yet
 			else
 				initializeBoxCollisionPoints(1, 1);
 		}
