@@ -67,6 +67,22 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		implyMoments();
 		implyRotationFrictionToMoments();
 		checkMaxRotationForMoments();
+		
+		
+		
+		DoublePoint[] colpoints = getCollisionPoints();
+		
+		// TODO: Doesn't even fricking work :(
+		for (int i = 0; i < colpoints.length; i++)
+		{
+			DoublePoint colpoint = colpoints[i];
+			double moment = calculateMoment(0, 0.1, colpoint, new DoublePoint(getX(), getY()));
+			System.out.println(moment);
+			// TODO: All the moments turn the object to the same direction 
+			// ecen though they shouldn't
+			addMoment(negateTransformations(colpoint.getX(), colpoint.getY()), 
+					moment);
+		}
 	}
 	
 	
@@ -142,7 +158,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		if (force > 0)
 			addForce(force, forcedir, collisionpoint);
 		if (oppforce > 0)
-			addOpposingForce(oppforce, forcedir, collisionpoint, pixeldirection);
+			addOpposingForce(oppforce, forcedir, collisionpoint);
 		
 		// TODO: Divide stuff in this method between multiple simpler methods
 		// TODO: Also add same effect to the other object (a new method?)
@@ -245,40 +261,49 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	{
 		// Applies the force to the object
 		addMotion(forcedir, force);
-		addRotation(calculateMoment(forcedir, force, pixel));
+		// TODO: To be finished later
+		//addRotation(calculateMoment(forcedir, force, pixel));
 	}
 	
 	private void addOpposingForce(double force, double forcedir, 
-			DoublePoint pixel, double pixeldirection)
+			DoublePoint colpixel)
 	{
 		// Applies the force to the object
 		addMotion(forcedir, force);
 		
-		double modifier = 1;
+		// Applies moment to all (the other) points in the object
+		DoublePoint[] colpoints = getCollisionPoints();
+		double forcemodifier = 1 / (double) colpoints.length;
 		
-		// TODO: Why doesn't this change a thing?!?
-		if (HelpMath.checkDirection(forcedir - pixeldirection) < 180)
+		// TODO: Doesn't even fricking work :(
+		for (int i = 0; i < colpoints.length; i++)
 		{
-			System.out.println("Otherdir - >" + -calculateMoment(forcedir, force, pixel));
-			modifier = -1;
+			DoublePoint colpoint = colpoints[i];
+			double moment = calculateMoment(forcedir, forcemodifier * force, colpoint, colpixel);
+			System.out.println(moment);
+			// TODO: All the moments turn the object to the same direction 
+			// ecen though they shouldn't
+			addMoment(negateTransformations(colpoint.getX(), colpoint.getY()), 
+					moment);
 		}
-		else
-			System.out.println("Dir -> " + calculateMoment(forcedir, force, pixel));
 		
-		// TODO: Okay, WHY DOESN'T CHANGING THE SIGN HERE CAUSE ANYTHING TO HAPPEN?!?
+		/*
 		addMoment(negateTransformations(pixel.getX(), 
 				pixel.getY()), modifier * calculateMoment(forcedir, force, pixel));
+		*/
 	}
 	
-	private double calculateMoment(double forcedir, double force, DoublePoint pixel)
+	private double calculateMoment(double forcedir, double force, 
+			DoublePoint forcepixel, DoublePoint rotationpixel)
 	{
 		// Calculates the range
-		double r = HelpMath.pointDistance(getX(), getY(), pixel.getX(), 
-				pixel.getY());
+		double r = HelpMath.pointDistance(rotationpixel.getX(), rotationpixel.getY(), 
+				forcepixel.getX(), forcepixel.getY());
 		// Calculates the right direction for the force
-		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(getX(), 
-				getY(), pixel.getX(), pixel.getY()) - 90);
-		System.out.println(HelpMath.getDirectionalForce(forcedir, force, tangle));
+		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(
+				rotationpixel.getX(), rotationpixel.getY(), forcepixel.getX(), 
+				forcepixel.getY()) - 90);
+		//System.out.println(HelpMath.getDirectionalForce(forcedir, force, tangle));
 		// Calculates the moment
 		// The moment also depends of the largest possible range of the object
 		// TODO: Add a nice variable here

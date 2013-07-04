@@ -72,24 +72,8 @@ public class CollisionTestCar extends Car
 		*/
 		
 		// Sets custom collisionpoints
-		setRelativeCollisionPoints(relcolpoints);
-		
-		// Test: Prints the classes of the object
-		
-		//System.out.println("Printing classes");
-		//System.out.println(Car.class.isInstance(this));
-		/*
-		Class<?>[] classes = getClass().getClasses();
-		System.out.println(classes.length);
-		for (int i = 0; i < classes.length; i++)
-		{
-			System.out.println(classes[i].getName());
-		}
-		*/
-		
-		// TODO: I don't think these should be the same!
-		System.out.println(HelpMath.getDirectionalForce(135, 1, 270));
-		System.out.println(HelpMath.getDirectionalForce(45, 1, 270));
+		//setRelativeCollisionPoints(relcolpoints);
+		setBoxCollisionPrecision(5, 5);
 	}
 	
 	
