@@ -71,6 +71,34 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	}
 	
 	
+	// GETTERS & SETTERS	----------------------------------------------
+	
+	/**
+	 * Returns a momnet affecting the object from the given point
+	 *
+	 * @param origin The origin of the point returned
+	 * @return The amount of rotation around the point
+	 */
+	protected double getMoment(Point origin)
+	{
+		if (this.moments.containsKey(origin))
+			return this.moments.get(origin);
+		else
+			return 0;
+	}
+	
+	/**
+	 * Sets a moment to a new value
+	 *
+	 * @param origin The origin of the moment
+	 * @param moment How much rotation the moment has
+	 */
+	protected void setMoment(Point origin, double moment)
+	{
+		this.moments.put(origin, moment);
+	}
+	
+	
 	// OTHER METHODS	--------------------------------------------------
 	
 	/**

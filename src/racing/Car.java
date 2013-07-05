@@ -1,5 +1,6 @@
 package racing;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -37,6 +38,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 	private double slidepower, rotfriction, slideturnmodifier, turbopower; 
 	private double turbospeed;
 	private boolean sliding;
+	private Point axelposition;
 	
 	
 	// CONSTRUCTOR	-----------------------------------------------------
@@ -84,6 +86,11 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		
 		this.spritedrawer = new SpriteDrawer(bank.getSprite(carspritename), actorhandler);
 		this.maskChecker = new MaskChecker(bank.getSprite(carmaskname));
+		
+		// The turning exel is a bit to the right from the center of the object
+		this.axelposition = new Point(
+				(int) (getSpriteDrawer().getSprite().getWidth() * 0.75), 
+				(int) (getSpriteDrawer().getSprite().getHeight() * 0.5));
 		
 		// Initializes some stats
 		setMaxRotation(20);				// How much the car can possibly spin (> maxturning)
@@ -307,9 +314,11 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 	private void turn(double amount)
 	{	
 		// Remembers the last rotation
-		double lastrotation = getRotation();
+		//double lastrotation = getRotation();
+		double lastrotation = getMoment(this.axelposition);
 		// Adds the turn
-		addRotation(amount);
+		//addRotation(amount);
+		addMoment(this.axelposition, amount);
 		
 		double maxturn = Math.abs(this.maxturning * getMovement().getSpeed());
 		
@@ -317,17 +326,19 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		if (this.sliding)
 			maxturn *= 1  + this.slidepower * this.slideturnmodifier;
 		
+		double rotation = getMoment(this.axelposition);
+		
 		// Checks if the car is rotating too fast and does the necessary repairs
-		if (Math.abs(getRotation()) > maxturn)
+		if (Math.abs(rotation) > maxturn)
 		{
 			// If the car was already going too fast, doens't increase the turning
 			if (Math.abs(lastrotation) > maxturn)
-				setRotation(lastrotation);
+				setMoment(this.axelposition, lastrotation);
 			// Otherwise, caps the speed to the max
-			else if (getRotation() > 0)
-				setRotation(this.maxturning * getMovement().getSpeed());
+			else if (rotation > 0)
+				setMoment(this.axelposition, this.maxturning * getMovement().getSpeed());
 			else
-				setRotation(-this.maxturning * getMovement().getSpeed());
+				setMoment(this.axelposition, -this.maxturning * getMovement().getSpeed());
 		}
 	}
 	
