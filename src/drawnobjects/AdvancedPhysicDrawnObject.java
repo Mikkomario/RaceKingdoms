@@ -111,7 +111,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	 */
 	protected void bounceFrom(DimensionalDrawnObject d, DoublePoint collisionpoint, 
 			double bounciness, double lostenergymodifier)
-	{
+	{	
 		// Some of the speed is lost during the collision
 		getMovement().diminishSpeed(getMovement().getSpeed()*lostenergymodifier);
 		
@@ -133,15 +133,15 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 				getMovement().getOpposingMovement().getDirectionalMovement(forcedir);
 		double opprotationforce = -HelpMath.getDirectionalForce(pixeldirection, 
 				pixelspeed, forcedir);
-		double force = bounciness * oppmovement.getSpeed();
+		double force = bounciness * (oppmovement.getSpeed() + opprotationforce);
 		
 		// Adds the opposing force and the force (if they are not negative)
 		if (Math.abs(oppmovement.getDirection() - forcedir) < 45)
 		{
-			if (force > 0)
-				addForce(force, forcedir, collisionpoint);
 			addOpposingForce(oppmovement.getSpeed(), opprotationforce, 
 					forcedir, collisionpoint);
+			if (force > 0)
+				addForce(force, forcedir, collisionpoint);
 		}
 		
 		/*
@@ -282,12 +282,14 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		}
 	}
 	
-	private void addForce(double force, double forcedir, DoublePoint pixel)
+	private void addForce(double force, double forcedir, DoublePoint forcepixel)
 	{
 		// Applies the force to the object
 		addMotion(forcedir, force);
-		// TODO: To be finished later
-		//addRotation(calculateMoment(forcedir, force, pixel));
+		// TODO: Get a nice number here too :)
+		// TODO: Weird that it works better when there's a negative sign...?
+		addRotation(-calculateMoment(forcedir, force, forcepixel, 
+				new DoublePoint(getX(), getY())));
 	}
 	
 	private void addOpposingForce(double movementforce, double rotationforce, 
@@ -306,7 +308,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 			DoublePoint colpoint = colpoints[i];
 			// TODO: Try to come up with a way to always get nice numbers here
 			double moment = calculateMoment(forcedir, 
-					0.4*movementforce + 0.5*rotationforce, colpoint, colpixel);
+					0.3*movementforce + 0.3*rotationforce, colpoint, colpixel);
 			// TODO: Kinda works but the whole moment system is a bit too aggressive
 			addMoment(negateTransformations(colpoint.getX(), colpoint.getY()), 
 					moment);
