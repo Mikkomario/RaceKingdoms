@@ -25,6 +25,26 @@ Kamera										(10)			Gandalf pohja, Unto toteuttaa
 		- Fixed vai jotain muuta?
 		- Käytä kamerana physicobjectia niin menee hyvin
 	* Zoomaus												DONE
+Törmäys										(9)
+	* Auto voisi pyörähtää törmätessään. Tähän tarvitaan 
+	törmäyspisteen tietoja.									DONE
+	* Auton kääntäminen tietyn pisteen ympäri:				DONE
+		- Käännä autoa origon ympäri
+		- Laske, kuinka paljon piste siirtyi mihkäkin suuntaan
+			* vanha törmäyspiste auton koordinaatistossa - Käännöksen jälkeinen törmäyspiste auton koordinaatistosta
+		- Siirrä autoa saman verran siihen suuntaan (vanha - uusi)
+	* Interaktiiviset ei-titaniummaiset objectit
+		- Työntäminen
+		- Vaiheittain:
+			1) Objekti a tulee liikemäärällä x
+			2) Törmää objektiin b, jolla on vastakkaissuuntaista liikemäärää y verran
+			3) Jos objektilla a on enemmän liikemäärää kuin mitä tarvitaan objektin 
+			b liikuttamiseen samaan suuntaan samalla nopeudella kuin a:lla oli ennen
+				3.1) Liikutetaan objektia b objektin a nopeudella (voima)
+				3.2) Vähennetään a:n liikemäärästä se, mitä kului b:n liikuttamiseen (vastavoima)
+			4) Jos näin ei ollut
+				4.1) Pysäytetään objekti a (vastavoima)
+				4.2) Liikutetaan objektia b sen verran kuin a:lla oli liikemäärää (voima)
 Kartan luku									(8)
 	* VAATII SUUNNITTELUA
 	* Tarvitaan tilet
@@ -35,19 +55,14 @@ Kartan luku									(8)
 	* Tarvitaan myös background
 		- Sama kuin tile mutta isompi
 	* Luetaan väreistä törmäys
-Törmäys										(9)
-	* Auto voisi pyörähtää törmätessään. Tähän tarvitaan 
-	törmäyspisteen tietoja.									DONE
-	* Auton kääntäminen tietyn pisteen ympäri:				DONE
-		- Käännä autoa origon ympäri
-		- Laske, kuinka paljon piste siirtyi mihkäkin suuntaan
-			* vanha törmäyspiste auton koordinaatistossa - Käännöksen jälkeinen törmäyspiste auton koordinaatistosta
-		- Siirrä autoa saman verran siihen suuntaan (vanha - uusi)
-	* Interaktiiviset ei-titaniummaiset objectit
 Karttageneraattori							(8)
 	* Tilester tyyppinen ohjelma, jolla maalataan tilejä kuvaan ja samalla tehdään tallennuspikselikuvaa
 	* Solukohtaiset värikoodit vai universaalit?
 	* Tilekoko n. 50x (auto n. 100 px)
+Musiikin ja äänien soittaminen				(9)
+	* Taustamusiikki
+	* Äänet
+	* Äänenvoimakkuudet
 
 ALPHA READY
 
