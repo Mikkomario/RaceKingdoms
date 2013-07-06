@@ -90,7 +90,7 @@ public class CollisionTestCar extends Car
 			DimensionalDrawnObject d = (DimensionalDrawnObject) collided;
 			
 			for (int i = 0; i < collisionpoints.size(); i++)
-				bounceFrom(d, collisionpoints.get(i), 0.1, 0);
+				bounceFrom(d, collisionpoints.get(i), 0.1, 0.2);
 		}
 	}
 	

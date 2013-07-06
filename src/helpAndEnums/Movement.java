@@ -68,7 +68,6 @@ public class Movement
 	 */
 	public double getDirection()
 	{
-		// TODO: Does this actually work?
 		return HelpMath.getVectorDirection(getHSpeed(), getVSpeed());
 	}
 	
@@ -78,7 +77,6 @@ public class Movement
 	public double getSpeed()
 	{
 		//return Math.abs(getHSpeed()) + Math.abs(getVSpeed());
-		// TODO: Just trying this out, remove if it doesn't work at all
 		return HelpMath.pointDistance(0, 0, getHSpeed(), getVSpeed());
 	}
 	
@@ -177,6 +175,26 @@ public class Movement
 	public Movement getMultiplication(double multiplier)
 	{
 		return new Movement(getHSpeed() * multiplier, getVSpeed() * multiplier);
+	}
+	
+	/**
+	 * Diminishes the the movement's one component while keeping other the same
+	 *
+	 * @param direction The direction to which the speedloss affects
+	 * @param speedloss How much (directional) speed is lost
+	 * @return The movement where the speedloss has been added
+	 */
+	public Movement getDirectionalllyDiminishedMovement(double direction, double speedloss)
+	{
+		// Divides the movement into two ("x" and "y") movements
+		Movement dirmovement = getDirectionalMovement(direction);
+		Movement othermovement = getDirectionalMovement(direction + 90);
+		
+		// Diminishes the directional speed while keepin the other speed the same
+		dirmovement.diminishSpeed(speedloss);
+		
+		// Adds the movements back together
+		return Movement.movementSum(dirmovement, othermovement);
 	}
 	
 	/**

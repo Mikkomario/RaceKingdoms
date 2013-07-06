@@ -69,6 +69,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 			// Informs if a coded key was pressed
 			for (int ik = 0; ik < this.codesPressed.size(); ik++)
 			{
+				// TODO: This throws nullpointers every now and then
 				if (listener != null && this.codesPressed != null)
 					listener.onKeyPressed(0, this.codesPressed.get(ik), true);
 			}

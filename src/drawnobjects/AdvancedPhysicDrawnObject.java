@@ -135,16 +135,11 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	 * @param d The object collided with
 	 * @param collisionpoint The point in which the collision happens (absolute)
 	 * @param bounciness How much the object bounces away from the given object (1+)
-	 * @param lostenergymodifier How much energy is lost during the collision (0-1)
+	 * @param frictionmodifier How much energy is lost during the collision (0-1)
 	 */
 	protected void bounceFrom(DimensionalDrawnObject d, DoublePoint collisionpoint, 
-			double bounciness, double lostenergymodifier)
-	{	
-		// Some of the speed is lost during the collision
-		getMovement().diminishSpeed(getMovement().getSpeed()*lostenergymodifier);
-		
-		// TODO: There must be something wrong with the pixelspeed or something 
-		// since the object bounces even when bounciness = 0
+			double bounciness, double frictionmodifier)
+	{
 		Movement pixelmovement = getPixelRotationMovement(collisionpoint);
 		double pixelspeed = pixelmovement.getSpeed();
 		double pixeldirection = pixelmovement.getDirection();
@@ -170,6 +165,10 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 					forcedir, collisionpoint);
 			if (force > 0)
 				addForce(force, forcedir, collisionpoint);
+			
+			// Also adds friction if needed
+			if (frictionmodifier > 0)
+				addWallFriction(oppmovement, frictionmodifier);
 		}
 		
 		/*
@@ -183,11 +182,8 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 				forcedir));
 		*/
 		
-		// TODO: Divide stuff in this method between multiple simpler methods
 		// TODO: Also add same effect to the other object (a new method?)
 		// TODO: Add mass and density and height
-		// TODO: Add methods: addForce and addOpposingForce (which add the 
-		// moment in a different manner)
 	}
 	
 	// Calculates the speed of the relative pixel
@@ -316,7 +312,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		addMotion(forcedir, force);
 		// TODO: Get a nice number here too :)
 		// TODO: Weird that it works better when there's a negative sign...?
-		addRotation(-calculateMoment(forcedir, force, forcepixel, 
+		addRotation(calculateMoment(forcedir, force, forcepixel, 
 				new DoublePoint(getX(), getY())));
 	}
 	
@@ -330,14 +326,12 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// Applies moment to all (the other) points in the object
 		DoublePoint[] colpoints = getCollisionPoints();
 		
-		// TODO: Doesn't work right when the speed is too high!
 		for (int i = 0; i < colpoints.length; i++)
 		{
 			DoublePoint colpoint = colpoints[i];
 			// TODO: Try to come up with a way to always get nice numbers here
 			double moment = calculateMoment(forcedir, 
 					0.3*movementforce + 0.3*rotationforce, colpoint, colpixel);
-			// TODO: Kinda works but the whole moment system is a bit too aggressive
 			addMoment(negateTransformations(colpoint.getX(), colpoint.getY()), 
 					moment);
 		}
@@ -357,11 +351,17 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		double tangle = HelpMath.checkDirection(HelpMath.pointDirection(
 				rotationpixel.getX(), rotationpixel.getY(), forcepixel.getX(), 
 				forcepixel.getY()) - 90);
-		//System.out.println(HelpMath.getDirectionalForce(forcedir, force, tangle));
 		// Calculates the moment
 		// The moment also depends of the largest possible range of the object
-		// TODO: Add a nice variable here
 		return HelpMath.getDirectionalForce(forcedir, force, tangle) 
 				* r / getMaxRangeFromOrigin();
+	}
+	
+	private void addWallFriction(Movement oppmovement, double frictionmodifier)
+	{
+		double friction = oppmovement.getSpeed() * frictionmodifier;
+		// Diminishes the speed that was not affected by the oppposing force
+		setMovement(getMovement().getDirectionalllyDiminishedMovement(
+				oppmovement.getDirection() + 90, friction));
 	}
 }

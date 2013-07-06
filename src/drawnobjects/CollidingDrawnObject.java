@@ -51,7 +51,7 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 		
 		// Initializes attributes
 		this.active = true;
-		this.relativecollisionpoints = null;
+		this.relativecollisionpoints = new Point[0];
 
 		// Adds the object to the handler
 		if (collisionhandler != null)
@@ -83,10 +83,7 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	
 	@Override
 	public DoublePoint[] getCollisionPoints()
-	{
-		// TODO: Causes problems when height and width have not yet been 
-		// initialized in another thread
-		
+	{	
 		Point[] relativepoints = getRelativeCollisionPoints();
 		
 		// if relativepoints don't exist, returns an empty table
@@ -114,17 +111,17 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	protected Point[] getRelativeCollisionPoints()
 	{
 		// If the collisionpoints have not yet been initialized, initializes them
+		/* Removed this since it cause some problems. Now each object must 
+		 * initialize their own collisionpoints
 		if (this.relativecollisionpoints == null)
 		{
 			if (getCollisionType() == CollisionType.CIRCLE)
 				initializeCircleCollisionPoints(getRadius(), 8, 2);
 			//if (getCollisionType() == CollisionType.BOX)
-			// TODO: Causes NullPointerException if the object has not been 
-			// fully initialized yet
 			else
 				initializeBoxCollisionPoints(1, 1);
 		}
-		
+		*/
 		return this.relativecollisionpoints;
 	}
 	
