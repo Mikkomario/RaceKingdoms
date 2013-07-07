@@ -62,9 +62,10 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	
 	/**
 	 * @return How high the object is in the third dimension (including scaling). 
-	 * Used for calculating the object's mass.
+	 * Used for calculating the object's mass. Use a negative value for circular 
+	 * objects that are shaped like a 3-dimensional ball.
 	 */
-	public abstract int get3DHeight();
+	public abstract int getZHeight();
 	
 	/**
 	 * @return The density of the object. Including how well the object fits 
@@ -189,6 +190,52 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		
 		// TODO: Also add same effect to the other object (a new method?)
 		// TODO: Add mass and density and height
+	}
+	
+	protected void bounceInteractivelyFrom(AdvancedPhysicDrawnObject d, 
+			DoublePoint collisionpoint, double bounciness, 
+			double frictionmodifier)
+	{
+		// Calculates the direction of the collision
+		double oppdir = d.getCollisionForceDirection(collisionpoint.getAsPoint());
+		double forcedir = HelpMath.checkDirection(oppdir + 180);
+		
+		// TODO: CHeck that the objects are actually going towards each other
+		// And check the situation where the objects are moving to the same direction 
+		// with different speeds
+		
+		// Calculates the directional momentums of the objects
+		double speedthis = getMovement().getDirectionalMovement(forcedir).getSpeed();
+		double speedother = d.getMovement().getDirectionalMovement(oppdir).getSpeed();
+		double momentumthis = speedthis * getMass();
+		double momentumother = speedother * d.getMass();
+		
+		// if the colliding object doesn't have any speed. Does nothing 
+		// (the bounce should be done independently in the other object)
+		if (speedthis == 0)
+			return;
+		
+		// Calculates the maximum momentum the other may apply to the collided 
+		// object
+		// That is the momentum it would need to gain to start moving with the 
+		// colliding object's speed
+		double maxMomentumApplied = momentumother + speedthis * d.getMass();
+		
+		// If the object doesn't have that much momentum, it uses all its momentum 
+		// to push the object
+		if (momentumthis < maxMomentumApplied)
+		{
+			bounceFrom(d, collisionpoint, bounciness, frictionmodifier);
+			d.addForce(speedthis, forcedir, collisionpoint);
+		}
+		// Otherwise, pushes the other object with the maximum force and leaves 
+		// some of the momentum to the pushing object
+		else
+		{
+			d.addForce(maxMomentumApplied, forcedir, collisionpoint);
+			// TODO: Make a bouncefrom method that only bounces a certain amount
+			// TODO: Add rotation momentum as well :P
+		}
 	}
 	
 	// Calculates the speed of the relative pixel
@@ -368,5 +415,33 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// Diminishes the speed that was not affected by the oppposing force
 		setMovement(getMovement().getDirectionalllyDiminishedMovement(
 				oppmovement.getDirection() + 90, friction));
+	}
+	
+	private int getVolume()
+	{
+		// For ball-like objects, uses the ball's method for calculating volyme
+		if (getCollisionType() == CollisionType.CIRCLE && getHeight() < 0)
+		{
+			return (int) ((4.0 / 3.0) * Math.PI * Math.pow(getRadius(), 3)); 
+		}
+		
+		// For others, calculates the area of the object first
+		int area = 0;
+		
+		if (getCollisionType() == CollisionType.CIRCLE)
+		{
+			// PI * r^2 for a circle
+			int radius = (int) (getRadius() * (getXscale() + getYscale()) / 2);
+			area = (int) (2 * Math.PI * Math.pow(radius, 2));
+		}
+		else
+			area = (int) (getXscale() * getWidth() * getYscale() * getHeight()); 
+		// And returns that multiplied with the height
+		return area * getZHeight();
+	}
+	
+	private int getMass()
+	{
+		return getVolume() * getDensity();
 	}
 }

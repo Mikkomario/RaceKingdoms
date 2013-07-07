@@ -260,7 +260,7 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 	}
 	
 	@Override
-	public int get3DHeight()
+	public int getZHeight()
 	{
 		return (int) (getHeight() * getYscale() * 0.8);
 	}

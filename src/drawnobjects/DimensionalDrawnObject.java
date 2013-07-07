@@ -142,7 +142,7 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 	
 	/**
 	 * @return The radius of the object if it was a circle. If the radius has 
-	 * not been specified, returns an approximation.
+	 * not been specified, returns an approximation. Scaling is not included.
 	 */
 	public int getRadius()
 	{
