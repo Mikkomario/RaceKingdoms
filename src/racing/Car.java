@@ -18,6 +18,7 @@ import helpAndEnums.CollisionType;
 import helpAndEnums.DepthConstants;
 import helpAndEnums.DoublePoint;
 import helpAndEnums.HelpMath;
+import helpAndEnums.Material;
 import drawnobjects.AdvancedPhysicDrawnObject;
 
 /**
@@ -256,6 +257,19 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 	{
 		super.setCircleCollisionPrecision(radius, edgeprecision, layers);
 		refineRelativeCollisionPoints();
+	}
+	
+	@Override
+	public int get3DHeight()
+	{
+		return (int) (getHeight() * getYscale() * 0.8);
+	}
+
+	@Override
+	public int getDensity()
+	{
+		return (int) (0.8 * (Material.ALUMINIUMBRONZE.getDensity() + 
+				Material.ALUMINIUM.getDensity()) / 2);
 	}
 	
 	

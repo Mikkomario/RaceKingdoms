@@ -58,6 +58,22 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	}
 	
 	
+	// ABSTRACT METHODS --------------------------------------------------
+	
+	/**
+	 * @return How high the object is in the third dimension (including scaling). 
+	 * Used for calculating the object's mass.
+	 */
+	public abstract int get3DHeight();
+	
+	/**
+	 * @return The density of the object. Including how well the object fits 
+	 * into its "box" or "circle" depending on its collision type. So the density 
+	 * of a wooden half of a ball would be woods density * 0.5.
+	 */
+	public abstract int getDensity();
+	
+	
 	// IMPLEMENTED METHODS	----------------------------------------------
 	
 	@Override
