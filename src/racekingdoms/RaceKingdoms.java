@@ -10,7 +10,7 @@ import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import helpAndEnums.DepthConstants;
 import processing.core.PApplet;
-import tests.CollisionTest;
+import tests.CircleCollisionTest;
 import tests.FpsApsTest;
 
 /**
@@ -49,6 +49,7 @@ public class RaceKingdoms extends PApplet
 		// Sets the screen
 		size(1000, 550);
 		noFill();
+		ellipseMode(CORNER);
 		
 		// Initializes the handlers
 		//		(step -> mainmouse &  mainkey -> mouse & key -> testmouse & testkey)
@@ -156,7 +157,7 @@ public class RaceKingdoms extends PApplet
 		this.testmouselistenerhandler.activate();
 		
 		// Runs tests
-		new CollisionTest(this.stephandler, this.drawer, 
+		new CircleCollisionTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		

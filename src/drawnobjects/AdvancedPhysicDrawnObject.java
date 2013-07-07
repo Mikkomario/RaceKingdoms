@@ -171,17 +171,6 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 				addWallFriction(oppmovement, frictionmodifier);
 		}
 		
-		/*
-		pixelmovement = getPixelSpeed(negateTransformations(
-				collisionpoint.getX(), collisionpoint.getY()));
-		pixelspeed = Math.abs(pixelmovement.getX()) + 
-				Math.abs(pixelmovement.getY());
-		pixeldirection = HelpMath.getVectorDirection(pixelmovement.getX(), 
-				pixelmovement.getY());
-		System.out.println(-HelpMath.getDirectionalForce(pixeldirection, pixelspeed, 
-				forcedir));
-		*/
-		
 		// TODO: Also add same effect to the other object (a new method?)
 		// TODO: Add mass and density and height
 	}

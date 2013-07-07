@@ -52,13 +52,11 @@ public class TestBox extends DimensionalDrawnObject
 		applet.rect(0, 0, 100, 100);
 	}
 
-
 	@Override
 	public int getWidth()
 	{
 		return 100;
 	}
-
 
 	@Override
 	public int getHeight()
