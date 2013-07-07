@@ -102,8 +102,8 @@ public abstract class DimensionalDrawnObject extends DrawnObject implements Coll
 		// Circular objects react if the point is near enough
 		if (this.collisiontype == CollisionType.CIRCLE)
 		{
-			if (HelpMath.pointDistance(getOriginX(), getOriginY(), x, y) 
-					<= getRadius())
+			if (HelpMath.pointDistance(getOriginX(), getOriginY(), 
+					negatedPoint.x, negatedPoint.y) <= getRadius())
 				return this;
 			else
 				return null;
