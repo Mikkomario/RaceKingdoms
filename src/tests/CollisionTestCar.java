@@ -99,33 +99,14 @@ public class CollisionTestCar extends Car
 	{
 		// Also draws the collisionpoints
 		super.drawSelf(applet);
-		//System.out.println(getDirection());
 		
-		//applet.pushMatrix();
 		applet.fill(255, 0, 0);
-		//applet.scale(3);
-		
-		//Point tran = transform(0, 0);
-		//applet.rect(tran.x, tran.y, 3, 3);
-		//System.out.println(tran);
-		
-		//System.out.println("*******");
 		
 		for (DoublePoint p: getCollisionPoints())
 		{
 			applet.rect((int) p.getX(), (int) p.getY(), 5, 5);
-			//System.out.println(p);
 		}
 		
-		/*
-		System.out.println("***********************");
-		for (Point p: getRelativeCollisionPoints())
-		{
-			System.out.println(p);
-		}
-		*/
-		
-		//applet.popMatrix();
 		applet.fill(0);
 	}
 	

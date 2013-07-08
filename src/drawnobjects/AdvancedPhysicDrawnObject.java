@@ -284,7 +284,6 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 					dirmovementthis, rotationspeedthis, oppdir);
 			
 			double force = momentumthis / massother;
-			
 			d.addForce(force * (1 + bounciness), forcedir, collisionpoint);
 		}
 		// Otherwise, pushes the other object with the maximum force and leaves 
@@ -294,6 +293,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 			double momentumtransferred = maxMomentumApplied - momentumother;
 			double pushforce = momentumtransferred / massother;
 			d.addForce(pushforce, forcedir, collisionpoint);
+			
 			double speedloss = momentumtransferred / massthis;
 			double rotationspeedloss = rotationspeedthis / speedloss;
 			speedloss = speedthis / speedloss;
@@ -427,10 +427,11 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	private void addForce(double force, double forcedir, DoublePoint forcepixel)
 	{
 		// Applies the force to the object
-		addMotion(forcedir, force);
+		addMotion(forcedir, force*0.6);
 		// TODO: Get a nice number here too :)
-		// TODO: Weird that it works better when there's a negative sign...?
-		addRotation(calculateMoment(forcedir, force, forcepixel, 
+		// TODO: Make the relationship between force and rotationforce dependent 
+		// on the r?
+		addRotation(calculateMoment(forcedir, force*0.4, forcepixel, 
 				new DoublePoint(getX(), getY())));
 	}
 	
