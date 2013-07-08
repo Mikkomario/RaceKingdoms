@@ -64,6 +64,26 @@ public class Movement
 	}
 	
 	/**
+	 * Changes the horizontal speed of the movement
+	 *
+	 * @param hspeed The new horizontal speed of the movement
+	 */
+	public void setHSpeed(double hspeed)
+	{
+		this.hspeed = hspeed;
+	}
+	
+	/**
+	 * Changes the vertical speed of the movement
+	 *
+	 * @param vspeed The new vertical speed of the movement
+	 */
+	public void setVSpeed(double vspeed)
+	{
+		this.vspeed = vspeed;
+	}
+	
+	/**
 	 * @return The movement's direction
 	 */
 	public double getDirection()
