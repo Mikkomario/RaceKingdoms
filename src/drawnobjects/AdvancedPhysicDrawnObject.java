@@ -154,7 +154,7 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 	 * @param bounciness How much the object bounces away from the given object (1+)
 	 * @param frictionmodifier How much energy is lost during the collision (0-1)
 	 */
-	protected void bounceFrom(DimensionalDrawnObject d, DoublePoint collisionpoint, 
+	public void bounceFrom(DimensionalDrawnObject d, DoublePoint collisionpoint, 
 			double bounciness, double frictionmodifier)
 	{
 		Movement pixelmovement = getPixelRotationMovement(collisionpoint);
@@ -173,12 +173,22 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 				getMovement().getOpposingMovement().getDirectionalMovement(forcedir);
 		double opprotationforce = -HelpMath.getDirectionalForce(pixeldirection, 
 				pixelspeed, forcedir);
-		double force = bounciness * (oppmovement.getSpeed() + opprotationforce);
+		
+		bounce(collisionpoint, bounciness, frictionmodifier, oppmovement, 
+				opprotationforce, forcedir);
+	}
+	
+	private void bounce(DoublePoint collisionpoint, double bounciness, 
+			double frictionmodifier, Movement oppmovement, 
+			double opprotationspeed, double forcedir)
+	{
+		double force = bounciness * (oppmovement.getSpeed() + 
+				opprotationspeed);
 		
 		// Adds the opposing force and the force (if they are not negative)
-		if (Math.abs(oppmovement.getDirection() - forcedir) < 45)
+		if (HelpMath.getAngleDifference180(oppmovement.getDirection(), forcedir) < 90)
 		{
-			addOpposingForce(oppmovement.getSpeed(), opprotationforce, 
+			addOpposingForce(oppmovement.getSpeed(), opprotationspeed, 
 					forcedir, collisionpoint);
 			if (force > 0)
 				addForce(force, forcedir, collisionpoint);
@@ -201,8 +211,10 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		double forcedir = HelpMath.checkDirection(oppdir + 180);
 		
 		// Calculates the directional momentums of the objects
-		double speedthis = getMovement().getDirectionalMovement(forcedir).getSpeed();
-		double speedother = d.getMovement().getDirectionalMovement(oppdir).getSpeed();
+		Movement dirmovementthis = getMovement().getDirectionalMovement(forcedir);
+		Movement dirmovementother = d.getMovement().getDirectionalMovement(oppdir);
+		double speedthis = dirmovementthis.getSpeed();
+		double speedother = dirmovementother.getSpeed();
 		double rotationspeedthis = getPixelRotationMovement(collisionpoint).
 				getDirectionalMovement(forcedir).getSpeed();
 		double rotationspeedother = d.getPixelRotationMovement(collisionpoint).
@@ -218,16 +230,32 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		
 		// Checks that the objects are actually colliding to each other and 
 		// not going to opposite directions
-		Movement pixmovementthis = getPixelMovement(collisionpoint).getDirectionalMovement(forcedir);
-		Movement pixmovementother = d.getPixelMovement(collisionpoint).getDirectionalMovement(oppdir);
+		// TODO: Use dirmovement here
+		Movement pixmovementthis = getPixelMovement(collisionpoint).
+				getDirectionalMovement(forcedir);
+		Movement pixmovementother = d.getPixelMovement(collisionpoint).
+				getDirectionalMovement(oppdir);
 		if (HelpMath.getAngleDifference180(pixmovementthis.getDirection(), 
 				pixmovementother.getDirection()) >= 90)
 			return;
+		
+		// Changes the signs of the momentums and speeds if needed
+		if (HelpMath.getAngleDifference180(pixmovementthis.getDirection(), forcedir) > 90)
+		{
+			speedthis *= -1;
+			momentumthis *= -1;
+		}
+		if (HelpMath.getAngleDifference180(pixmovementother.getDirection(), oppdir) > 90)
+		{
+			speedother *= -1;
+			momentumother *= -1; 
+		}
 		// Also, if the objects are moving to the same direction with the same 
 		// speed, doesn't do anything
+		/*
 		else if (pixmovementthis.getSpeed() == pixmovementother.getSpeed())
 			return;
-		
+		*/
 		// Calculates the maximum momentum the other may apply to the collided 
 		// object
 		// That is the momentum it would need to gain to start moving with the 
@@ -238,14 +266,19 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// to push the object
 		if (momentumthis < maxMomentumApplied)
 		{
-			bounceFrom(d, collisionpoint, bounciness, frictionmodifier);
-			d.addForce(speedthis, forcedir, collisionpoint);
+			bounce(collisionpoint, bounciness, frictionmodifier, 
+					dirmovementthis, pixmovementthis.getSpeed(), oppdir);
+			d.addForce(speedthis * (1 + bounciness), forcedir, collisionpoint);
 		}
 		// Otherwise, pushes the other object with the maximum force and leaves 
 		// some of the momentum to the pushing object
 		else
 		{
-			d.addForce(maxMomentumApplied, forcedir, collisionpoint);
+			double pushforce = maxMomentumApplied / momentumthis * 
+					pixmovementthis.getSpeed();
+			d.addForce(pushforce, forcedir, collisionpoint);
+			double oppforce = maxMomentumApplied / momentumthis * speedthis;
+			// TODO: Continue and rethink
 			// TODO: Make a bouncefrom method that only bounces a certain amount
 			// TODO: Add rotation momentum as well :P
 		}
