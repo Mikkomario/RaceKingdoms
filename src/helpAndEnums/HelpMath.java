@@ -226,4 +226,43 @@ public class HelpMath
 	{
 		return checkDirection(-(Math.toDegrees(Math.atan2(yvector, xvector))));
 	}
+	
+	/**
+	 * Calculates the directional difference between the two angles. The 
+	 * difference is somewhere between 0 and 180 degrees.
+	 *
+	 * @param angle1 The first angle
+	 * @param angle2 The second angle
+	 * @return The difference between the two angles in degrees (0-180)
+	 */
+	public static double getAngleDifference180(double angle1, double angle2)
+	{
+		double angledifference = Math.abs(checkDirection(angle1) - 
+				checkDirection(angle2));
+		
+		// > 180 = < 180
+		if (angledifference > 180)
+			angledifference = 360 - angledifference;
+		
+		return angledifference;
+	}
+	
+	/**
+	 * Calculates the directional difference between the two angles. The 
+	 * difference is somewhere between 0 and 90 degrees.
+	 *
+	 * @param angle1 The first angle
+	 * @param angle2 The second angle
+	 * @return The difference between the two angles in degrees (0-90)
+	 */
+	public static double getAngleDifference90(double angle1, double angle2)
+	{
+		double angledifference = getAngleDifference180(angle1, angle2);
+		
+		// > 90 < 90
+		if (angledifference > 90)
+			angledifference = 180 - angledifference;
+		
+		return angledifference;
+	}
 }

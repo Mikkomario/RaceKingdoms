@@ -207,13 +207,24 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// Calculates the directional momentums of the objects
 		double speedthis = getMovement().getDirectionalMovement(forcedir).getSpeed();
 		double speedother = d.getMovement().getDirectionalMovement(oppdir).getSpeed();
-		double momentumthis = speedthis * getMass();
-		double momentumother = speedother * d.getMass();
+		double rotationspeedthis = getPixelRotationMovement(collisionpoint).
+				getDirectionalMovement(forcedir).getSpeed();
+		double rotationspeedother = d.getPixelRotationMovement(collisionpoint).
+				getDirectionalMovement(oppdir).getSpeed();
+		// TODO: One might want to add a modifier to the rotationspeed
+		double momentumthis = (speedthis + rotationspeedthis)* getMass();
+		double momentumother = (speedother + rotationspeedother) * d.getMass();
 		
 		// if the colliding object doesn't have any speed. Does nothing 
 		// (the bounce should be done independently in the other object)
 		if (speedthis == 0)
 			return;
+		
+		// Checks that the objects are actually colliding to each other and 
+		// not going to opposite directions
+		Movement pixmovementthis = getPixelMovement(collisionpoint).getDirectionalMovement(forcedir);
+		Movement pixmovementother = d.getPixelMovement(collisionpoint).getDirectionalMovement(oppdir);
+		// TODO: Check it after an angledifference method has been made
 		
 		// Calculates the maximum momentum the other may apply to the collided 
 		// object

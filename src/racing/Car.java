@@ -367,28 +367,6 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 		getMovement().diminishSpeed(modifier * getTurningFriction());
 	}
 	
-	private double getAngleDifference180()
-	{
-		double angledifference = Math.abs(getAngle() - getMovement().getDirection());
-		
-		// > 180 = < 180
-		if (angledifference > 180)
-			angledifference = 360 - angledifference;
-		
-		return angledifference;
-	}
-	
-	private double getAngleDifference90()
-	{
-		double angledifference = getAngleDifference180();
-		
-		// > 90 < 90
-		if (angledifference > 90)
-			angledifference = 180 - angledifference;
-		
-		return angledifference;
-	}
-	
 	// Makes the car's direction change when the car is turned
 	private void addTurnBoost()
 	{
@@ -420,7 +398,8 @@ public class Car extends AdvancedPhysicDrawnObject implements listeners.KeyListe
 	private double getTurningFriction()
 	{
 		// Reduces the object's speed depending on how much the object is turning
-		double angledifference = getAngleDifference90();
+		double angledifference = HelpMath.getAngleDifference90(getAngle(), 
+				getMovement().getDirection());
 		// If there's no difference or no speed, doesn't imply friction
 		if (angledifference < 1 || getMovement().getSpeed() == 0)
 			return 0;
