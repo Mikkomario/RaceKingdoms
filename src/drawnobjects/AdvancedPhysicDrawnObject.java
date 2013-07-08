@@ -202,6 +202,15 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// TODO: Add mass and density and height
 	}
 	
+	/**
+	 * Bounces from an object pushing it away at the same time
+	 *
+	 * @param d The object collided with
+	 * @param collisionpoint The point where the collision happens
+	 * @param bounciness How much additional speed is gained (0+)
+	 * @param frictionmodifier What is the friction modifier between the two 
+	 * objects
+	 */
 	protected void bounceInteractivelyFrom(AdvancedPhysicDrawnObject d, 
 			DoublePoint collisionpoint, double bounciness, 
 			double frictionmodifier)
@@ -215,13 +224,14 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		Movement dirmovementother = d.getMovement().getDirectionalMovement(oppdir);
 		double speedthis = dirmovementthis.getSpeed();
 		double speedother = dirmovementother.getSpeed();
-		double rotationspeedthis = getPixelRotationMovement(collisionpoint).
-				getDirectionalMovement(forcedir).getSpeed();
-		double rotationspeedother = d.getPixelRotationMovement(collisionpoint).
-				getDirectionalMovement(oppdir).getSpeed();
+		
+		Movement rotationmovementthis = 
+				getPixelRotationMovement(collisionpoint).getDirectionalMovement(forcedir);
+		Movement rotationmovementother = 
+				d.getPixelRotationMovement(collisionpoint).getDirectionalMovement(oppdir);
+		double rotationspeedthis = rotationmovementthis.getSpeed();
+		double rotationspeedother = rotationmovementother.getSpeed();
 		// TODO: One might want to add a modifier to the rotationspeed
-		double momentumthis = (speedthis + rotationspeedthis)* getMass();
-		double momentumother = (speedother + rotationspeedother) * d.getMass();
 		
 		// if the colliding object doesn't have any speed. Does nothing 
 		// (the bounce should be done independently in the other object)
@@ -240,16 +250,20 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 			return;
 		
 		// Changes the signs of the momentums and speeds if needed
-		if (HelpMath.getAngleDifference180(pixmovementthis.getDirection(), forcedir) > 90)
-		{
+		if (HelpMath.getAngleDifference180(dirmovementthis.getDirection(), forcedir) > 90)
 			speedthis *= -1;
-			momentumthis *= -1;
-		}
-		if (HelpMath.getAngleDifference180(pixmovementother.getDirection(), oppdir) > 90)
-		{
+		if (HelpMath.getAngleDifference180(dirmovementother.getDirection(), oppdir) > 90)
 			speedother *= -1;
-			momentumother *= -1; 
-		}
+		if (HelpMath.getAngleDifference180(rotationmovementthis.getDirection(), forcedir) > 90)
+			rotationspeedthis *= -1;
+		if (HelpMath.getAngleDifference180(rotationmovementother.getDirection(), oppdir) > 90)
+			rotationspeedother *= -1;
+		
+		double massthis = getMass();
+		double massother = d.getMass();
+		double momentumthis = (speedthis + rotationspeedthis)* massthis;
+		double momentumother = (speedother + rotationspeedother) * massother;
+		
 		// Also, if the objects are moving to the same direction with the same 
 		// speed, doesn't do anything
 		/*
@@ -267,20 +281,26 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		if (momentumthis < maxMomentumApplied)
 		{
 			bounce(collisionpoint, bounciness, frictionmodifier, 
-					dirmovementthis, pixmovementthis.getSpeed(), oppdir);
-			d.addForce(speedthis * (1 + bounciness), forcedir, collisionpoint);
+					dirmovementthis, rotationspeedthis, oppdir);
+			
+			double force = momentumthis / massother;
+			
+			d.addForce(force * (1 + bounciness), forcedir, collisionpoint);
 		}
 		// Otherwise, pushes the other object with the maximum force and leaves 
 		// some of the momentum to the pushing object
 		else
 		{
-			double pushforce = maxMomentumApplied / momentumthis * 
-					pixmovementthis.getSpeed();
+			double momentumtransferred = maxMomentumApplied - momentumother;
+			double pushforce = momentumtransferred / massother;
 			d.addForce(pushforce, forcedir, collisionpoint);
-			double oppforce = maxMomentumApplied / momentumthis * speedthis;
-			// TODO: Continue and rethink
-			// TODO: Make a bouncefrom method that only bounces a certain amount
-			// TODO: Add rotation momentum as well :P
+			double speedloss = momentumtransferred / massthis;
+			double rotationspeedloss = rotationspeedthis / speedloss;
+			speedloss = speedthis / speedloss;
+			
+			bounce(collisionpoint, bounciness, frictionmodifier, 
+					Movement.createMovement(oppdir, speedloss), 
+					rotationspeedloss, oppdir);
 		}
 	}
 	
