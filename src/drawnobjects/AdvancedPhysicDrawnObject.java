@@ -200,10 +200,6 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		double oppdir = d.getCollisionForceDirection(collisionpoint.getAsPoint());
 		double forcedir = HelpMath.checkDirection(oppdir + 180);
 		
-		// TODO: CHeck that the objects are actually going towards each other
-		// And check the situation where the objects are moving to the same direction 
-		// with different speeds
-		
 		// Calculates the directional momentums of the objects
 		double speedthis = getMovement().getDirectionalMovement(forcedir).getSpeed();
 		double speedother = d.getMovement().getDirectionalMovement(oppdir).getSpeed();
@@ -224,7 +220,13 @@ public abstract class AdvancedPhysicDrawnObject extends BasicPhysicDrawnObject
 		// not going to opposite directions
 		Movement pixmovementthis = getPixelMovement(collisionpoint).getDirectionalMovement(forcedir);
 		Movement pixmovementother = d.getPixelMovement(collisionpoint).getDirectionalMovement(oppdir);
-		// TODO: Check it after an angledifference method has been made
+		if (HelpMath.getAngleDifference180(pixmovementthis.getDirection(), 
+				pixmovementother.getDirection()) >= 90)
+			return;
+		// Also, if the objects are moving to the same direction with the same 
+		// speed, doesn't do anything
+		else if (pixmovementthis.getSpeed() == pixmovementother.getSpeed())
+			return;
 		
 		// Calculates the maximum momentum the other may apply to the collided 
 		// object
