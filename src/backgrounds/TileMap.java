@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import graphic.SpriteBank;
 import handlers.ActorHandler;
+import handlers.CollidableHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.CollisionType;
 import helpAndEnums.DepthConstants;
-import drawnobjects.DrawnObject;
+import drawnobjects.DimensionalDrawnObject;
 
 /**
  * Tilemaps hold a certain number of tiles. Tilemaps can be created using tables 
@@ -16,7 +18,7 @@ import drawnobjects.DrawnObject;
  * @author Gandalf.
  *         Created 9.7.2013.
  */
-public class TileMap extends DrawnObject
+public class TileMap extends DimensionalDrawnObject
 {
 	// ATTRIBUTES	------------------------------------------------------
 	
@@ -37,6 +39,8 @@ public class TileMap extends DrawnObject
 	 * @param y The tilemap's top-left y-coordinate
 	 * @param drawer The drawablehandler that will draw the tiles in the map
 	 * @param animator The actorhandler that will animate the tiles (optional)
+	 * @param collidablehandler The collidableHandler that will handle the map's 
+	 * collision checking (optional)
 	 * @param width How many tiles the map holds horzontally
 	 * @param height How many tiles the map holds vertically 
 	 * @param tilewidth How wide the tiles are (in pixels)
@@ -50,11 +54,13 @@ public class TileMap extends DrawnObject
 	 * find their spritename in a spritebank
 	 */
 	public TileMap(int x, int y, DrawableHandler drawer, ActorHandler animator, 
+			CollidableHandler collidablehandler, 
 			int width, int height, int tilewidth, int tileheight, 
 			short[] bankindexes, short[] rotations, short[] xscales, 
 			short[] yscales, short[] nameindexes)
 	{
-		super(x, y, DepthConstants.BOTTOM - 5, drawer);
+		super(x, y, DepthConstants.BOTTOM - 5, true, CollisionType.BOX, drawer, 
+				collidablehandler);
 		
 		// Initializes attributes
 		this.initialized = false;
@@ -129,6 +135,18 @@ public class TileMap extends DrawnObject
 	{
 		// Only initialized tilemaps are visible
 		return super.isVisible() && this.initialized;
+	}
+	
+	@Override
+	public int getWidth()
+	{
+		return this.width * this.tilewidth;
+	}
+
+	@Override
+	public int getHeight()
+	{
+		return this.height * this.tileheight;
 	}
 	
 	
