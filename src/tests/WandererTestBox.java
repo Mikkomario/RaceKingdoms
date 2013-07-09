@@ -1,5 +1,6 @@
 package tests;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -127,10 +128,12 @@ public class WandererTestBox extends AdvancedPhysicDrawnObject
 		// Draws the box and the collisionpoints
 		applet.rect(0, 0, 100, 100);
 		
-		for (DoublePoint p: getCollisionPoints())
+		applet.fill(255, 0, 0);
+		for (Point p: getRelativeCollisionPoints())
 		{
-			applet.rect((int) p.getX(), (int) p.getY(), 5, 5);
+			applet.rect(p.x, p.y, 5, 5);
 		}
+		applet.fill(0);
 	}
 
 	@Override
@@ -139,6 +142,7 @@ public class WandererTestBox extends AdvancedPhysicDrawnObject
 		super.act();
 		// Checks the collisions with the walls so that the object always stays 
 		// inside the screen
+		checkWallCollision();
 	}
 	
 	
@@ -146,10 +150,13 @@ public class WandererTestBox extends AdvancedPhysicDrawnObject
 	
 	private void checkWallCollision()
 	{
-		// TODO: Continue
 		if (getX() < 0)
 			getMovement().setHSpeed(Math.abs(getMovement().getHSpeed()));
 		else if (getX() > this.maxx)
-			getMovement().setHSpeed(Math.abs(getMovement().getHSpeed()));
+			getMovement().setHSpeed(-Math.abs(getMovement().getHSpeed()));
+		if (getY() < 0)
+			getMovement().setVSpeed(Math.abs(getMovement().getVSpeed()));
+		else if (getY() > this.maxy)
+			getMovement().setVSpeed(-Math.abs(getMovement().getVSpeed()));
 	}
 }

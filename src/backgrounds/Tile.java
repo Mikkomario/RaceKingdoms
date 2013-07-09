@@ -37,5 +37,4 @@ public class Tile extends Background
 		// Tiles are drawn a bit above the backgrounds
 		setDepth(getDepth() - 5);
 	}
-
 }
