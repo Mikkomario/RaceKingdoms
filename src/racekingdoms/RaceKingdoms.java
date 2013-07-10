@@ -10,8 +10,8 @@ import handlers.MouseListenerHandler;
 import handlers.StepHandler;
 import helpAndEnums.DepthConstants;
 import processing.core.PApplet;
+import tests.BackgroundTest;
 import tests.FpsApsTest;
-import tests.InteractiveCollisionTest;
 
 /**
  * This class starts the program and creates the necessary elements of the game. 
@@ -99,7 +99,8 @@ public class RaceKingdoms extends PApplet
 			// Draws the background
 			background(150);
 			
-			this.drawer.drawSelf(this);
+			if (!this.drawer.isDead())
+				this.drawer.drawSelf(this);
 			this.needsUpdating = false;
 		}
 	}
@@ -157,7 +158,7 @@ public class RaceKingdoms extends PApplet
 		this.testmouselistenerhandler.activate();
 		
 		// Runs tests
-		new InteractiveCollisionTest(this.stephandler, this.drawer, 
+		new BackgroundTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		

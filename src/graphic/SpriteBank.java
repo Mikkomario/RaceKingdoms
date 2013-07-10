@@ -84,16 +84,13 @@ public abstract class SpriteBank
      * @param originx What is the position of the sprite's origin on the x-axis (Pxl)
      * @param originy What is the position of the sprite's origin on the y-axis (Pxl)
      * @param name What is the name of the new sprite
-     * @return The sprite that was created
      * @throws FileNotFoundException If the image file could not be loaded
      */
-    protected Sprite createSprite(String filename, int imgnumber, int originx, 
+    protected void createSprite(String filename, int imgnumber, int originx, 
     		int originy, String name) throws FileNotFoundException
     {
     	Sprite newsprite = new Sprite(filename, imgnumber, originx, originy, 
                 name, this.applet);
         this.sprites.put(newsprite.getName(), newsprite);
-        
-        return newsprite;
     }
 }

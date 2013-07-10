@@ -89,13 +89,13 @@ public class TileMap extends DimensionalDrawnObject
 	@Override
 	public int getOriginX()
 	{
-		return 0;
+		return getWidth() / 2;
 	}
 
 	@Override
 	public int getOriginY()
 	{
-		return 0;
+		return getHeight() / 2;
 	}
 
 	@Override
@@ -189,8 +189,8 @@ public class TileMap extends DimensionalDrawnObject
 		// Creates all the tiles
 		for (int i = 0; i < this.width * this.height; i++)
 		{
-			int x = (int) getX() + (i % this.height) * this.tilewidth;
-			int y = (int) getY() + (i / this.width) * this.tileheight;
+			int x = (int) getX() - getOriginX() + (i % this.height) * this.tilewidth;
+			int y = (int) getY() - getOriginY() + (i / this.width) * this.tileheight;
 			Tile newtile = new Tile(x, y, this.tiledrawer, this.tileanimator, 
 					banks.get(this.bankindexes[i]), 
 					texturenames.get(this.nameindexes[i]), 
@@ -198,6 +198,9 @@ public class TileMap extends DimensionalDrawnObject
 			// Rotates and scales the tile
 			newtile.setAngle(this.rotations[i]);
 			newtile.scale(this.xscales[i], this.yscales[i]);
+			// Also changes the object's position so that the starting position 
+			// becomes the left corner
+			newtile.addPosition(-newtile.getOriginX(), -newtile.getOriginY());
 		}
 	}
 }

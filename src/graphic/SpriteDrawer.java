@@ -36,6 +36,8 @@ public class SpriteDrawer implements Actor
 		
 		this.imageSpeed = 0.1;
 		this.imageIndex = 0;
+		this.alive = true;
+		this.active = true;
 		
 		// Adds the spritedrawer to the handler, if possible
 		if (actorhandler != null)
