@@ -18,6 +18,8 @@ import helpAndEnums.DoublePoint;
  */
 public class CollisionHandler extends LogicalHandler implements Actor
 {
+	// TODO: Add separate collisionListenerHandler class
+	
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private CollidableHandler collidablehandler;
