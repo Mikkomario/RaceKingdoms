@@ -17,11 +17,18 @@ import javax.sound.midi.Sequencer;
  */
 public class MidiMusic {
 	
+	// ATTRIBUTES	---------------------------------------------------------
+	
 	private String midiName;
 	private Sequence midiSequence;
 	private Sequencer midiSequencer;
 	
+	// CONSTRUCTOR	---------------------------------------------------------
 	
+	/**Creates MidiMusic-object.
+	 * 
+	 * @param midiName
+	 */
 	public MidiMusic(String midiName){
 		this.midiName = midiName;
 		//Let's try to create our midiSequence
@@ -48,12 +55,23 @@ public class MidiMusic {
 		
 	}
 	
+	// METHODS	---------------------------------------------------
+	
 	/**
 	 * @return	Returns the length of a Midi-sequence in ticks.
 	 */
 	public long getSequenceLength(){
 		return this.midiSequence.getTickLength();
 	}
+	
+	/**
+	 * @return Returns midiSequencer.
+	 */
+	/*
+	public Sequencer getSequencer(){
+		return this.midiSequencer;
+	}
+	*/
 	
 
 }
