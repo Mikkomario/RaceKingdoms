@@ -83,7 +83,6 @@ public class SpriteDrawer implements Actor
 	@Override
 	public void act()
 	{
-		System.out.println("Acts");
 		// Animates the sprite
 		animate();
 	}

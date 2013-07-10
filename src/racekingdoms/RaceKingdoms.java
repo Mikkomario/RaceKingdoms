@@ -99,7 +99,8 @@ public class RaceKingdoms extends PApplet
 			// Draws the background
 			background(150);
 			
-			this.drawer.drawSelf(this);
+			if (!this.drawer.isDead())
+				this.drawer.drawSelf(this);
 			this.needsUpdating = false;
 		}
 	}
