@@ -59,6 +59,26 @@ public class RoomListenerHandler extends LogicalHandler implements RoomListener
 	
 	// OTHER METHODS	--------------------------------------------------
 	
+	/**
+	 * Adds a new listener to the informed listeners
+	 *
+	 * @param r The new listener to be added
+	 */
+	public void addRoomListener(RoomListener r)
+	{
+		addHandled(r);
+	}
+	
+	/**
+	 * Removes a roomlistener from the handled listeners
+	 *
+	 * @param r The roomlistener to be removed
+	 */
+	public void removeRoomListener(RoomListener r)
+	{
+		removeHandled(r);
+	}
+	
 	private RoomListener getListener(int index)
 	{
 		Handled maybelistener = getHandled(index);

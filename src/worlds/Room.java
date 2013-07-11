@@ -5,8 +5,11 @@ import handleds.Drawable;
 import handleds.Handled;
 import handleds.LogicalHandled;
 import handlers.Handler;
+import handlers.RoomListenerHandler;
 
 import java.util.ArrayList;
+
+import listeners.RoomListener;
 
 import common.GameObject;
 
@@ -23,17 +26,15 @@ import backgrounds.TileMap;
  *         Created 11.7.2013.
  */
 public class Room extends Handler
-{
-	// TODO: Add roomlistener interface and make this class inform and handle them
-	// in fact, make roomlistenerhandler class as well
-	
+{	
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private ArrayList<Background> backgrounds;
 	private ArrayList<SpriteBank> texturebanks;
 	private ArrayList<String> texturenames;
 	private TileMap tilemap;
-	private int width, height;
+	private RoomListenerHandler listenerhandler;
+	//private int width, height;
 	private boolean active;
 	
 	
@@ -43,8 +44,6 @@ public class Room extends Handler
 	 * Creates a new room, filled with backgrounds, tiles and objects. 
 	 * The room will remain inactive until started.
 	 *
-	 * @param width The width of the room (in pixels)
-	 * @param height The height of the room (in pixels)
 	 * @param backgrounds The background(s) used in the room. Use empty list or 
 	 * null if no backgrounds will be used. The backgrounds should cover the room's 
 	 * area that is not covered by tiles.
@@ -54,7 +53,7 @@ public class Room extends Handler
 	 * @param tiletexturenames A list of the names of the textures used in the 
 	 * tilemap 
 	 */
-	public Room(int width, int height, ArrayList<Background> backgrounds, 
+	public Room(ArrayList<Background> backgrounds, 
 			TileMap tilemap, ArrayList<SpriteBank> tiletexturebanks, 
 			ArrayList<String> tiletexturenames)
 	{
@@ -62,13 +61,14 @@ public class Room extends Handler
 		super(false, null);
 		
 		// Initializes attributes
-		this.width = width;
-		this.height = height;
+		//this.width = width;
+		//this.height = height;
 		this.tilemap = tilemap;
 		this.backgrounds = backgrounds;
 		this.active = true;
 		this.texturebanks = tiletexturebanks;
 		this.texturenames = tiletexturenames;
+		this.listenerhandler = new RoomListenerHandler(false, null);
 		
 		uninitialize();
 	}
@@ -107,12 +107,14 @@ public class Room extends Handler
 	
 	// GETTERS & SETTERS	---------------------------------------------
 	
+	/*
 	/**
 	 * Changes the size of the room
 	 *
 	 * @param width The room's new width (in pixels)
 	 * @param height The room's new height (in pixels)
 	 */
+	/*
 	public void setSize(int width, int height)
 	{
 		this.width = width;
@@ -122,6 +124,7 @@ public class Room extends Handler
 	/**
 	 * @return The room's width (in pixels)
 	 */
+	/*
 	public int getWidth()
 	{
 		return this.width;
@@ -130,11 +133,12 @@ public class Room extends Handler
 	/**
 	 * @return The room's height (in pixels)
 	 */
+	/*
 	public int getHeight()
 	{
 		return this.height;
 	}
-	
+	*/
 	/**
 	 * Changes the backgrounds shown in the room
 	 *
@@ -191,6 +195,9 @@ public class Room extends Handler
 	public void addOnject(GameObject g)
 	{
 		addHandled(g);
+		// If the object is a roomlistener, adds it to the listenerhandler as well
+		if (g instanceof RoomListener)
+			this.listenerhandler.addRoomListener((RoomListener) g);
 	}
 	
 	/**
@@ -201,6 +208,9 @@ public class Room extends Handler
 	public void removeObject(GameObject g)
 	{
 		removeHandled(g);
+		// If the object was a roomlistener, removes it from there as well
+		if (g instanceof RoomListener)
+			this.listenerhandler.removeRoomListener((RoomListener) g);
 	}
 	
 	/**
@@ -214,6 +224,9 @@ public class Room extends Handler
 		
 		this.active = true;
 		initialize();
+		
+		// Informs the listeners about the event
+		this.listenerhandler.onRoomStart(this);
 	}
 	
 	/**
@@ -224,6 +237,9 @@ public class Room extends Handler
 		// If the room had already been ended, nothing happens
 		if (!this.active)
 			return;
+		
+		// Informs the listeners about the event
+		this.listenerhandler.onRoomEnd(this);
 		
 		this.active = false;
 		uninitialize();

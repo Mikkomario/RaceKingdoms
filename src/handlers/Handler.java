@@ -160,7 +160,7 @@ public abstract class Handler implements Handled
 	 */
 	protected void removeHandled(Handled h)
 	{
-		if (this.handleds.contains(h))
+		if (h != null && this.handleds.contains(h))
 			this.handleds.remove(h);
 	}
 	
