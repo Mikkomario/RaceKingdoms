@@ -25,5 +25,5 @@ public interface LogicalHandled extends Handled
 	 * Tries to stop the objects logical processes
 	 * @return Were the processes stopped
 	 */
-	public boolean inActivate();
+	public boolean inactivate();
 }

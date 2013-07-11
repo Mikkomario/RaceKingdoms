@@ -40,7 +40,7 @@ public class CarTest extends AbstractTest
 		this.car = new Car(300, 300, drawer, null, null, actorhandler, 
 				keylistenerhandler, new CarSpriteBank(applet), "test", 
 				"testcarmask");
-		this.car.inActivate();
+		this.car.inactivate();
 		this.car.setInvisible();
 	}
 	

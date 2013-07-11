@@ -42,7 +42,7 @@ public class RotationTest extends AbstractTest
 		// Sets the objects invisible
 		this.refbox.setInvisible();
 		this.rotbox.setInvisible();
-		this.rotbox.inActivate();
+		this.rotbox.inactivate();
 	}
 	
 	

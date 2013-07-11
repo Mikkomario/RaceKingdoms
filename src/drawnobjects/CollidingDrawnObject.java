@@ -68,7 +68,7 @@ public abstract class CollidingDrawnObject extends DimensionalDrawnObject
 	}
 	
 	@Override
-	public boolean inActivate()
+	public boolean inactivate()
 	{
 		this.active = false;
 		return true;

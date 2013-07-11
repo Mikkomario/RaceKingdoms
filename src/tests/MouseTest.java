@@ -55,7 +55,7 @@ public class MouseTest extends AbstractTest implements listeners.MouseListener {
 	}
 
 	@Override
-	public boolean inActivate() {
+	public boolean inactivate() {
 		this.active = false;
 		return true;
 	}

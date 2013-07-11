@@ -45,7 +45,7 @@ public class CameraCarTest extends AbstractTest
 		this.testcamera = new FollowerCamera(drawer, actorhandler, 1000, 550, 
 				this.testcar);
 		
-		this.testcamera.inActivate();
+		this.testcamera.inactivate();
 		this.testcamera.setInvisible();
 	}
 

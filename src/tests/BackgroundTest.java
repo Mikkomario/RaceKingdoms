@@ -41,7 +41,7 @@ public class BackgroundTest extends AbstractTest
 				testbank, "background");
 		this.testbackground.setInvisible();
 		//actorhandler.addActor(this.testbackground.getSpriteDrawer());
-		this.testbackground.getSpriteDrawer().inActivate();
+		this.testbackground.getSpriteDrawer().inactivate();
 		this.testbackground.setDimensions(300, 300);
 	}
 

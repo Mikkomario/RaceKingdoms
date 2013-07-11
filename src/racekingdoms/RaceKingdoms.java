@@ -80,9 +80,9 @@ public class RaceKingdoms extends PApplet
 		this.needsUpdating = true;
 		
 		// Inactivates the testhandlers
-		this.testactorhandler.inActivate();
-		this.testkeylistenerhandler.inActivate();
-		this.testmouselistenerhandler.inActivate();
+		this.testactorhandler.inactivate();
+		this.testkeylistenerhandler.inactivate();
+		this.testmouselistenerhandler.inactivate();
 		
 		// Starts the game
 		new Thread(this.stephandler).start();

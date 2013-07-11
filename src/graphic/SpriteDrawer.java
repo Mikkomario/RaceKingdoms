@@ -61,7 +61,7 @@ public class SpriteDrawer implements Actor
 	}
 
 	@Override
-	public boolean inActivate()
+	public boolean inactivate()
 	{
 		this.active = false;
 		return true;

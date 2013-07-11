@@ -86,7 +86,7 @@ public class FpsApsTest extends AbstractTest implements Actor, Drawable
 	}
 
 	@Override
-	public boolean inActivate()
+	public boolean inactivate()
 	{
 		this.active = false;
 		return true;

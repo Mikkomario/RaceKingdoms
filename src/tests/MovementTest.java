@@ -38,7 +38,7 @@ public class MovementTest extends AbstractTest
 		this.box = new MovementTestBox(drawer, actorhandler, keylistenerhandler);
 		
 		// Inactivates the box for now
-		this.box.inActivate();
+		this.box.inactivate();
 		this.box.setInvisible();
 	}
 	

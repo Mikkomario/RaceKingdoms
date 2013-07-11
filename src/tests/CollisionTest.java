@@ -46,9 +46,9 @@ public class CollisionTest extends AbstractTest
 				keylistenerhandler, new CarSpriteBank(applet));
 		this.testbox = new TestBox(drawer, this.colhandler.getCollidableHandler());
 		
-		this.testcar.inActivate();
+		this.testcar.inactivate();
 		this.testcar.setInvisible();
-		this.colhandler.inActivate();
+		this.colhandler.inactivate();
 		this.testbox.setInvisible();
 	}
 	

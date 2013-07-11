@@ -153,6 +153,17 @@ public abstract class Handler implements Handled
 		}
 	}
 	
+	/**
+	 * Removes a handled from the group of handled objects
+	 *
+	 * @param h The handled object to be removed
+	 */
+	protected void removeHandled(Handled h)
+	{
+		if (this.handleds.contains(h))
+			this.handleds.remove(h);
+	}
+	
 	private void removeDeadHandleds()
 	{
 		// Removes all the dead handleds from the list to save processing time

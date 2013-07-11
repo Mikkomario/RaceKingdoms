@@ -59,7 +59,7 @@ public abstract class LogicalHandler extends Handler implements LogicalHandled
 	}
 
 	@Override
-	public boolean inActivate()
+	public boolean inactivate()
 	{
 		// tries to inactivate all the handled objects, returns false if all the objects
 		// could not be inactivated
@@ -67,7 +67,7 @@ public abstract class LogicalHandler extends Handler implements LogicalHandled
 		
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
-			if (!getLogicalHandled(i).inActivate())
+			if (!getLogicalHandled(i).inactivate())
 				returnValue = false;
 		}
 		

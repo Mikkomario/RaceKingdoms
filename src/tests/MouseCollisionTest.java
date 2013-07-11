@@ -76,7 +76,7 @@ public class MouseCollisionTest extends AbstractTest implements MouseListener,
 
 
 	@Override
-	public boolean inActivate() {
+	public boolean inactivate() {
 		this.active = false;
 		return true;
 	}

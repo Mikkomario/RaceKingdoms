@@ -1,5 +1,11 @@
 package worlds;
 
+import graphic.SpriteBank;
+import handleds.Drawable;
+import handleds.Handled;
+import handleds.LogicalHandled;
+import handlers.Handler;
+
 import java.util.ArrayList;
 
 import common.GameObject;
@@ -16,7 +22,7 @@ import backgrounds.TileMap;
  * @author Gandalf.
  *         Created 11.7.2013.
  */
-public class Room
+public class Room extends Handler
 {
 	// TODO: Add roomlistener interface and make this class inform and handle them
 	// in fact, make roomlistenerhandler class as well
@@ -24,8 +30,9 @@ public class Room
 	// ATTRIBUTES	-----------------------------------------------------
 	
 	private ArrayList<Background> backgrounds;
+	private ArrayList<SpriteBank> texturebanks;
+	private ArrayList<String> texturenames;
 	private TileMap tilemap;
-	private ArrayList<GameObject> objects;
 	private int width, height;
 	private boolean active;
 	
@@ -42,18 +49,59 @@ public class Room
 	 * null if no backgrounds will be used. The backgrounds should cover the room's 
 	 * area that is not covered by tiles.
 	 * @param tilemap The tilemap used in the room (null if no tiles are used)
-	 * @param objects The objects that will be placed inside the room
+	 * @param tiletexturebanks A list of spritebanks that contained the textures 
+	 * used in the tilemap
+	 * @param tiletexturenames A list of the names of the textures used in the 
+	 * tilemap 
 	 */
 	public Room(int width, int height, ArrayList<Background> backgrounds, 
-			TileMap tilemap, ArrayList<GameObject> objects)
+			TileMap tilemap, ArrayList<SpriteBank> tiletexturebanks, 
+			ArrayList<String> tiletexturenames)
 	{
+		// Rooms aren't handled by anything by default
+		super(false, null);
+		
 		// Initializes attributes
 		this.width = width;
 		this.height = height;
 		this.tilemap = tilemap;
-		this.objects = objects;
 		this.backgrounds = backgrounds;
-		this.active = false;
+		this.active = true;
+		this.texturebanks = tiletexturebanks;
+		this.texturenames = tiletexturenames;
+		
+		uninitialize();
+	}
+	
+	
+	// IMPLEMENTED METHODS	---------------------------------------------
+	
+	@Override
+	protected Class<?> getSupportedClass()
+	{
+		return GameObject.class;
+	}
+	
+	@Override
+	public boolean kill()
+	{
+		// In addition to the normal killing process, kills the tilemap and 
+		// backgrounds as well
+		if (this.backgrounds != null)
+		{
+			for (int i = 0; i < this.backgrounds.size(); i++)
+				this.backgrounds.get(i).kill();
+			
+			this.backgrounds.clear();
+			this.backgrounds = null;
+		}
+		if (this.tilemap != null)
+		{
+			this.tilemap.kill();
+			this.tilemap = null;
+		}
+		
+		return super.kill();
 	}
 	
 	
@@ -129,8 +177,111 @@ public class Room
 	 */
 	public boolean isActive()
 	{
-		return this.active;
+		return this.active && !isDead();
 	}
 	
-	// TODO: Continue
+	
+	// OTHER METHODS	-------------------------------------------------
+	
+	/**
+	 * Adds a new object to the room
+	 *
+	 * @param g The object to be added
+	 */
+	public void addOnject(GameObject g)
+	{
+		addHandled(g);
+	}
+	
+	/**
+	 * Removes a gameobject from the room
+	 *
+	 * @param g The gameobject to be removed
+	 */
+	public void removeObject(GameObject g)
+	{
+		removeHandled(g);
+	}
+	
+	/**
+	 * Starts the room, activating all the objects and backgrounds in it
+	 */
+	public void start()
+	{
+		// If the room had already been started, nothing happens
+		if (this.active)
+			return;
+		
+		this.active = true;
+		initialize();
+	}
+	
+	/**
+	 * Ends the room, deactivating all the objects and backgrounds in it
+	 */
+	public void end()
+	{
+		// If the room had already been ended, nothing happens
+		if (!this.active)
+			return;
+		
+		this.active = false;
+		uninitialize();
+	}
+	
+	private void initialize()
+	{
+		// Sets the backgrounds visible and animated
+		if (this.backgrounds != null)
+		{
+			for (int i = 0; i < this.backgrounds.size(); i++)
+			{
+				Background b = this.backgrounds.get(i);
+				b.setVisible();
+				b.getSpriteDrawer().activate();
+			}
+		}
+		// Initializes the tilemap
+		if (this.tilemap != null)
+			this.tilemap.initialize(this.texturebanks, this.texturenames);
+		// Activates all the objects and sets them visible (if applicable)
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			Handled h = getHandled(i);
+			
+			if (h instanceof Drawable)
+				((Drawable) h).setVisible();
+			if (h instanceof LogicalHandled)
+				((LogicalHandled) h).activate();
+		}
+	}
+	
+	private void uninitialize()
+	{
+		// Sets the backgrounds invisible and unanimated
+		if (this.backgrounds != null)
+		{
+			for (int i = 0; i < this.backgrounds.size(); i++)
+			{
+				Background b = this.backgrounds.get(i);
+				b.setInvisible();
+				
+				if (b.getSpriteDrawer() != null)
+					b.getSpriteDrawer().inactivate();
+			}
+		}
+		// Clears the tilemap
+		if (this.tilemap != null)
+			this.tilemap.clear();
+		// InActivates all the objects and sets them invisible (if applicable)
+		for (int i = 0; i < getHandledNumber(); i++)
+		{
+			Handled h = getHandled(i);
+			
+			if (h instanceof Drawable)
+				((Drawable) h).setInvisible();
+			if (h instanceof LogicalHandled)
+				((LogicalHandled) h).inactivate();
+		}
+	}
 }

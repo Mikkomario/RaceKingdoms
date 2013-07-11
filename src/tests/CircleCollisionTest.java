@@ -46,9 +46,9 @@ public class CircleCollisionTest extends AbstractTest
 				keylistenerhandler, new CarSpriteBank(applet));
 		this.testcircle = new TestEllipse(drawer, this.colhandler.getCollidableHandler());
 		
-		this.testcar.inActivate();
+		this.testcar.inactivate();
 		this.testcar.setInvisible();
-		this.colhandler.inActivate();
+		this.colhandler.inactivate();
 		this.testcircle.setInvisible();
 	}
 	

@@ -80,7 +80,7 @@ public class RotationTestBox extends TestBox implements KeyListener
 	}
 
 	@Override
-	public boolean inActivate()
+	public boolean inactivate()
 	{
 		this.active = false;
 		return true;

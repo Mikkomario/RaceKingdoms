@@ -56,7 +56,7 @@ public class InputTest extends AbstractTest implements listeners.KeyListener{
 	}
 
 	@Override
-	public boolean inActivate() {
+	public boolean inactivate() {
 		this.active = false;
 		return true;
 	}

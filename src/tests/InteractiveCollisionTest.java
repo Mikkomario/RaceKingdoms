@@ -42,7 +42,7 @@ public class InteractiveCollisionTest extends AbstractTest
 		
 		// Initializes attributes
 		this.colhandler = new CollisionHandler(true, actorhandler);
-		this.colhandler.inActivate();
+		this.colhandler.inactivate();
 		this.boxes = new ArrayList<WandererTestBox>();
 		
 		// Creates a few boxes
