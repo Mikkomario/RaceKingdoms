@@ -8,6 +8,8 @@ import helpAndEnums.Movement;
 
 import java.awt.Point;
 
+import common.GameObject;
+
 import processing.core.PApplet;
 
 /**
@@ -16,12 +18,12 @@ import processing.core.PApplet;
  * @author Gandalf.
  *         Created 26.11.2012.
  */
-public abstract class DrawnObject implements Drawable
+public abstract class DrawnObject extends GameObject implements Drawable
 {	
 	// ATTRIBUTES	-------------------------------------------------------
 	
 	private double xscale, yscale, x, y, angle;
-	private boolean visible, alive;
+	private boolean visible;
 	private int depth;
 	
 	
@@ -44,7 +46,6 @@ public abstract class DrawnObject implements Drawable
 		this.xscale = 1;
 		this.yscale = 1;
 		this.visible = true;
-		this.alive = true;
 		this.angle = 0;
 		this.depth = depth;
 		//initializeCollisionPoints(1, 1);
@@ -82,20 +83,6 @@ public abstract class DrawnObject implements Drawable
 	public boolean isVisible()
 	{
 		return this.visible;
-	}
-
-	@Override
-	public boolean isDead()
-	{
-		return !this.alive;
-	}
-
-	@Override
-	public boolean kill()
-	{
-		// Ends the drawing and also kills the object
-		this.alive = false;
-		return true;
 	}
 
 	@Override

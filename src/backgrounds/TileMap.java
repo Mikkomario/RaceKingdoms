@@ -189,6 +189,11 @@ public class TileMap extends DimensionalDrawnObject
 		// Creates all the tiles
 		for (int i = 0; i < this.width * this.height; i++)
 		{
+			// If the bankindex or nameindex is negative, that means that the 
+			// tile should be ignored
+			if (this.bankindexes[i] < 0 || this.nameindexes[i] < 0)
+				continue;
+			
 			int x = (int) getX() - getOriginX() + (i % this.height) * this.tilewidth;
 			int y = (int) getY() - getOriginY() + (i / this.width) * this.tileheight;
 			Tile newtile = new Tile(x, y, this.tiledrawer, this.tileanimator, 
