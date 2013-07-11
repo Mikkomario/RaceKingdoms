@@ -7,5 +7,25 @@ package music;
  *
  */
 public class MidiMusicPlayer {
-
+	
+	// ATTRIBUTES	---------------------------------------------------------
+	
+	
+	
+	// CONSTRUCTOR	---------------------------------------------------------
+	
+	public MidiMusicPlayer(){
+		
+	}
+	
+	// METHODS	---------------------------------------------------
+	
+	/**
+	 * @return	Returns the current position the sequencer is in.
+	 */
+	public long getCurrentPosition(){
+		//return this.midiSequencer.getTickPosition();
+		return 0;
+	}
+	
 }
