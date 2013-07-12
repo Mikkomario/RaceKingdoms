@@ -52,7 +52,6 @@ public class MidiTest extends AbstractTest implements KeyListener{
 	public void test() {
 		//Let's start the test
 		this.activate();
-		
 	}
 
 	@Override
