@@ -66,11 +66,15 @@ public abstract class Handler implements Handled
 		
 		// The handler is dead if it was killed
 		if (this.killed)
+		{
 			return true;
+		}
 		
 		// or if autodeath is on and it's empty (but has had an object in it previously)
 		if (this.autodeath && this.started && this.handleds.isEmpty())
-				return true;
+		{
+			return true;
+		}
 		
 		return false;
 	}
@@ -170,7 +174,10 @@ public abstract class Handler implements Handled
 		for (int i = 0; i < this.handleds.size(); i++)
 		{	
 			if (this.handleds.get(i).isDead())
+			{
+				//System.out.println("Removed " + this.handleds.get(i).getClass().getName());
 				this.handleds.remove(i);
+			}
 		}
 	}
 	

@@ -34,7 +34,7 @@ public abstract class GameObject implements Handled
 	@Override
 	public boolean isDead()
 	{
-		return this.alive;
+		return !this.alive;
 	}
 
 	@Override

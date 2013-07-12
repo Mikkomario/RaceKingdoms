@@ -64,6 +64,14 @@ public class TestBox extends DimensionalDrawnObject
 		return 100;
 	}
 	
+	/*
+	public boolean kill()
+	{
+		System.out.println("Killed!");
+		return super.kill();
+	}
+	/*
+	
 	
 	// OTHER METHODS	-------------------------------------------------
 	

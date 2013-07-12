@@ -11,8 +11,7 @@ import handlers.StepHandler;
 import helpAndEnums.DepthConstants;
 import processing.core.PApplet;
 import tests.FpsApsTest;
-import tests.MidiTest;
-import tests.TileMapTest;
+import tests.GraphicTest;
 
 /**
  * This class starts the program and creates the necessary elements of the game. 
@@ -159,11 +158,7 @@ public class RaceKingdoms extends PApplet
 		this.testmouselistenerhandler.activate();
 		
 		// Runs tests
-		new MidiTest(this.stephandler, this.drawer, 
-				this.testkeylistenerhandler, this.testmouselistenerhandler, 
-				this).test();
-		
-		new TileMapTest(this.stephandler, this.drawer, 
+		new GraphicTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		

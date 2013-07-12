@@ -106,7 +106,7 @@ public class TileMap extends DimensionalDrawnObject
 	
 	@Override
 	public void drawSelf(PApplet applet)
-	{
+	{	
 		// Draws the tiles if they are initialized
 		if (this.initialized)
 			this.tiledrawer.drawSelf(applet);	
