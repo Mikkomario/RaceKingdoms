@@ -15,7 +15,9 @@ public class MidiMusicPlayer {
 	private long currentPosition;
 
 	// CONSTRUCTOR ---------------------------------------------------------
-
+	/**
+	 * Creates new MidiMusicPlayer.
+	 */
 	public MidiMusicPlayer() {
 		this.currentMidi = null;
 		this.currentPosition = 0;

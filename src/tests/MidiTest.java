@@ -7,6 +7,11 @@ import handlers.DrawableHandler;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+/**Tests whether midis can be started, paused, continued and stopped
+ * 
+ * @author Unto
+ *         Created 12.7.2013.
+ */
 public class MidiTest extends AbstractTest implements KeyListener{
 	
 	// ATTRIBUTES	------------------------------------------------------
@@ -40,7 +45,6 @@ public class MidiTest extends AbstractTest implements KeyListener{
 		this.paused = false;
 		this.isActive = false;
 		this.isAlive = true;
-		
 	}
 
 	// IMPLEMENTED METHOD	---------------------------------------------
@@ -91,20 +95,24 @@ public class MidiTest extends AbstractTest implements KeyListener{
 			if(keyCode == PConstants.ENTER){
 				//Starts playing the midi
 				this.midiPlayer.playMidiMusic(this.testBank.getMidi("test"), 0);
+				System.out.println("You pressed ENTER, so the music should start!");
 			}
 			else if (key == 'p'){
 				//Pauses and continues playing music.
 				if(this.paused){
 					this.midiPlayer.continueMidiMusic();
 					this.paused = false;
+					System.out.println("You pressed p, so music should continue.");
 				}else{
 					this.midiPlayer.pauseMidiMusic();
 					this.paused = true;
+					System.out.println("You pressed p, so music should pause.");
 				}
 			}
 			else if (key == 's'){
 				//Stops playing the music
 				this.midiPlayer.stopMidiMusic();
+				System.out.println("You pressed s, so everything should stop.");
 			}
 		}
 		

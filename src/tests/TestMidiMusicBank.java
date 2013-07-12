@@ -20,7 +20,7 @@ public class TestMidiMusicBank extends MidiMusicBank{
 	
 	@Override
 	public void createMidis() throws FileNotFoundException {
-		createMidiMusic("midis/testmidi.mid", "test");
+		createMidiMusic("data/midis/testmidi.mid", "test");
 	}
 	
 	
