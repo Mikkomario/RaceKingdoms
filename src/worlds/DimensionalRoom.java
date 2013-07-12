@@ -179,4 +179,15 @@ public class DimensionalRoom extends Room implements Collidable
 				(int) getX() + getWidth(), (int) getY(), 
 				(int) getY() + getHeight());
 	}
+	
+	/**
+	 * Checks whether an relative position is within room borders
+	 *
+	 * @param relp The relative point to be tested
+	 * @return Is the point within the room borders
+	 */
+	public boolean relativePointIsInRoom(Point relp)
+	{
+		return HelpMath.pointIsInRange(relp, 0, getWidth(), 0, getHeight());
+	}
 }
