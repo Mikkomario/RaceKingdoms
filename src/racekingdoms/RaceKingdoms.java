@@ -11,6 +11,7 @@ import handlers.StepHandler;
 import helpAndEnums.DepthConstants;
 import processing.core.PApplet;
 import tests.FpsApsTest;
+import tests.MidiTest;
 import tests.TileMapTest;
 
 /**
@@ -158,6 +159,10 @@ public class RaceKingdoms extends PApplet
 		this.testmouselistenerhandler.activate();
 		
 		// Runs tests
+		new MidiTest(this.stephandler, this.drawer, 
+				this.testkeylistenerhandler, this.testmouselistenerhandler, 
+				this).test();
+		
 		new TileMapTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();

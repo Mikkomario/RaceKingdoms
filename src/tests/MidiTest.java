@@ -34,6 +34,7 @@ public class MidiTest extends AbstractTest implements KeyListener{
 		super(actorhandler, drawer, keylistenerhandler, mouselistenerhandler, applet);
 		
 		//Let's start setting up our test
+		keylistenerhandler.addKeyListener(this);
 		this.testBank = new TestMidiMusicBank();
 		this.midiPlayer = new MidiMusicPlayer();
 		this.paused = false;
