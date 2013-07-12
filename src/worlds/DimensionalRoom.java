@@ -5,7 +5,9 @@ import handleds.Collidable;
 import handlers.ActorHandler;
 import handlers.CollidableHandler;
 import handlers.DrawableHandler;
+import helpAndEnums.HelpMath;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import backgrounds.Background;
@@ -19,6 +21,11 @@ import backgrounds.TileMap;
  */
 public class DimensionalRoom extends Room implements Collidable
 {
+	// ATTRIBUTES	------------------------------------------------------
+	
+	private int width, height;
+	
+	
 	// CONSTRUCTOR	------------------------------------------------------
 	
 	/**
@@ -57,10 +64,14 @@ public class DimensionalRoom extends Room implements Collidable
 			ArrayList<SpriteBank> tiletexturebanks,
 			ArrayList<String> tiletexturenames)
 	{
-		super(backgrounds, new TileMap(x, y, drawer, animator, collidablehandler, 
-				xtiles, ytiles, width / xtiles, height / ytiles, bankindexes, 
-				rotations, xscales, yscales, nameindexes), tiletexturebanks, 
-				tiletexturenames);
+		super(backgrounds, new TileMap(x + width / 2, y + height / 2, drawer, 
+				animator, collidablehandler, xtiles, ytiles, width / xtiles, 
+				height / ytiles, bankindexes, rotations, xscales, yscales, 
+				nameindexes), tiletexturebanks, tiletexturenames);
+		
+		// Initializes attributes
+		this.width = width;
+		this.height = height;
 	}
 	
 	
@@ -92,5 +103,80 @@ public class DimensionalRoom extends Room implements Collidable
 	{
 		// Uses tilemap for collision checking
 		return getTiles().makeUnsolid();
+	}
+	
+	
+	// GETTERS & SETTERS	----------------------------------------------
+	
+	/**
+	 * @return The width of the room (in pixels)
+	 */
+	public int getWidth()
+	{
+		return this.width;
+	}
+	
+	/**
+	 * @return The height of the room (in pixels)
+	 */
+	public int getHeight()
+	{
+		return this.height;
+	}
+	
+	/**
+	 * @return The room's top-left x-coordinate
+	 */
+	public double getX()
+	{
+		return getTiles().getX() - getWidth() / 2;
+	}
+	
+	/**
+	 * @return The room's top-left y-coordinate
+	 */
+	public double getY()
+	{
+		return getTiles().getY() - getHeight() / 2;
+	}
+	
+	
+	// OTHER METHODS	--------------------------------------------------
+	
+	/**
+	 * Transforms coordinates relative to room's position into absolute coordinates.
+	 *
+	 * @param x The x-coordinate from the top left corner of the room (in pixels)
+	 * @param y The y-coordinate from the top left corner of the room (in pixels)
+	 * @return The absolute position
+	 */
+	public Point getTransformedPosition(int x, int y)
+	{
+		return new Point((int) getX() + x, (int) getY() + y);
+	}
+	
+	/**
+	 * Transforms the absolute coordinates into coordinates relative to the room's position
+	 *
+	 * @param x The absolute x-coordinate to be transformed
+	 * @param y The absolute y-coordinate to be transformed
+	 * @return A point relative to the room's coordinates
+	 */
+	public Point getNegatedPosition(int x, int y)
+	{
+		return new Point(x - (int) getX(), y - (int) getY());
+	}
+	
+	/**
+	 * Checks whether an absolute position is within room borders
+	 *
+	 * @param absp The absolute point to be tested
+	 * @return Is the point within the room borders
+	 */
+	public boolean absolutePointIsInRoom(Point absp)
+	{
+		return HelpMath.pointIsInRange(absp, (int) getX(), 
+				(int) getX() + getWidth(), (int) getY(), 
+				(int) getY() + getHeight());
 	}
 }
