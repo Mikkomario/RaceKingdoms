@@ -42,7 +42,8 @@ public class RoomListenerHandler extends LogicalHandler implements RoomListener
 		// Informs all the listeners about the event
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
-			getListener(i).onRoomStart(room);
+			if (getListener(i).isActive())
+				getListener(i).onRoomStart(room);
 		}
 	}
 

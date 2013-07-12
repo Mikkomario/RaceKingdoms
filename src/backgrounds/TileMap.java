@@ -45,12 +45,12 @@ public class TileMap extends DimensionalDrawnObject
 	 * @param height How many tiles the map holds vertically 
 	 * @param tilewidth How wide the tiles are (in pixels)
 	 * @param tileheight How high the tiles are (in pixels)
-	 * @param bankindexes A table telling, which index for a spritebank is 
+	 * @param bankindexes A table telling which index for a spritebank is 
 	 * used in which tile
-	 * @param rotations A table telling, how much each tile is rotated
-	 * @param xscales A table telling, how the tiles are flipped around the x-axis
-	 * @param yscales A table telling, how the tiles are flipped around the y-axis
-	 * @param nameindexes A table telling, which index is used for each tile to 
+	 * @param rotations A table telling how much each tile is rotated
+	 * @param xscales A table telling how the tiles are flipped around the x-axis
+	 * @param yscales A table telling how the tiles are flipped around the y-axis
+	 * @param nameindexes A table telling which index is used for each tile to 
 	 * find their spritename in a spritebank
 	 */
 	public TileMap(int x, int y, DrawableHandler drawer, ActorHandler animator, 
