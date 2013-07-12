@@ -26,7 +26,8 @@ public class MidiMusicPlayer {
 	 * Starts playing the given Midi from the start.
 	 * 
 	 * @param newMidi	Given midiMusic-object.
-	 * @param loopCount	How many times the song loops.
+	 * @param loopCount	How many times the song loops. If loopCount is <0, the
+	 * loop will be continuous.
 	 */
 	public void playMidiMusic(MidiMusic newMidi, int loopCount) {
 		if (this.currentMidi == null) {
@@ -49,7 +50,8 @@ public class MidiMusicPlayer {
 	 * start and end.
 	 * 
 	 * @param newMidi	Given midiMusic-object.
-	 * @param loopCount	How many times the song loops.
+	 * @param loopCount	How many times the song loops. If loopCount is <0, the
+	 * loop will be continuous.
 	 * @param loopStartPoint	 Where the loop starts.
 	 * @param loopEndPoint	Where the loop ends.
 	 */
