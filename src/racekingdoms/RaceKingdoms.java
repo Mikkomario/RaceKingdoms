@@ -170,5 +170,7 @@ public class RaceKingdoms extends PApplet
 		new FpsApsTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
+		
+		//System.out.println(this.testkeylistenerhandler.isActive());
 	}
 }

@@ -133,4 +133,10 @@ public class CollisionTestCar extends Car
 				addMotion(HelpMath.checkDirection(getAngle() + 90), 0.5);
 		}
 	}
+	
+	@Override
+	public void onKeyPressed(int key, int keyCode, boolean coded)
+	{
+		System.out.println(key);
+	}
 }

@@ -20,7 +20,7 @@ public class MidiTest extends AbstractTest implements KeyListener{
 	private MidiMusicPlayer midiPlayer;
 	private boolean paused;
 	private boolean isActive;
-	private boolean isAlive;
+	private boolean isDead;
 	
 	// CONSTRUCTOR	------------------------------------------------------
 
@@ -44,7 +44,7 @@ public class MidiTest extends AbstractTest implements KeyListener{
 		this.midiPlayer = new MidiMusicPlayer();
 		this.paused = false;
 		this.isActive = false;
-		this.isAlive = true;
+		this.isDead = false;
 	}
 
 	// IMPLEMENTED METHOD	---------------------------------------------
@@ -73,12 +73,12 @@ public class MidiTest extends AbstractTest implements KeyListener{
 
 	@Override
 	public boolean isDead() {
-		return !this.isAlive;
+		return this.isDead;
 	}
 
 	@Override
 	public boolean kill() {
-		this.isAlive = false;
+		this.isDead = true;
 		return true;
 	}
 
@@ -91,7 +91,7 @@ public class MidiTest extends AbstractTest implements KeyListener{
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded) {
 		if(!coded){
-			if(keyCode == PConstants.ENTER){
+			if(key == PConstants.ENTER){
 				//Starts playing the midi
 				this.midiPlayer.playMidiMusic(this.testBank.getMidi("test"), 0);
 				System.out.println("You pressed ENTER, so the music should start!");

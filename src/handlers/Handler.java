@@ -175,7 +175,7 @@ public abstract class Handler implements Handled
 		{	
 			if (this.handleds.get(i).isDead())
 			{
-				//System.out.println("Removed " + this.handleds.get(i).getClass().getName());
+				System.out.println("Removed " + this.handleds.get(i).getClass().getName());
 				this.handleds.remove(i);
 			}
 		}

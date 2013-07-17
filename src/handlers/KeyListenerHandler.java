@@ -35,8 +35,6 @@ public class KeyListenerHandler extends LogicalHandler implements KeyListener
 	@Override
 	public void onKeyPressed(int key, int keyCode, boolean coded)
 	{
-		System.out.println("Key was pressed!");
-		
 		for (int i = 0; i < getHandledNumber(); i++)
 		{
 			getListener(i).onKeyPressed(key, keyCode, coded);
@@ -79,7 +77,7 @@ public class KeyListenerHandler extends LogicalHandler implements KeyListener
 	 */
 	public void addKeyListener(KeyListener k)
 	{
+		//System.out.println("Adds a listener " + k.getClass().getName());
 		super.addHandled(k);
 	}
-
 }
