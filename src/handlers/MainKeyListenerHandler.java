@@ -63,7 +63,7 @@ public class MainKeyListenerHandler extends LogicalHandler implements Actor
 			for (int ik = 0; ik < this.keysPressed.size(); ik++)
 			{
 				listener.onKeyPressed(this.keysPressed.get(ik), 0, false);
-				//System.out.println("Pressed!");
+				//System.out.println("Pressed! (" + listener.getClass().getName() + ")");
 			}
 			
 			// Informs if a coded key was pressed

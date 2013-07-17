@@ -70,7 +70,7 @@ public class RaceKingdoms extends PApplet
 		this.testmouselistenerhandler = new MouseListenerHandler(false, 
 				this.testactorhandler, this.mouselistenerhandler);
 		
-		this.mainkeyhandler.addListener(this.testkeylistenerhandler);
+		//this.mainkeyhandler.addListener(this.testkeylistenerhandler);
 		this.mainmousehandler.addMouseListener(this.testmouselistenerhandler);
 		
 		// Updates missing handling information
