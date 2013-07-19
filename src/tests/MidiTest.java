@@ -21,6 +21,7 @@ public class MidiTest extends AbstractTest implements KeyListener{
 	private boolean paused;
 	private boolean isActive;
 	private boolean isDead;
+	private String currentSong;
 	
 	// CONSTRUCTOR	------------------------------------------------------
 
@@ -94,6 +95,7 @@ public class MidiTest extends AbstractTest implements KeyListener{
 			if(key == PConstants.ENTER){
 				//Starts playing the midi
 				this.midiPlayer.playMidiMusic(this.testBank.getMidi("test"), 0);
+				this.currentSong = "test";
 				//When you start playing a new song, it isn't paused right from the get-go.
 				this.paused = false;
 				System.out.println("You pressed ENTER, so the music should start!");
@@ -114,6 +116,17 @@ public class MidiTest extends AbstractTest implements KeyListener{
 				//Stops playing the music
 				this.midiPlayer.stopMidiMusic();
 				System.out.println("You pressed s, so everything should stop.");
+			}
+			else if (key == 'c'){
+				//Changes the music to a new Midi
+				if(currentSong == "test"){
+					this.midiPlayer.swapMidiMusic(this.testBank.getMidi("test2"),0);
+					this.currentSong = "test2";
+				}else if(currentSong == "test2"){
+					this.midiPlayer.swapMidiMusic(this.testBank.getMidi("test"),0);
+					this.currentSong = "test";
+				}
+				System.out.println("You pressed c, so music should change.");
 			}
 		}
 		

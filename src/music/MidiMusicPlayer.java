@@ -129,5 +129,49 @@ public class MidiMusicPlayer {
 			System.out.println("There isn't a midi to play!");
 		}
 	}
+	
+	/**Swaps the current Midi to the new given Midi, and starts playing it
+	 * from the current tick-position, if the position is within the new songs
+	 * bounds.
+	 * 
+	 * @param newMidi	New MidiMusic-file
+	 * @param loopCount	How many times the song loops. If loopCount is <0, the
+	 * loop will be continuous.
+	 */
+	public void swapMidiMusic(MidiMusic newMidi, int loopCount){
+		//Let's pause the current midi, so we can save our currentPosition
+		this.pauseMidiMusic();
+		this.stopMidiMusic();
+		//Then we'll set up the new Midi-song
+		this.currentMidi = newMidi;
+		this.currentMidi.setLoopCount(loopCount);
+		//Let's make sure our continuePosition is not longer than the new sequence
+		long continuePosition = currentPosition%currentMidi.getSequenceLength();
+		try {
+			//And then we'll try to play
+			this.currentMidi.startMusic(continuePosition);
+		} catch (MidiUnavailableException e) {
+			System.err.println("Midi was unavailable!");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**Swaps the current Midi to the new given Midi, and starts playing it
+	 * from the current tick-position, if the position is within the new songs
+	 * bounds.
+	 * 
+	 * @param newMidi	New MidiMusic-file
+	 * @param loopCount	How many times the song loops. If loopCount is <0, the
+	 * loop will be continuous.
+	 * @param loopStartPoint	 Where the loop starts.
+	 * @param loopEndPoint	Where the loop ends.
+	 */
+	public void swapMidiMusic(MidiMusic newMidi, int loopCount,
+			long loopStartPoint, long loopEndPoint){
+		this.swapMidiMusic(newMidi, loopCount);
+		this.setLoopStartPoint(loopStartPoint);
+		this.setLoopEndPoint(loopEndPoint);
+	}
 
 }
