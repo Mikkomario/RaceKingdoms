@@ -11,7 +11,7 @@ import handlers.StepHandler;
 import helpAndEnums.DepthConstants;
 import processing.core.PApplet;
 import tests.FpsApsTest;
-import tests.GraphicTest;
+import tests.InteractiveCollisionTest;
 import tests.MidiTest;
 
 /**
@@ -160,7 +160,7 @@ public class RaceKingdoms extends PApplet
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		
-		new GraphicTest(this.stephandler, this.drawer, 
+		new InteractiveCollisionTest(this.stephandler, this.drawer, 
 				this.testkeylistenerhandler, this.testmouselistenerhandler, 
 				this).test();
 		
