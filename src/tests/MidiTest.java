@@ -94,6 +94,8 @@ public class MidiTest extends AbstractTest implements KeyListener{
 			if(key == PConstants.ENTER){
 				//Starts playing the midi
 				this.midiPlayer.playMidiMusic(this.testBank.getMidi("test"), 0);
+				//When you start playing a new song, it isn't paused right from the get-go.
+				this.paused = false;
 				System.out.println("You pressed ENTER, so the music should start!");
 			}
 			else if (key == 'p'){

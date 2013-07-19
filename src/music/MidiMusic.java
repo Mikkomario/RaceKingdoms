@@ -45,14 +45,11 @@ public class MidiMusic {
 		// Now let's try and set-up our midiSequencer
 		try {
 			this.midiSequencer = MidiSystem.getSequencer();
-			this.midiSequencer.setSequence(this.midiSequence);
 		} catch (MidiUnavailableException e) {
 			System.err.println("Problems whilst setting up sequencer!");
 			e.printStackTrace();
-		} catch (InvalidMidiDataException e) {
-			System.err.println("Midi was invalid!");
-			e.printStackTrace();
-		}
+		} 
+		
 
 	}
 
@@ -72,6 +69,13 @@ public class MidiMusic {
 	 * @throws MidiUnavailableException
 	 */
 	public void startMusic(long startPosition) throws MidiUnavailableException {
+		//Now let's try to set our sequence
+		try {		
+			this.midiSequencer.setSequence(this.midiSequence);
+		}catch (InvalidMidiDataException e) {
+			System.err.println("Midi was invalid!");
+			e.printStackTrace();
+		}
 		this.midiSequencer.open();
 		this.midiSequencer.setTickPosition(startPosition);
 		this.midiSequencer.start();
